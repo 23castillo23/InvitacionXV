@@ -1,0 +1,13 @@
+https://cyber911zona.github.io/invitacionXV2/
+https://cyber911zona.github.io/invitacionXV2/?n=Familia_Arellano&p=4
+https://cyber911zona.github.io/invitacionXV2/?n=Familia_Rosas&p=2
+
+
+
+
+Para que funcione, debes probar el link así:
+https://cyber911zona.github.io/invitacionXV/?n=Familia_Arellano&p=4
+
+?n= pone el nombre.
+
+&p= pone el número de personas.
