@@ -5,9 +5,9 @@
 
 :root {
     /* Fondos — azul noche profundo */
-    --bg-deep:      #060c18;
-    --bg-mid:       #0a1428;
-    --bg-card:      #0d1a30;
+    --bg-deep:      #1e3c72;
+    --bg-mid:       #2a5298;
+    --bg-card:      #2a5298;
 
     /* Acento principal — plateado nacarado (reemplaza al dorado) */
     --gold-dim:     #7aafd4;   /* azul acero suave */
@@ -27,7 +27,7 @@
 
     /* Pergamino */
     --scroll-bg:    #f0f8ff;
-    --scroll-text:  #0d2a42;
+    --scroll-text:  #2a5298;
     --scroll-dim:   #5a8aaa;
 
     --transition:   all 0.6s cubic-bezier(0.4,0,0.2,1);
