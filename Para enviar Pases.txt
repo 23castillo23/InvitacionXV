@@ -11,3 +11,10 @@ https://cyber911zona.github.io/invitacionXV/?n=Familia_Arellano&p=4
 ?n= pone el nombre.
 
 &p= pone el número de personas.
+
+
+
+para cuando quiero dar de alta un nuevo codigo
+git config --global user.name "Tu Nuevo Nombre"
+
+git config --global user.email "tu-nuevo-correo@ejemplo.com"
