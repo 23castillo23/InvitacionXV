@@ -1,34 +1,62 @@
 /* ═══════════════════════════════════════════════
    XV AÑOS – JENNIFER ARLETE
-   Diseño: Elegante · Azul Cielo · Plateado
+   Diseño: Elegante · Azul Marino · Dorado Real
    ═══════════════════════════════════════════════ */
 
 :root {
-    /* Fondos — azul noche profundo */
-    --bg-deep:      #1e3c72;
-    --bg-mid:       #2a5298;
-    --bg-card:      #2a5298;
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #1 — COLORES DE FONDO                               │
+       │  Qué afecta: el color base de TODA la página y las tarjetas │
+       │  Antes: azules medios (#1e3c72 / #2a5298)                   │
+       │  Ahora: azul marino profundo, casi negro (#002366 / #001845)│
+       │  Para cambiarlo manualmente: modifica --bg-deep y --bg-mid  │
+       └─────────────────────────────────────────────────────────────┘ */
+    --bg-deep:      #002366;   /* ← CAMBIO #1: fondo más oscuro y profundo */
+    --bg-mid:       #001845;   /* ← CAMBIO #1: capa intermedia aún más oscura */
+    --bg-card:      #001e50;   /* ← CAMBIO #1: fondo de la tarjeta/pase */
 
-    /* Acento principal — plateado nacarado (reemplaza al dorado) */
-    --gold-dim:     #7aafd4;   /* azul acero suave */
-    --gold-main:    #a8d8f0;   /* azul cielo plateado */
-    --gold-bright:  #d6eefa;   /* azul casi blanco */
-    --gold-pale:    #eef7fd;   /* blanco azulado muy pálido */
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #2 — PALETA DORADA (acentos principales)            │
+       │  Qué afecta: líneas decorativas, bordes, botones, íconos,   │
+       │              monograma, flechas, brillos y destellos         │
+       │  Antes: tonos azul acero / azul cielo                       │
+       │  Ahora: dorado rico, igual al proyecto original de Jennifer  │
+       │  Para cambiarlo: modifica las 4 variables --gold-*           │
+       └─────────────────────────────────────────────────────────────┘ */
+    --gold-dim:     #bf953f;   /* ← CAMBIO #2: dorado oscuro/apagado */
+    --gold-main:    #d4a84b;   /* ← CAMBIO #2: dorado principal */
+    --gold-bright:  #fcf6ba;   /* ← CAMBIO #2: dorado muy brillante / casi blanco oro */
+    --gold-pale:    #fffde8;   /* ← CAMBIO #2: dorado pálido para fondos suaves */
 
-    /* Textos */
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #3 — COLORES DE TEXTO                               │
+       │  Qué afecta: texto principal, texto secundario y texto tenue │
+       │  Antes: tonos azulados (#e8f4fb / #a8c8de / #4a7090)        │
+       │  Ahora: blanco limpio + crema dorada + café dorado apagado   │
+       └─────────────────────────────────────────────────────────────┘ */
     --white:        #ffffff;
-    --off-white:    #e8f4fb;
-    --text-body:    #a8c8de;
-    --text-dim:     #4a7090;
+    --off-white:    #fdf8ee;   /* ← CAMBIO #3: blanco cálido con toque dorado */
+    --text-body:    #c9b87a;   /* ← CAMBIO #3: texto secundario dorado suave */
+    --text-dim:     #7a6a3a;   /* ← CAMBIO #3: texto tenue color café dorado */
 
-    /* Bordes */
-    --border-gold:  rgba(168,216,240,0.22);
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #4 — BORDES                                         │
+       │  Qué afecta: bordes de tarjeta, acordeones, badges, sellos  │
+       │  Antes: azul translúcido                                     │
+       │  Ahora: dorado translúcido                                   │
+       └─────────────────────────────────────────────────────────────┘ */
+    --border-gold:  rgba(212,168,75,0.28);  /* ← CAMBIO #4 */
     --border-light: rgba(255,255,255,0.05);
 
-    /* Pergamino */
-    --scroll-bg:    #f0f8ff;
-    --scroll-text:  #2a5298;
-    --scroll-dim:   #5a8aaa;
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #5 — COLORES DEL PERGAMINO INTERIOR                 │
+       │  Qué afecta: la sección que se despliega al abrir invitación │
+       │  Antes: fondo blanco azulado, texto azul                     │
+       │  Ahora: fondo crema cálida, texto marrón oscuro elegante     │
+       └─────────────────────────────────────────────────────────────┘ */
+    --scroll-bg:    #fdf6e3;   /* ← CAMBIO #5: fondo pergamino color crema */
+    --scroll-text:  #2a1f0a;   /* ← CAMBIO #5: texto pergamino marrón oscuro */
+    --scroll-dim:   #7a5f2a;   /* ← CAMBIO #5: texto secundario del pergamino */
 
     --transition:   all 0.6s cubic-bezier(0.4,0,0.2,1);
 }
@@ -39,11 +67,17 @@
 html { scroll-behavior: smooth; }
 
 body {
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #6 — GRADIENTE DE FONDO DEL BODY                   │
+       │  Qué afecta: la atmósfera visual de toda la página          │
+       │  Antes: destellos azul medio                                │
+       │  Ahora: destellos azul marino profundo + toque dorado sutil │
+       └─────────────────────────────────────────────────────────────┘ */
     background: var(--bg-deep);
     background-image:
-        radial-gradient(ellipse 90% 55% at 50% 0%, rgba(20,60,110,0.7) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 40% at 15% 100%, rgba(10,40,80,0.5) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 35% at 90% 60%, rgba(30,80,130,0.3) 0%, transparent 55%);
+        radial-gradient(ellipse 90% 55% at 50% 0%,  rgba(0,20,60,0.85) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 40% at 15% 100%, rgba(0,10,40,0.7) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 90% 60%,  rgba(180,140,30,0.06) 0%, transparent 55%); /* ← CAMBIO #6: destello dorado sutil en esquina */
     color: var(--off-white);
     font-family: 'Cormorant Garamond', Georgia, serif;
     min-height: 100vh;
@@ -68,7 +102,7 @@ body {
     z-index: 9999;
     width: 42px; height: 42px;
     border-radius: 50%;
-    background: rgba(10,8,20,0.8);
+    background: rgba(0,10,30,0.85); /* ← CAMBIO #1 aplicado aquí: fondo más oscuro */
     border: 1px solid var(--border-gold);
     color: var(--gold-main);
     cursor: pointer;
@@ -117,9 +151,15 @@ body {
 }
 
 .pass-card {
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #7 — FONDO Y BRILLO DE LA TARJETA DEL PASE         │
+       │  Qué afecta: la tarjeta principal que ven los invitados      │
+       │  Antes: destello azul suave                                  │
+       │  Ahora: destello dorado muy sutil + textura oscura           │
+       └─────────────────────────────────────────────────────────────┘ */
     background: var(--bg-card);
     background-image:
-        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(100,180,240,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,160,40,0.07) 0%, transparent 70%), /* ← CAMBIO #7 */
         url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
     border: 1px solid var(--border-gold);
     border-radius: 4px;
@@ -129,9 +169,9 @@ body {
     text-align: center;
     position: relative;
     box-shadow:
-        0 0 0 1px rgba(168,216,240,0.07),
-        0 0 60px rgba(0,0,0,0.8),
-        0 0 120px rgba(100,180,240,0.06);
+        0 0 0 1px rgba(212,168,75,0.09),    /* ← CAMBIO #7: brillo dorado en el borde */
+        0 0 60px rgba(0,0,0,0.85),
+        0 0 120px rgba(200,160,40,0.06);    /* ← CAMBIO #7: halo dorado muy sutil */
 }
 
 /* Esquinas decorativas del pase */
@@ -140,7 +180,7 @@ body {
     content: '';
     position: absolute;
     width: 20px; height: 20px;
-    border-color: var(--gold-dim);
+    border-color: var(--gold-dim); /* ← CAMBIO #2 aplicado: esquinas doradas */
     border-style: solid;
 }
 .pass-card::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
@@ -154,7 +194,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.6rem;
     letter-spacing: 4px;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 aplicado: etiqueta dorada */
     text-transform: uppercase;
     margin-bottom: 8px;
 }
@@ -166,7 +206,7 @@ body {
     color: var(--white);
     letter-spacing: 2px;
     line-height: 1.3;
-    text-shadow: 0 0 30px rgba(168,216,240,0.25);
+    text-shadow: 0 0 30px rgba(212,168,75,0.25); /* ← CAMBIO #2: halo dorado en nombre */
     margin-bottom: 10px;
     word-break: break-word;
 }
@@ -174,12 +214,12 @@ body {
 .pass-pases-badge {
     display: inline-block;
     padding: 4px 14px;
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-gold); /* ← CAMBIO #4: borde dorado */
     border-radius: 2px;
     font-family: 'Montserrat', sans-serif;
     font-size: 0.65rem;
     letter-spacing: 2px;
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2 */
     margin-bottom: 20px;
 }
 .pass-pases-badge span:first-child { color: var(--gold-bright); font-weight: 600; }
@@ -188,7 +228,7 @@ body {
 .pass-divider {
     width: 60px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
+    background: linear-gradient(90deg, transparent, var(--gold-main), transparent); /* ← CAMBIO #2: línea divisoria dorada */
     margin: 0 auto 20px;
 }
 
@@ -196,18 +236,25 @@ body {
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
     letter-spacing: 6px;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 */
     margin-bottom: 6px;
 }
 
 .pass-name {
     font-family: 'Great Vibes', cursive;
     font-size: clamp(2.4rem, 10vw, 3.2rem);
-    background: linear-gradient(170deg, #ffffff 0%, var(--gold-bright) 40%, var(--gold-main) 70%, var(--gold-dim) 100%);
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #8 — DEGRADADO DEL NOMBRE PRINCIPAL                 │
+       │  Qué afecta: el nombre "Jennifer Arlete" en el pase y en    │
+       │              el pergamino interior                           │
+       │  Antes: degradado de blanco → azul cielo                    │
+       │  Ahora: degradado de blanco → dorado brillante → dorado rico│
+       └─────────────────────────────────────────────────────────────┘ */
+    background: linear-gradient(170deg, #ffffff 0%, var(--gold-bright) 40%, var(--gold-main) 70%, var(--gold-dim) 100%); /* ← CAMBIO #8 */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 10px rgba(100,180,240,0.4));
+    filter: drop-shadow(0 2px 10px rgba(212,168,75,0.4)); /* ← CAMBIO #8: sombra dorada */
     line-height: 1.2;
     margin-bottom: 6px;
 }
@@ -216,7 +263,7 @@ body {
     font-family: 'Cinzel', serif;
     font-size: 0.62rem;
     letter-spacing: 6px;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 */
     text-transform: uppercase;
     margin-bottom: 16px;
 }
@@ -235,14 +282,14 @@ body {
     align-items: center;
     min-width: 44px;
     background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-gold); /* ← CAMBIO #4: borde dorado en cuadritos */
     border-radius: 3px;
     padding: 8px 6px 6px;
 }
 .c-num {
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
-    color: var(--gold-bright);
+    color: var(--gold-bright); /* ← CAMBIO #2: números del contador dorados */
     font-weight: 600;
     line-height: 1;
 }
@@ -250,7 +297,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.5rem;
     letter-spacing: 1.5px;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2: etiquetas del contador doradas */
     text-transform: uppercase;
     margin-top: 4px;
 }
@@ -265,7 +312,7 @@ body {
 
 .meta-item {
     background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
     border-radius: 3px;
     padding: 10px 8px;
 }
@@ -273,7 +320,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.5rem;
     letter-spacing: 2px;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 */
     text-transform: uppercase;
     margin-bottom: 4px;
 }
@@ -292,7 +339,14 @@ body {
     gap: 10px;
     width: 100%;
     padding: 14px 20px;
-    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold-main) 50%, var(--gold-dim) 100%);
+    /* ┌─────────────────────────────────────────────────────────────┐
+       │  CAMBIO #9 — COLOR DEL BOTÓN "ABRIR INVITACIÓN"            │
+       │  Qué afecta: el botón principal de la tarjeta               │
+       │  Antes: degradado azul cielo                                │
+       │  Ahora: degradado dorado rico (igual al proyecto original)  │
+       │  También aplica al botón "Ver el Álbum"                     │
+       └─────────────────────────────────────────────────────────────┘ */
+    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold-main) 50%, var(--gold-dim) 100%); /* ← CAMBIO #9 */
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -309,12 +363,12 @@ body {
     transition: left 0.5s ease;
 }
 .enter-btn:hover::before { left: 100%; }
-.enter-btn:hover { box-shadow: 0 0 30px rgba(100,180,240,0.5); }
+.enter-btn:hover { box-shadow: 0 0 30px rgba(212,168,75,0.55); } /* ← CAMBIO #9: brillo dorado al hacer hover */
 .enter-btn-text {
     font-family: 'Cinzel', serif;
     font-size: 0.75rem;
     letter-spacing: 4px;
-    color: var(--bg-deep);
+    color: var(--bg-deep); /* El texto del botón usa el color de fondo para contraste */
     font-weight: 600;
     text-transform: uppercase;
 }
@@ -357,21 +411,21 @@ body {
 .inv-header-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
+    background: linear-gradient(90deg, transparent, var(--gold-main), transparent); /* ← CAMBIO #2: línea dorada */
 }
 .inv-monogram {
     font-family: 'Cinzel', serif;
     font-size: 1.4rem;
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2 */
     letter-spacing: 4px;
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
     width: 52px; height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(100,180,240,0.18);
+    box-shadow: 0 0 20px rgba(212,168,75,0.2); /* ← CAMBIO #2: halo dorado en monograma XV */
 }
 
 .inv-blessing {
@@ -379,7 +433,7 @@ body {
     font-style: italic;
     font-size: 0.95rem;
     line-height: 1.9;
-    color: var(--text-body);
+    color: var(--text-body); /* ← CAMBIO #3 */
     text-align: center;
     margin-bottom: 30px;
     padding: 0 10px;
@@ -396,20 +450,20 @@ body {
     font-family: 'Cinzel', serif;
     font-size: 0.78rem;
     letter-spacing: 2px;
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2: nombres de padres en dorado */
 }
 .amp {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 1.2rem;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 */
 }
 
 .inv-invite-msg {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 0.9rem;
-    color: var(--text-dim);
+    color: var(--text-dim); /* ← CAMBIO #3 */
     text-align: center;
     margin-bottom: 28px;
     letter-spacing: 0.5px;
@@ -423,11 +477,11 @@ body {
 .inv-name {
     font-family: 'Great Vibes', cursive;
     font-size: clamp(2.8rem, 10vw, 4rem);
-    background: linear-gradient(170deg, #ffffff 0%, var(--gold-bright) 40%, var(--gold-main) 70%, var(--gold-dim) 100%);
+    background: linear-gradient(170deg, #ffffff 0%, var(--gold-bright) 40%, var(--gold-main) 70%, var(--gold-dim) 100%); /* ← CAMBIO #8 aplicado al pergamino */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 10px rgba(100,180,240,0.3));
+    filter: drop-shadow(0 2px 10px rgba(212,168,75,0.35)); /* ← CAMBIO #8: sombra dorada */
     line-height: 1.15;
 }
 .inv-last-name {
@@ -447,7 +501,7 @@ body {
     margin-bottom: 32px;
 }
 
-.acc-item { border: 1px solid var(--border-gold); border-radius: 3px; overflow: hidden; }
+.acc-item { border: 1px solid var(--border-gold); border-radius: 3px; overflow: hidden; } /* ← CAMBIO #4 */
 
 .acc-header {
     width: 100%;
@@ -461,11 +515,18 @@ body {
     transition: background 0.3s;
     text-align: left;
 }
-.acc-header:hover { background: rgba(100,180,240,0.06); }
-.acc-header[aria-expanded="true"] { background: rgba(100,180,240,0.09); }
+/* ┌─────────────────────────────────────────────────────────────────┐
+   │  CAMBIO #10 — HOVER Y ESTADO ACTIVO DEL ACORDEÓN               │
+   │  Qué afecta: el color de fondo al pasar el mouse o abrir una   │
+   │              sección (Ceremonia, Recepción, etc.)               │
+   │  Antes: brillo azul translúcido                                 │
+   │  Ahora: brillo dorado translúcido                               │
+   └─────────────────────────────────────────────────────────────────┘ */
+.acc-header:hover { background: rgba(212,168,75,0.07); }           /* ← CAMBIO #10 */
+.acc-header[aria-expanded="true"] { background: rgba(212,168,75,0.11); } /* ← CAMBIO #10 */
 
 .acc-icon {
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2 */
     font-size: 0.6rem;
     flex-shrink: 0;
     transition: transform 0.4s;
@@ -476,12 +537,12 @@ body {
     font-family: 'Cinzel', serif;
     font-size: 0.72rem;
     letter-spacing: 2px;
-    color: var(--off-white);
+    color: var(--off-white); /* ← CAMBIO #3 */
     flex: 1;
 }
 
 .acc-chevron {
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 */
     font-size: 0.8rem;
     transition: transform 0.4s;
     flex-shrink: 0;
@@ -502,7 +563,7 @@ body {
 .acc-text {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1rem;
-    color: var(--text-body);
+    color: var(--text-body); /* ← CAMBIO #3 */
     line-height: 1.7;
     margin-bottom: 14px;
     text-align: center;
@@ -511,7 +572,7 @@ body {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 0.85rem;
-    color: var(--gold-dim);
+    color: var(--gold-dim); /* ← CAMBIO #2 */
     text-align: center;
 }
 
@@ -520,18 +581,18 @@ body {
     width: fit-content;
     margin: 0 auto;
     padding: 8px 24px;
-    border: 1px solid var(--gold-dim);
+    border: 1px solid var(--gold-dim); /* ← CAMBIO #2: borde dorado en botones de mapa/WhatsApp */
     border-radius: 2px;
     font-family: 'Cinzel', serif;
     font-size: 0.65rem;
     letter-spacing: 3px;
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2 */
     text-decoration: none;
     text-transform: uppercase;
     transition: var(--transition);
 }
 .inv-link-btn:hover {
-    background: var(--gold-main);
+    background: var(--gold-main); /* ← CAMBIO #9: relleno dorado al hacer hover */
     color: var(--bg-deep);
     border-color: var(--gold-main);
 }
@@ -540,10 +601,16 @@ body {
    SECCIÓN ÁLBUM DE FOTOS
 ═══════════════════════════════════════════ */
 .album-teaser {
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
     border-radius: 4px;
     background:
-        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(100,180,240,0.08) 0%, transparent 70%),
+        /* ┌──────────────────────────────────────────────────────────┐
+           │  CAMBIO #11 — FONDO DE LA TARJETA DEL ÁLBUM             │
+           │  Qué afecta: la sección "Guarda un Lindo Recuerdo"       │
+           │  Antes: brillo azul                                       │
+           │  Ahora: brillo dorado suave                               │
+           └──────────────────────────────────────────────────────────┘ */
+        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(212,168,75,0.09) 0%, transparent 70%), /* ← CAMBIO #11 */
         rgba(255,255,255,0.015);
     margin: 8px 0 32px;
     overflow: hidden;
@@ -554,7 +621,7 @@ body {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-main), transparent);
+    background: linear-gradient(90deg, transparent, var(--gold-main), transparent); /* ← CAMBIO #2: línea superior dorada */
 }
 .album-teaser-inner {
     padding: 28px 22px;
@@ -566,12 +633,12 @@ body {
 }
 .album-teaser-icon svg {
     width: 60px; height: 60px;
-    filter: drop-shadow(0 0 12px rgba(100,180,240,0.4));
+    filter: drop-shadow(0 0 12px rgba(212,168,75,0.45)); /* ← CAMBIO #2: halo dorado en el ícono */
 }
 .album-teaser-title {
     font-family: 'Great Vibes', cursive;
     font-size: 1.8rem;
-    background: linear-gradient(160deg, #ffffff, var(--gold-bright), var(--gold-main));
+    background: linear-gradient(160deg, #ffffff, var(--gold-bright), var(--gold-main)); /* ← CAMBIO #8 */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -581,7 +648,7 @@ body {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 0.9rem;
-    color: var(--text-body);
+    color: var(--text-body); /* ← CAMBIO #3 */
     line-height: 1.7;
     max-width: 300px;
 }
@@ -590,7 +657,7 @@ body {
     align-items: center;
     gap: 8px;
     padding: 11px 28px;
-    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold-main) 50%, var(--gold-dim) 100%);
+    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold-main) 50%, var(--gold-dim) 100%); /* ← CAMBIO #9 */
     border-radius: 2px;
     border: none;
     text-decoration: none;
@@ -615,13 +682,13 @@ body {
     transition: left 0.5s;
 }
 .album-open-btn:hover::before { left: 100%; }
-.album-open-btn:hover { box-shadow: 0 0 25px rgba(100,180,240,0.45); }
+.album-open-btn:hover { box-shadow: 0 0 25px rgba(212,168,75,0.5); } /* ← CAMBIO #9: brillo dorado */
 
 /* Texto final */
 .inv-final {
     font-family: 'Great Vibes', cursive;
     font-size: 1.5rem;
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2 */
     text-align: center;
     margin: 20px 0 28px;
 }
@@ -635,15 +702,18 @@ body {
     align-items: center;
     gap: 6px;
     background: none;
-    border: 1px solid var(--border-gold);
+    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
     border-radius: 50%;
     width: 64px; height: 64px;
     cursor: pointer;
-    color: var(--gold-main);
+    color: var(--gold-main); /* ← CAMBIO #2 */
     transition: var(--transition);
     justify-content: center;
 }
-.close-seal:hover { border-color: var(--gold-main); box-shadow: 0 0 20px rgba(100,180,240,0.25); }
+.close-seal:hover {
+    border-color: var(--gold-main); /* ← CAMBIO #2 */
+    box-shadow: 0 0 20px rgba(212,168,75,0.3); /* ← CAMBIO #2: halo dorado al hacer hover en cerrar */
+}
 .close-seal-roman { font-family: 'Cinzel', serif; font-size: 1rem; letter-spacing: 2px; }
 .close-seal-label { font-family: 'Montserrat', sans-serif; font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; }
 
@@ -651,7 +721,7 @@ body {
 .finish-msg {
     font-family: 'Great Vibes', cursive;
     font-size: 1.6rem;
-    color: var(--gold-bright);
-    filter: drop-shadow(0 0 8px rgba(168,216,240,0.6));
+    color: var(--gold-bright); /* ← CAMBIO #2 */
+    filter: drop-shadow(0 0 8px rgba(252,246,186,0.55)); /* ← CAMBIO #2: brillo dorado brillante en "¡Es hoy!" */
     text-align: center;
 }

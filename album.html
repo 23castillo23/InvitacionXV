@@ -4,24 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Álbum de Recuerdos · Jennifer Arlete</title>
-    <meta name="theme-color" content="#060c18">
+    <!-- ← theme-color: antes azul #060c18. Ahora azul marino profundo igual al index -->
+    <meta name="theme-color" content="#0a0a14">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
 :root {
-    --bg:           #1e3c72;
-    --bg-mid:       #0a1428;
-    --card:         #1e3c72;
-    --gold-dim:     #7aafd4;
-    --gold:         #a8d8f0;
-    --gold-bright:  #d6eefa;
-    --gold-pale:    #eef7fd;
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       VARIABLES DE COLOR — Sistema Dorado (igual a style.css)
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       Para cambiar el fondo oscuro: modifica --bg y --bg-mid
+       Para cambiar el tono dorado:  modifica --gold-dim / --gold / --gold-bright
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* FONDOS — antes: azules medios (#1e3c72)
+       Ahora: azul marino profundo casi negro, igual al pase */
+    --bg:           #002366;   /* ← fondo principal (azul marino profundo) */
+    --bg-mid:       #001845;   /* ← capa intermedia más oscura */
+    --card:         #001e50;   /* ← fondo de tarjetas (modal, fotos) */
+
+    /* DORADOS — antes: azul cielo (#7aafd4 / #a8d8f0 / #d6eefa)
+       Ahora: dorado real igual al proyecto de la invitación */
+    --gold-dim:     #bf953f;   /* ← dorado oscuro: bordes, íconos, etiquetas tenues */
+    --gold:         #d4a84b;   /* ← dorado principal: texto activo, botones */
+    --gold-bright:  #fcf6ba;   /* ← dorado brillante: números, destellos */
+    --gold-pale:    #fffde8;   /* ← dorado muy pálido: fondos suaves */
+
+    /* TEXTO — antes: azulado (#e8f4fb / #a8c8de)
+       Ahora: blanco cálido + dorado suave */
     --white:        #ffffff;
-    --off-white:    #e8f4fb;
-    --text:         #a8c8de;
-    --text-dim:     #4a7090;
-    --border:       rgba(168,216,240,0.22);
-    --border-light: rgba(255,255,255,0.05);
+    --off-white:    #fdf8ee;   /* ← blanco con toque dorado (textos principales) */
+    --text:         #c9b87a;   /* ← texto secundario: captions, descripciones */
+    --text-dim:     #7a6a3a;   /* ← texto tenue: fechas, placeholders, hints */
+
+    /* BORDES — antes: azul translúcido rgba(168,216,240,0.22)
+       Ahora: dorado translúcido */
+    --border:       rgba(212,168,75,0.28);   /* ← borde dorado estándar */
+    --border-light: rgba(255,255,255,0.05);  /* ← borde casi invisible (separadores internos) */
+
     --transition:   all 0.45s cubic-bezier(0.4,0,0.2,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -29,8 +49,12 @@ html{scroll-behavior:smooth;}
 body{
     background:var(--bg);
     background-image:
-        radial-gradient(ellipse 90% 55% at 50% 0%,rgba(20,60,110,0.7) 0%,transparent 65%),
-        radial-gradient(ellipse 60% 40% at 15% 100%,rgba(10,40,80,0.5) 0%,transparent 60%);
+        /* Capa oscura arriba para dar profundidad al encabezado */
+        radial-gradient(ellipse 90% 55% at 50% 0%,  rgba(0,20,60,0.85) 0%, transparent 65%),
+        /* Capa oscura en esquina inferior izquierda */
+        radial-gradient(ellipse 60% 40% at 15% 100%, rgba(0,10,40,0.7)  0%, transparent 60%),
+        /* ← NUEVO: destello dorado muy sutil en esquina derecha (igual que style.css) */
+        radial-gradient(ellipse 50% 35% at 90% 60%,  rgba(180,140,30,0.06) 0%, transparent 55%);
     color:var(--off-white);
     font-family:'Cormorant Garamond',serif;
     min-height:100vh;
@@ -39,12 +63,22 @@ body{
 canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.45;}
 
 /* HEADER */
-.album-header{position:relative;z-index:2;text-align:center;padding:56px 20px 38px;border-bottom:1px solid var(--border);background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(30,80,140,0.4) 0%,transparent 70%);}
+.album-header{position:relative;z-index:2;text-align:center;padding:56px 20px 38px;border-bottom:1px solid var(--border);
+    /* ← antes: destello azul rgba(30,80,140). Ahora: destello dorado muy suave */
+    background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(200,160,40,0.08) 0%,transparent 70%);}
 .header-back{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--gold-dim);text-decoration:none;transition:var(--transition);}
 .header-back:hover{color:var(--gold);}
 .header-back svg{width:14px;height:14px;}
-.header-monogram{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--gold);border:1px solid var(--border);width:52px;height:52px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;letter-spacing:3px;margin-bottom:14px;box-shadow:0 0 20px rgba(100,180,240,0.14);}
-.header-title{font-family:'Great Vibes',cursive;font-size:clamp(2.2rem,8vw,3.2rem);background:linear-gradient(160deg,#fff,var(--gold-bright),var(--gold),var(--gold-dim));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 10px rgba(100,180,240,0.3));line-height:1.2;margin-bottom:6px;}
+.header-monogram{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--gold);border:1px solid var(--border);width:52px;height:52px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;letter-spacing:3px;margin-bottom:14px;
+    /* ← antes: halo azul rgba(100,180,240). Ahora: halo dorado */
+    box-shadow:0 0 20px rgba(212,168,75,0.2);}
+.header-title{font-family:'Great Vibes',cursive;font-size:clamp(2.2rem,8vw,3.2rem);
+    /* ← antes: gradiente a azul (#a8d8f0). Ahora: degradado dorado igual al nombre principal */
+    background:linear-gradient(160deg,#fff,var(--gold-bright),var(--gold),var(--gold-dim));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    /* ← antes: sombra azul rgba(100,180,240,0.3). Ahora: sombra dorada */
+    filter:drop-shadow(0 2px 10px rgba(212,168,75,0.35));
+    line-height:1.2;margin-bottom:6px;}
 .header-sub{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:5px;color:var(--gold-dim);margin-bottom:12px;}
 .header-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--text);max-width:340px;margin:0 auto;line-height:1.8;}
 
@@ -57,9 +91,13 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .galleries-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;}
 .gallery-tab{display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;color:var(--text);cursor:pointer;transition:var(--transition);white-space:nowrap;}
 .gallery-tab:hover{border-color:var(--gold-dim);color:var(--gold);}
-.gallery-tab.active{background:rgba(100,180,240,0.1);border-color:var(--gold);color:var(--gold-bright);box-shadow:0 0 12px rgba(100,180,240,0.15);}
-.tab-count{background:rgba(168,216,240,0.15);border-radius:10px;padding:1px 7px;font-size:.55rem;color:var(--gold-dim);}
-.gallery-tab.active .tab-count{background:rgba(168,216,240,0.25);color:var(--gold);}
+.gallery-tab.active{
+    /* ← antes: fondo azul rgba(100,180,240,0.1) con sombra azul */
+    background:rgba(212,168,75,0.1);border-color:var(--gold);color:var(--gold-bright);
+    box-shadow:0 0 12px rgba(212,168,75,0.18);}
+.tab-count{background:rgba(212,168,75,0.12);border-radius:10px;padding:1px 7px;font-size:.55rem;color:var(--gold-dim);}
+/* ← antes: conteo activo con fondo azul rgba(168,216,240,0.25). Ahora: dorado */
+.gallery-tab.active .tab-count{background:rgba(212,168,75,0.25);color:var(--gold);}
 .btn-new-gallery{display:flex;align-items:center;gap:6px;padding:8px 16px;background:none;border:1px dashed var(--border);border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;color:var(--text-dim);cursor:pointer;transition:var(--transition);}
 .btn-new-gallery:hover{border-color:var(--gold-dim);color:var(--gold-dim);}
 .btn-new-gallery svg{width:12px;height:12px;}
@@ -67,7 +105,9 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
-.modal-box{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:32px 26px;width:100%;max-width:380px;position:relative;box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 30px rgba(100,180,240,0.06);}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:32px 26px;width:100%;max-width:380px;position:relative;
+    /* ← antes: halo azul rgba(100,180,240,0.06). Ahora: halo dorado */
+    box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 30px rgba(212,168,75,0.08);}
 .modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .modal-title{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:4px;color:var(--gold);text-align:center;text-transform:uppercase;margin-bottom:22px;}
 .modal-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
@@ -76,15 +116,21 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .modal-input::placeholder{color:var(--text-dim);font-style:italic;}
 .modal-emoji-picker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
 .emoji-opt{width:36px;height:36px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
-.emoji-opt:hover,.emoji-opt.selected{border-color:var(--gold);background:rgba(100,180,240,0.1);transform:scale(1.1);}
+.emoji-opt:hover,.emoji-opt.selected{
+    /* ← antes: borde dorado con fondo azul rgba(100,180,240,0.1). Ahora: fondo dorado */
+    border-color:var(--gold);background:rgba(212,168,75,0.12);transform:scale(1.1);}
 .modal-actions{display:flex;gap:10px;}
 .btn-modal-cancel{flex:1;padding:11px;background:none;border:1px solid var(--border);border-radius:3px;color:var(--text-dim);font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;cursor:pointer;transition:var(--transition);}
 .btn-modal-cancel:hover{border-color:var(--gold-dim);color:var(--gold-dim);}
 .btn-modal-confirm{flex:2;padding:11px;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 50%,var(--gold-dim) 100%);border:none;border-radius:3px;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;color:var(--bg);font-weight:600;cursor:pointer;transition:var(--transition);}
-.btn-modal-confirm:hover{box-shadow:0 0 20px rgba(100,180,240,0.35);}
+/* ← antes: glow azul rgba(100,180,240,0.35). Ahora: glow dorado */
+.btn-modal-confirm:hover{box-shadow:0 0 20px rgba(212,168,75,0.45);}
 
 /* UPLOAD SECTION */
-.upload-section{border:1px solid var(--border);border-radius:4px;padding:28px 20px;margin-bottom:36px;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(80,160,220,0.06) 0%,transparent 70%);position:relative;}
+.upload-section{border:1px solid var(--border);border-radius:4px;padding:28px 20px;margin-bottom:36px;
+    /* ← antes: destello azul rgba(80,160,220,0.06). Ahora: destello dorado sutil */
+    background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(212,168,75,0.07) 0%,transparent 70%);
+    position:relative;}
 .upload-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
 .upload-section-title{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:4px;color:var(--gold-dim);text-align:center;text-transform:uppercase;margin-bottom:20px;}
 .field-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
@@ -92,11 +138,17 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .field-input,.field-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--off-white);outline:none;transition:border-color .3s;caret-color:var(--gold);}
 .field-input:focus,.field-select:focus{border-color:var(--gold);}
 .field-input::placeholder{color:var(--text-dim);font-style:italic;}
-.field-select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237aafd4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
-.field-select option{background:#0d1a30;color:var(--off-white);}
+.field-select{appearance:none;cursor:pointer;
+    /* ← la flecha del select: antes azul #7aafd4. Ahora dorada #bf953f (en la URL del SVG) */
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23bf953f' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+/* ← antes: opciones del dropdown con fondo azul #0d1a30. Ahora: azul marino profundo */
+.field-select option{background:#001432;color:var(--off-white);}
 .upload-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .upload-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;border:1px dashed var(--border);border-radius:3px;background:rgba(255,255,255,0.02);color:var(--text);cursor:pointer;transition:var(--transition);}
-.upload-btn:hover{border-color:var(--gold);background:rgba(100,180,240,0.05);color:var(--gold);}
+.upload-btn:hover{
+    /* ← antes: fondo azul rgba(100,180,240,0.05). Ahora: fondo dorado tenue */
+    border-color:var(--gold);background:rgba(212,168,75,0.06);color:var(--gold);}
 .upload-btn svg{width:26px;height:26px;}
 .upload-btn span{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;}
 #previewWrap{display:none;margin-bottom:14px;border:1px solid var(--border);border-radius:3px;overflow:hidden;position:relative;}
@@ -109,13 +161,15 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .submit-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 50%,var(--gold-dim) 100%);border:none;border-radius:3px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:4px;color:var(--bg);font-weight:600;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;}
 .submit-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .5s;}
 .submit-btn:hover::before{left:100%;}
-.submit-btn:hover{box-shadow:0 0 25px rgba(100,180,240,0.45);}
+/* ← antes: glow azul rgba(100,180,240,0.45). Ahora: glow dorado en botón "Subir al Álbum" */
+.submit-btn:hover{box-shadow:0 0 25px rgba(212,168,75,0.5);}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;}
 .submit-btn svg{width:16px;height:16px;}
 .upload-progress{display:none;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:12px;overflow:hidden;}
 .upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold-bright));width:0%;transition:width .3s;border-radius:2px;}
 .toast{display:none;padding:10px 16px;border-radius:3px;font-family:'Montserrat',sans-serif;font-size:.72rem;letter-spacing:1px;margin-top:12px;text-align:center;}
-.toast.success{background:rgba(80,160,220,0.1);border:1px solid var(--border);color:var(--gold);display:block;}
+/* ← antes: toast exitoso con fondo azul rgba(80,160,220,0.1). Ahora: dorado */
+.toast.success{background:rgba(212,168,75,0.1);border:1px solid var(--border);color:var(--gold);display:block;}
 .toast.error{background:rgba(200,80,80,0.1);border:1px solid rgba(200,80,80,0.3);color:#e07070;display:block;}
 
 /* GALERÍA */
@@ -126,11 +180,15 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .photo-grid{columns:2;column-gap:10px;}
 @media(min-width:480px){.photo-grid{columns:3;}}
 .photo-card{break-inside:avoid;margin-bottom:10px;border:1px solid var(--border);border-radius:3px;overflow:hidden;background:var(--card);transition:var(--transition);cursor:pointer;}
-.photo-card:hover{border-color:var(--gold-dim);box-shadow:0 0 18px rgba(100,180,240,0.14);}
+.photo-card:hover{border-color:var(--gold-dim);
+    /* ← antes: glow azul rgba(100,180,240,0.14). Ahora: glow dorado al pasar el dedo */
+    box-shadow:0 0 18px rgba(212,168,75,0.18);}
 .photo-card img{width:100%;display:block;object-fit:cover;aspect-ratio:1;transition:transform .5s;}
 .photo-card:hover img{transform:scale(1.04);}
 .photo-info{padding:9px 10px 12px;}
-.photo-gallery-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:rgba(100,180,240,0.1);border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--gold-dim);margin-bottom:6px;}
+.photo-gallery-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;
+    /* ← antes: fondo azul rgba(100,180,240,0.1). Ahora: fondo dorado tenue */
+    background:rgba(212,168,75,0.1);border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--gold-dim);margin-bottom:6px;}
 .photo-author{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px;}
 .photo-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--text);line-height:1.5;}
 .photo-date{font-family:'Montserrat',sans-serif;font-size:.52rem;color:var(--text-dim);margin-top:5px;letter-spacing:1px;}
@@ -155,7 +213,9 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 /* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:14px;}
 .lightbox.open{display:flex;}
-.lightbox-img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid var(--border);border-radius:3px;box-shadow:0 0 60px rgba(100,180,240,0.1);}
+.lightbox-img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid var(--border);border-radius:3px;
+    /* ← antes: sombra azul rgba(100,180,240,0.1). Ahora: sombra dorada en imagen ampliada */
+    box-shadow:0 0 60px rgba(212,168,75,0.12);}
 .lightbox-info{text-align:center;}
 .lightbox-author{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--gold-dim);margin-bottom:4px;}
 .lightbox-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--text);}
@@ -690,7 +750,10 @@ function formatDate(ts) {
     const ctx = c.getContext('2d');
     let W = c.width = innerWidth, H = c.height = innerHeight;
     addEventListener('resize', () => { W = c.width = innerWidth; H = c.height = innerHeight; });
-    const PAL = ['#a8d8f0','#d6eefa','#eef7fd','#7aafd4','#fff','#5b9fc4'];
+    /* ← PARTÍCULAS: antes paleta azul (#a8d8f0, #d6eefa, #5b9fc4).
+       Ahora: mezcla de dorados, blancos y un azul muy pálido para dar variedad.
+       Si quieres cambiarlos edita este array PAL */
+    const PAL = ['#bf953f','#d4a84b','#fcf6ba','#fffde8','#ffffff','#e8d5a3'];
     const n   = Math.min(60, Math.floor(W*H/20000));
     const pts = Array.from({length:n},()=>({
         x:Math.random()*W, y:Math.random()*H,

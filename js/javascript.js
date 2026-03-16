@@ -23,8 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (enterBtn) {
         enterBtn.addEventListener('click', () => {
             // Confeti temático
-            confetti({ particleCount: 120, spread: 65, origin: { y: 0.65 },
-                colors: ['#a8d8f0', '#d6eefa', '#eef7fd', '#ffffff', '#5b9fc4', '#7aafd4'] });
+            // ← CAMBIO: confeti en paleta dorada (antes azul cielo)
+            // '#bf953f' = oro oscuro | '#d4a84b' = oro principal | '#fcf6ba' = oro brillante
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.65 },
+                colors: ['#bf953f', '#d4a84b', '#fcf6ba', '#fffde8', '#ffffff', '#e8d5a3'],
+                ticks: 300 });
 
             setTimeout(() => {
                 scene.classList.add('is-open');
@@ -148,7 +151,10 @@ function initParticles() {
         H = canvas.height = window.innerHeight;
     });
 
-    const GOLD = ['#a8d8f0', '#d6eefa', '#eef7fd', '#5b9fc4', '#ffffff', '#7aafd4'];
+    // ← CAMBIO: paleta de partículas dorada (antes azul cielo)
+    // Orden: oro oscuro, oro principal, oro brillante, crema, blanco puro, crema suave
+    // Para ajustar el brillo: modifica el alpha en cada partícula (propiedad .alpha abajo)
+    const GOLD = ['#bf953f', '#d4a84b', '#fcf6ba', '#fffde8', '#ffffff', '#e8d5a3'];
     const count = Math.min(80, Math.floor(W * H / 18000));
 
     const particles = Array.from({ length: count }, () => ({
