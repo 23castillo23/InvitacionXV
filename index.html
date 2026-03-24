@@ -24,7 +24,7 @@
 <body> <!-- Inicio del cuerpo visible de la página -->
 
     <!-- Música de fondo -->
-    <audio id="bgMusic" loop> <!-- Audio con ID para controlarlo con JavaScript, loop = repetición infinita -->
+    <audio id="bgMusic" loop preload="auto"> <!-- Audio con ID para controlarlo con JavaScript, loop = repetición infinita -->
         <source src="mp3/PLHGo.mp3" type="audio/mpeg"> <!-- Archivo de música -->
     </audio>
 
@@ -192,9 +192,16 @@
                         </div>
                         <span class="arrow-gold">▼</span>
                     </div>
-                    <div class="accordion-content">
+                    <div class="accordion-content" style="text-align:center;">
                         <p>Comparte tus fotos de este día especial y ayúdanos a construir un álbum de memorias para Jennifer.</p>
-                        <a id="albumLink" href="album.html" class="btn-glass-gold" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
+                        
+                        <p id="albumStatusMsg" style="font-style:italic; color:#1a3a5f; margin-top:10px; line-height:1.6; font-weight: 500;">
+                            ✨ El álbum se habilitará en: <br>
+                            <span id="albumCountdownTimer" style="font-weight:bold; font-family:'Montserrat',sans-serif; font-size:1.2rem; color:#2a5298; display:block; margin: 5px 0;">Calculando...</span>
+                            <small style="font-size:0.75rem; color:#555; opacity:0.9;">(Solo disponible el día de la fiesta)</small>
+                        </p>
+
+                        <a id="albumLink" href="album.html" class="btn-glass-gold" style="display:none; align-items:center; gap:8px; text-decoration:none; margin: 0 auto;">
                             🖼️ VER EL ÁLBUM
                         </a>
                     </div>

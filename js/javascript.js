@@ -49,29 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Abrir y reproducir (Lo que pasa al tocar el botón de entrar)
     if (sealBtn && wrapper) {
         sealBtn.addEventListener('click', () => {
-            // 1. LANZAR EL CONFETI DORADO
-            // Usamos los colores oro que ya tienes en tu CSS (#bf953f y #fcf6ba)
+            // 1. CONFETI (Azul y Blanco)
             confetti({
-                particleCount: 150, // Cantidad de chispas
-                spread: 70,         // Qué tanto se abren hacia los lados
-                origin: { y: 0.6 }, // Altura desde donde salen
-                colors: ['#84b6f4', '#c4dafa', '#ffffff'], // Oro rico, oro brillante y blanco seda
-                ticks: 300          // Cuánto tiempo duran las chispas en pantalla
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#84b6f4', '#c4dafa', '#ffffff'],
+                ticks: 300
             });
 
-            // 2. EFECTO DE VIBRACIÓN (Opcional)
-            sealBtn.style.transform = "scale(0.9)"; // El botón se encoge un poquito al tocarlo
-            
-            // 3. ABRIR LA INVITACIÓN (con un pequeño retraso para disfrutar el confeti)
+            // 2. ABRIR Y ACTIVAR AUDIO
             setTimeout(() => {
                 wrapper.classList.add('open');
                 document.body.style.overflow = 'auto'; 
+                
                 if (music) {
-                    music.play().catch(err => console.log("Audio bloqueado:", err));
-                    musicBtn.classList.add('visible');
-                    musicIcon.innerText = "🔊";
+                    music.muted = false; // QUITAMOS EL MUDO POR SI ACASO
+                    music.volume = 1.0;  // VOLUMEN AL MÁXIMO
+                    
+                    // Intentamos reproducir con una promesa para evitar errores
+                    music.play().then(() => {
+                        musicBtn.classList.add('visible');
+                        musicIcon.innerText = "🔊";
+                    }).catch(err => {
+                        console.log("Audio pausado por el navegador:", err);
+                        // Si falla, el botón de música aparecerá para que el usuario le pique
+                        musicBtn.classList.add('visible');
+                        musicIcon.innerText = "🔇";
+                    });
                 }
-            }, 300); // Espera 300 milisegundos para abrir el pergamino
+            }, 300);
         });
     }
 
@@ -142,41 +149,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- 4. DEFINICIÓN DEL RELOJ (Instrucciones de cómo debe contar) ---
 function iniciarReloj() {
-    // Configuramos la fecha exacta de tus XV años
     const fechaFiesta = new Date('2026-12-19T12:00:00').getTime();
-    const display = document.getElementById('mainCountdown'); // Busca los cuadritos del reloj en la tarjeta
-    const daysBox = document.getElementById('daysBox'); // El nuevo recuadro
+    const display = document.getElementById('mainCountdown');
+    const daysBox = document.getElementById('daysBox');
     
-    if (!display) return; // Si no encuentra el reloj en la página, se detiene para evitar errores
+    // Elementos nuevos del aviso
+    const albumLink = document.getElementById('albumLink');
+    const albumMsg = document.getElementById('albumStatusMsg');
+    const albumTimer = document.getElementById('albumCountdownTimer');
 
-    // Le dice al reloj que revise y actualice el tiempo cada 1 segundo
-    setInterval(() => {
-        const ahora = new Date().getTime(); // Revisa qué hora y día es justo ahora
-        const diff = fechaFiesta - ahora; // Calcula cuánto tiempo falta para llegar a la fecha de la fiesta
+    if (!display) return;
 
-        if (diff <= 0) { // Si el tiempo se acabó (es el día de la fiesta):
-            // 1. El mensaje aparece debajo de "MIS XV AÑOS"
+    const timer = setInterval(() => {
+        const ahora = new Date().getTime();
+        const diff = fechaFiesta - ahora;
+
+        if (diff <= 0) {
+            clearInterval(timer);
             display.innerHTML = "<div class='finish-msg'>¡ES HOY EL GRAN DÍA!</div>";
-            // 2. El recuadro de la cuadrícula se queda en ceros
-            if (daysBox) daysBox.innerText = "0 DÍAS"; 
+            if (daysBox) daysBox.innerText = "0 DÍAS";
+            if (albumLink) albumLink.style.display = "inline-flex";
+            if (albumMsg) albumMsg.style.display = "none";
             return;
         }
 
-        // Cálculos matemáticos sencillos para separar el tiempo restante
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24)); // Saca los Días
-        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // Saca las Horas
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); // Saca los Minutos
-        const s = Math.floor((diff % (1000 * 60)) / 1000); // Saca los Segundos
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-        // Actualizamos el nuevo recuadro numérico
+        // Actualiza la tarjeta azul
         if (daysBox) daysBox.innerText = `${d} DÍAS`;
-
-        // Inyecta los números calculados dentro de los cuadritos de la tarjeta
         display.innerHTML = `
             <div class="countdown-unit"><span class="countdown-number">${d}</span><span class="countdown-label">Días</span></div>
             <div class="countdown-unit"><span class="countdown-number">${h}</span><span class="countdown-label">Hrs</span></div>
             <div class="countdown-unit"><span class="countdown-number">${m}</span><span class="countdown-label">Min</span></div>
             <div class="countdown-unit"><span class="countdown-number">${s}</span><span class="countdown-label">Seg</span></div>
         `;
-    }, 1000); // El "1000" significa que todo esto se repite cada segundo exacto
+
+        // --- NUEVO: Actualiza el contador dentro del mensaje de espera ---
+        if (albumTimer) {
+            albumTimer.innerText = `${d}d ${h}h ${m}m ${s}s`;
+        }
+
+    }, 1000);
+}
+
+// --- MODO ADMINISTRADOR (3 Clics en el nombre del pergamino) ---
+const nombrePergamino = document.querySelector('.princess-name');
+let clicsAdmin = 0;
+
+if (nombrePergamino) {
+    nombrePergamino.addEventListener('click', () => {
+        clicsAdmin++;
+        if (clicsAdmin === 3) {
+            const albumLink = document.getElementById('albumLink');
+            const albumMsg = document.getElementById('albumStatusMsg');
+            
+            if (albumLink) albumLink.style.display = 'inline-flex';
+            if (albumMsg) albumMsg.style.display = 'none';
+            
+            alert("✨ Modo Administrador: Álbum habilitado para pruebas.");
+            clicsAdmin = 0; // Reiniciamos el contador
+        }
+    });
 }

@@ -266,23 +266,87 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .gallery-header-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--azul-claro),transparent);}
 .gallery-title-txt{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:5px;color:var(--azul-claro);white-space:nowrap;}
 .gallery-count-txt{font-family:'Montserrat',sans-serif;font-size:.6rem;color:var(--text-dim);letter-spacing:1px;text-align:center;margin-bottom:18px;}
-.photo-grid{columns:2;column-gap:10px;}
-@media(min-width:480px){.photo-grid{columns:3;}}
-.photo-card{break-inside:avoid;margin-bottom:10px;border:1px solid rgba(196,218,250,0.20);border-radius:3px;overflow:hidden;background:rgba(0,26,70,0.6);transition:var(--transition);cursor:pointer;}
+.photo-grid {
+    display: grid;
+    /* Esto crea 2 columnas exactamente iguales */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px; /* Espacio entre los cuadritos */
+    padding: 10px;
+    padding-bottom: 100px; /* Espacio extra abajo para que no tape el botón */
+}
+
+/* En tablets o PC (pantallas más grandes de 480px), que se vean 3 columnas */
+@media(min-width: 480px) {
+    .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.photo-card {
+    /* Quitamos el margin-bottom viejo porque el grid ya tiene gap */
+    margin-bottom: 0; 
+    border: 1px solid rgba(196,218,250,0.20);
+    border-radius: 8px; /* Un poco más redondeado para que se vea moderno */
+    overflow: hidden;
+    background: rgba(0,26,70,0.6);
+    transition: var(--transition);
+    cursor: pointer;
+    width: 100%; /* Que ocupe todo el ancho de su cuadrito */
+}
 .photo-card:hover{border-color:var(--azul-fuerte);box-shadow:0 0 18px rgba(132,182,244,0.20);}
-.photo-card img{width:100%;display:block;object-fit:cover;aspect-ratio:1;transition:transform .5s;}
+.photo-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Esto hace que siempre sea un cuadrado perfecto */
+    display: block;
+    object-fit: cover; /* Evita que la foto se estire feo */
+    transition: transform .5s;
+}
 .photo-card:hover img{transform:scale(1.04);}
-.photo-info{padding:9px 10px 12px;}
+.photo-info {
+    padding: 8px; /* Menos espacio interno */
+}
 .photo-gallery-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;
     background:rgba(132,182,244,0.12);border:1px solid rgba(196,218,250,0.20);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--azul-claro);margin-bottom:6px;}
 .photo-author{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:4px;}
 .photo-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--magic-white);line-height:1.5;}
 .photo-date{font-family:'Montserrat',sans-serif;font-size:.52rem;color:var(--text-dim);margin-top:5px;letter-spacing:1px;}
-.photo-actions{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
-.photo-like{display:flex;align-items:center;gap:5px;background:none;border:1px solid rgba(196,218,250,0.20);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);width:fit-content;}
+.photo-actions {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Menos separación entre botones */
+    margin-top: 8px;
+    flex-wrap: wrap; /* Si no caben, que bajen solitos */
+}
+.photo-like{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: 1px solid rgba(196,218,250,0.20);
+    border-radius: 20px;
+    padding: 3px 6px; /* Botones más pequeños */
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.55rem; /* Letra más chiquita */
+    transition: var(--transition);
+}
 .photo-like:hover,.photo-like.liked{border-color:#e07070;color:#e07070;}
 .photo-like svg{width:12px;height:12px;}
-.photo-notes-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid rgba(196,218,250,0.20);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);}
+.photo-notes-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: 1px solid rgba(196,218,250,0.20);
+    border-radius: 20px;
+    padding: 3px 6px; /* Botones más pequeños */
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.55rem; /* Letra más chiquita */
+    transition: var(--transition);
+}
 .photo-notes-btn:hover{border-color:var(--azul-fuerte);color:var(--magic-white);}
 .photo-notes-btn svg{width:12px;height:12px;}
 .gallery-empty{text-align:center;padding:50px 20px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;border:1px dashed rgba(196,218,250,0.20);border-radius:4px;column-span:all;}
@@ -302,29 +366,83 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 #fileCam,#fileGal{display:none;}
 
 /* MODAL DE COMENTARIOS */
-.comments-modal{display:none;position:fixed;inset:0;background:rgba(0,5,30,0.82);backdrop-filter:blur(8px);z-index:9998;align-items:flex-end;justify-content:center;padding:0;}
-@media(min-width:500px){.comments-modal{align-items:center;padding:20px;}}
-.comments-modal.open{display:flex;}
-
-.comments-box{
-    width:100%;max-width:480px;
-    max-height:90vh;
-    background:linear-gradient(160deg, rgba(10,20,70,0.98) 0%, rgba(20,45,110,0.98) 100%);
-    color:var(--magic-white);
-    border:1px solid rgba(196,218,250,0.35);
-    border-radius:24px 24px 0 0;
-    padding:24px 18px 20px;
-    position:relative;
-    display:flex;flex-direction:column;
-    box-shadow:0 -8px 50px rgba(0,0,0,0.55), 0 0 30px rgba(132,182,244,0.18);
+.comments-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    /* --- CAMBIO AQUÍ: Fondo más claro para efecto cristal --- */
+    background: rgba(0, 5, 20, 0.4); /* Fondo azul muy transparente */
+    backdrop-filter: blur(10px); /* Desenfoque de fondo (el secreto del cristal) */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidad para Safari/iPhone */
+    z-index: 9998;
+    align-items: center; /* Centrado vertical */
+    justify-content: center; /* Centrado horizontal */
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease; /* Transición suave para que no aparezca de golpe */
 }
+
+@media(min-width:500px){.comments-modal{align-items:center;padding:20px;}}
+/* Esta línea asegura que cuando tenga la clase 'open' se vea, se centre y se anime */
+.comments-modal.open {
+    display: flex !important;
+    opacity: 1;
+}
+
+.comments-box {
+    width: 100%;
+    max-width: 420px;
+    max-height: 85vh;
+    /* --- CAMBIO AQUÍ: Fondo de cristal y bordes de luz --- */
+    background: rgba(132, 182, 244, 0.15); /* Fondo azul cristalino muy suave */
+    border: 1px solid rgba(196, 218, 250, 0.45); /* Borde plateado/brillante más visible */
+    border-radius: 20px !important; /* Bordes parejos en todas las esquinas */
+    
+    /* Efecto de relieve con sombra interna */
+    box-shadow: 
+        inset 0 0 15px rgba(132, 182, 244, 0.15),
+        0 8px 32px 0 rgba(0, 0, 0, 0.5); /* Sombra externa para profundidad */
+    
+    color: #ffffff; /* Texto blanco puro */
+    padding: 24px 18px 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    
+    /* Animación de entrada con un suave 'rebote' */
+    transform: scale(0.85); 
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Cuando el modal está abierto, la caja toma su tamaño normal */
+.comments-modal.open .comments-box {
+    transform: scale(1);
+}
+
+/* El título principal: NOTAS DEL ÁLBUM */
+.comments-box h3 {
+    color: var(--magic-white); 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4); /* Sombra sutil al texto */
+}
+
+/* Los campos donde se escribe el nombre y el mensaje */
+.comments-box input, 
+.comments-box textarea {
+    background: rgba(0, 26, 70, 0.5) !important; /* Fondo oscuro transparente */
+    border: 1px solid rgba(196, 218, 250, 0.25) !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+}
+
 @media(min-width:500px){.comments-box{border-radius:20px;}}
 
 /* Línea decorativa superior */
 .comments-box::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:2px;
-    border-radius:24px 24px 0 0;
-    background:linear-gradient(90deg, transparent, rgba(132,182,244,0.70), rgba(196,218,250,1), rgba(132,182,244,0.70), transparent);
+    content:'';
+    position:absolute;
+    top:0;left:0;right:0;height:2px;
+    border-radius:20px 20px 0 0; /* Sigue la curva de la caja */
+    background:linear-gradient(90deg, transparent, rgba(132,182,244,0.7), transparent);
 }
 
 /* Handle visual (solo en móvil) */
@@ -333,6 +451,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
     background:rgba(196,218,250,0.35);
     border-radius:4px;
     margin:0 auto 16px;
+    display: none !important;
 }
 
 .comments-close{
@@ -391,10 +510,11 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 }
 
 .comments-item{
-    background:linear-gradient(135deg,rgba(30,60,114,0.55) 0%,rgba(10,25,70,0.70) 100%);
-    border:1px solid rgba(196,218,250,0.22);
-    border-radius:14px;
-    padding:12px 14px;
+    background: rgba(0, 26, 70, 0.4) !important; /* Fondo oscuro muy suave */
+    border: 1px solid rgba(196, 218, 250, 0.15) !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px !important;
+    padding: 10px !important;    
     position:relative;
     overflow:hidden;
 }

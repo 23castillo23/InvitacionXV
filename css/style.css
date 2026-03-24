@@ -330,7 +330,8 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 /* Los títulos "FECHA", "HORA" */
 .pass-data-item span { 
     color: var(--azul-cenicienta-claro); /* Dorado claro */
-    font-size: 0.7rem; /* Letra chiquita */
+    font-size: 0.6rem !important; /* Letra chiquita */
+    margin-bottom: 2px !important;
     letter-spacing: 1px; /* Letras poco separadas */
     display: block; /* Renglón solo para esto */
     font-weight: 600; /
@@ -340,7 +341,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 .pass-data-item p { 
     color: #ffffff; /* Letra blanca */
     margin-top: 3px; /* Espacio arriba del número */
-    font-size: 1rem; /* Tamaño estándar */
+    font-size: 0.85rem !important; /* Tamaño estándar */
     font-weight: 600; /* Letra negrita */
 }
 
@@ -850,8 +851,11 @@ section {
     
     /* En celular, la fecha y hora se ponen una debajo de otra (en lista) */
     .pass-info-grid { 
-        grid-template-columns: 1fr; /* Una sola columna */
-        gap: 0; /* Sin huecos */
+        display: grid !important; /* Activamos el grid */
+        grid-template-columns: 1fr 1fr !important; /* Forzamos las 2 columnas */
+        gap: 10px !important; /* Espacio entre cuadritos */
+        border-top: 1px solid rgba(224, 224, 224, 0.2) !important;
+        padding-top: 15px !important;
     }
     
     /* Cada dato de la lista */
