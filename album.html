@@ -671,7 +671,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
     getFirestore, collection, addDoc, onSnapshot,
-    query, orderBy, doc, updateDoc, arrayUnion, getDoc
+    query, orderBy, doc, updateDoc, arrayUnion, getDoc, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /* ╔══════════════════════════════════════════╗
@@ -704,6 +704,7 @@ window._getDoc     = getDoc;
 window._CLOUD      = CLOUDINARY_CLOUD;
 window._PRESET     = CLOUDINARY_PRESET;
 window._firebaseReady = true;
+window._deleteDoc  = deleteDoc; // Añade esta línea debajo de las otras
 
 // Escucha galerías en tiempo real
 onSnapshot(query(collection(db,'galleries_jennifer_xv'), orderBy('createdAt','asc')), snap => {
@@ -1046,6 +1047,12 @@ function renderPhotoGrid() {
                         </svg>
                         <span>Notas ${((p.comments||[]).length ? `(${(p.comments||[]).length})` : '')}</span>
                     </button>
+                    <button class="photo-like" onclick="confirmarEliminarFoto('${p.id}')" style="border-color: #ff4d4d; color: #ff4d4d; margin-left: auto;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>`).join('');
@@ -1103,7 +1110,13 @@ function renderCommentsModal() {
         .sort((a,b)=>(a.ts||0)-(b.ts||0))
         .map(c => `
             <div class="comments-item">
-                <div class="comments-item-author">${escHtml(c.author || 'Invitado')}</div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="comments-item-author">${escHtml(c.author || 'Invitado')}</div>
+                    <button onclick="eliminarNota('${photo.id}', ${c.ts})" 
+                            style="background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:16px; padding:0 5px;">
+                        ×
+                    </button>
+                </div>
                 <div class="comments-item-text">${escHtml(c.text || '')}</div>
                 <div class="comments-item-date">${formatDate(c.ts)}</div>
             </div>`)
@@ -1220,6 +1233,40 @@ document.addEventListener('keydown', e => {
         requestAnimationFrame(draw);
     })();
 })();
+
+// 1. Eliminar Foto completa
+async function confirmarEliminarFoto(photoId) {
+    const pin = prompt("Ingresa el PIN de administrador para eliminar:");
+    if (pin === "1234") { // Aquí puedes poner el PIN que quieras
+        try {
+            await window._deleteDoc(window._doc(window._db, 'photos_jennifer_xv', photoId));
+            alert("Foto eliminada.");
+        } catch (e) { alert("Error al eliminar foto"); }
+    } else {
+        alert("PIN incorrecto.");
+    }
+}
+
+// 2. Eliminar una nota específica dentro de una foto
+async function eliminarNota(photoId, timestamp) {
+    const pin = prompt("PIN de administrador:");
+    if (pin !== "1234") return alert("PIN incorrecto");
+
+    const ref = window._doc(window._db, 'photos_jennifer_xv', photoId);
+    const snap = await window._getDoc(ref);
+    
+    if (snap.exists()) {
+        const data = snap.data();
+        // Filtramos los comentarios para quitar el que coincida con el tiempo (ts)
+        const nuevosComentarios = data.comments.filter(c => c.ts !== timestamp);
+        await window._updateDoc(ref, { comments: nuevosComentarios });
+    }
+}
+
+// Hacerlas globales
+window.confirmarEliminarFoto = confirmarEliminarFoto;
+window.eliminarNota = eliminarNota;
+
 </script>
 </body>
 </html>
