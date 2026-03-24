@@ -192,20 +192,13 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .photo-author{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px;}
 .photo-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--text);line-height:1.5;}
 .photo-date{font-family:'Montserrat',sans-serif;font-size:.52rem;color:var(--text-dim);margin-top:5px;letter-spacing:1px;}
-.photo-like{display:flex;align-items:center;gap:5px;margin-top:8px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);width:fit-content;}
+.photo-actions{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.photo-like{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);width:fit-content;}
 .photo-like:hover,.photo-like.liked{border-color:#e07070;color:#e07070;}
 .photo-like svg{width:12px;height:12px;}
-.photo-comments-wrap{border-top:1px solid var(--border-light);padding:8px 0 2px;margin-top:6px;}
-.comment-item{padding:5px 0;border-bottom:1px solid var(--border-light);}
-.comment-item:last-of-type{border-bottom:none;}
-.comment-author{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:1.5px;color:var(--gold-dim);text-transform:uppercase;}
-.comment-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.82rem;color:var(--text);margin-top:2px;line-height:1.5;}
-.comment-form{display:flex;gap:7px;margin-top:9px;}
-.comment-inp{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:3px;padding:7px 10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--off-white);outline:none;transition:border-color .3s;caret-color:var(--gold);}
-.comment-inp:focus{border-color:var(--gold);}
-.comment-inp::placeholder{color:var(--text-dim);}
-.comment-send{padding:7px 12px;background:var(--gold-dim);border:none;border-radius:3px;color:var(--bg);cursor:pointer;font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:1px;transition:var(--transition);white-space:nowrap;}
-.comment-send:hover{background:var(--gold);}
+.photo-notes-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);}
+.photo-notes-btn:hover{border-color:var(--gold-dim);color:var(--gold);}
+.photo-notes-btn svg{width:12px;height:12px;}
 .gallery-empty{text-align:center;padding:50px 20px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;border:1px dashed var(--border);border-radius:4px;column-span:all;}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--bg);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -222,6 +215,25 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .lightbox-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:rgba(6,12,24,0.85);border:1px solid var(--border);border-radius:50%;color:var(--gold-dim);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
 .lightbox-close:hover{color:var(--gold);border-color:var(--gold);}
 #fileCam,#fileGal{display:none;}
+
+/* MODAL DE COMENTARIOS */
+.comments-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);z-index:9998;align-items:center;justify-content:center;padding:18px;}
+.comments-modal.open{display:flex;}
+.comments-box{width:100%;max-width:460px;max-height:86vh;background:var(--card);color:var(--off-white);border:1px solid var(--border);border-radius:22px;padding:22px 18px 18px;position:relative;display:flex;flex-direction:column;box-shadow:0 12px 45px rgba(0,0,0,0.48),0 0 20px rgba(212,168,75,0.1);}
+.comments-close{position:absolute;top:10px;right:10px;width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.02);font-size:1.5rem;line-height:1;color:var(--gold-dim);cursor:pointer;}
+.comments-title{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--off-white);margin:0 34px 10px 4px;}
+.comments-list{overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px;max-height:46vh;margin-bottom:10px;}
+.comments-empty{padding:14px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:.8rem;}
+.comments-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px 12px;}
+.comments-item-author{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.82rem;color:var(--gold-bright);}
+.comments-item-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--off-white);line-height:1.4;margin-top:3px;}
+.comments-item-date{font-family:'Montserrat',sans-serif;font-size:.72rem;color:var(--text-dim);margin-top:4px;}
+.comments-form{display:flex;flex-direction:column;gap:10px;padding:2px 4px;}
+.comments-input{width:100%;border:1px solid var(--border);background:rgba(255,255,255,0.03);border-radius:11px;padding:10px 12px;font-family:'Montserrat',sans-serif;font-size:.95rem;color:var(--off-white);outline:none;}
+.comments-textarea{width:100%;border:1px solid var(--border);background:rgba(255,255,255,0.03);border-radius:11px;padding:10px 12px;font-family:'Montserrat',sans-serif;font-size:.95rem;color:var(--off-white);outline:none;min-height:72px;resize:vertical;}
+.comments-input::placeholder,.comments-textarea::placeholder{color:var(--text-dim);}
+.comments-save{align-self:flex-start;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 50%,var(--gold-dim) 100%);border:none;color:var(--bg);border-radius:10px;padding:10px 18px;font-family:'Montserrat',sans-serif;font-weight:600;cursor:pointer;}
+.comments-save:hover{box-shadow:0 0 18px rgba(212,168,75,0.35);}
     </style>
 </head>
 <body>
@@ -261,6 +273,20 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
     <div class="lightbox-info">
         <div class="lightbox-author" id="lightboxAuthor"></div>
         <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+</div>
+
+<!-- ══ MODAL COMENTARIOS ══ -->
+<div class="comments-modal" id="commentsModal" onclick="closeCommentsModal()">
+    <div class="comments-box" onclick="event.stopPropagation()">
+        <button class="comments-close" onclick="closeCommentsModal()" aria-label="Cerrar">×</button>
+        <h3 class="comments-title">Notas de la foto</h3>
+        <div class="comments-list" id="commentsList"></div>
+        <div class="comments-form">
+            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre">
+            <textarea class="comments-textarea" id="commentTextInput" maxlength="220" placeholder="Escribe una nota..."></textarea>
+            <button class="comments-save" onclick="sendCommentFromModal()">Guardar nota</button>
+        </div>
     </div>
 </div>
 
@@ -416,6 +442,9 @@ onSnapshot(query(collection(db,'photos_jennifer_xv'), orderBy('createdAt','desc'
     window._allPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderPhotoGrid();
     renderGalleryTabs(); // actualiza contadores
+    if (window._activeCommentsPhotoId && typeof window.renderCommentsModal === 'function') {
+        window.renderCommentsModal();
+    }
 });
 </script>
 
@@ -426,8 +455,9 @@ onSnapshot(query(collection(db,'photos_jennifer_xv'), orderBy('createdAt','desc'
 window._galleries     = [];
 window._allPhotos     = [];
 window._activeGallery = 'all';
-let selectedFile  = null;
-let selectedEmoji = '📸';
+window._activeCommentsPhotoId = null;
+let selectedFile       = null;
+let selectedEmoji      = '📸';
 const likedPhotos = new Set(JSON.parse(localStorage.getItem('xv_liked') || '[]'));
 
 /* ════════════════════════════════════
@@ -650,24 +680,19 @@ function renderPhotoGrid() {
                 <div class="photo-author">${escHtml(p.author)}</div>
                 ${p.caption ? `<div class="photo-caption">${escHtml(p.caption)}</div>` : ''}
                 <div class="photo-date">${formatDate(p.createdAt)}</div>
-                <button class="photo-like ${likedPhotos.has(p.id)?'liked':''}" onclick="toggleLike('${p.id}')">
-                    <svg viewBox="0 0 24 24" fill="${likedPhotos.has(p.id)?'#e07070':'none'}" stroke="currentColor" stroke-width="1.5">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                    <span id="likes-${p.id}">${p.likes||0}</span>
-                </button>
-                <div class="photo-comments-wrap">
-                    ${(p.comments||[]).map(c=>`
-                        <div class="comment-item">
-                            <div class="comment-author">${escHtml(c.author)}</div>
-                            <div class="comment-text">${escHtml(c.text)}</div>
-                        </div>`).join('')}
-                    <div class="comment-form">
-                        <input class="comment-inp" id="ci-${p.id}" type="text"
-                               placeholder="Deja un comentario…" maxlength="120"
-                               onkeydown="if(event.key==='Enter')sendComment('${p.id}')">
-                        <button class="comment-send" onclick="sendComment('${p.id}')">Enviar</button>
-                    </div>
+                <div class="photo-actions">
+                    <button class="photo-like ${likedPhotos.has(p.id)?'liked':''}" onclick="toggleLike('${p.id}')">
+                        <svg viewBox="0 0 24 24" fill="${likedPhotos.has(p.id)?'#e07070':'none'}" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        <span id="likes-${p.id}">${p.likes||0}</span>
+                    </button>
+                    <button class="photo-notes-btn" onclick="openCommentsModal('${p.id}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Notas ${((p.comments||[]).length ? `(${(p.comments||[]).length})` : '')}</span>
+                    </button>
                 </div>
             </div>
         </div>`).join('');
@@ -679,13 +704,13 @@ window.renderPhotoGrid = renderPhotoGrid;
 ════════════════════════════════════ */
 async function toggleLike(photoId) {
     if (!window._firebaseReady) return;
+    if (likedPhotos.has(photoId)) return;
     const ref = window._doc(window._db, 'photos_jennifer_xv', photoId);
-    const already = likedPhotos.has(photoId);
     try {
         const snap = await window._getDoc(ref);
         const cur  = snap.exists() ? (snap.data().likes||0) : 0;
-        await window._updateDoc(ref, { likes: already ? Math.max(0,cur-1) : cur+1 });
-        already ? likedPhotos.delete(photoId) : likedPhotos.add(photoId);
+        await window._updateDoc(ref, { likes: cur+1 });
+        likedPhotos.add(photoId);
         localStorage.setItem('xv_liked', JSON.stringify([...likedPhotos]));
     } catch(e) { console.error(e); }
 }
@@ -694,13 +719,50 @@ window.toggleLike = toggleLike;
 /* ════════════════════════════════════
    COMENTARIOS
 ════════════════════════════════════ */
-async function sendComment(photoId) {
+function openCommentsModal(photoId) {
+    window._activeCommentsPhotoId = photoId;
+    const authorName = document.getElementById('authorName').value.trim();
+    const modalAuthor = document.getElementById('commentAuthorInput');
+    if (authorName && !modalAuthor.value.trim()) modalAuthor.value = authorName;
+    renderCommentsModal();
+    document.getElementById('commentsModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+window.openCommentsModal = openCommentsModal;
+
+function closeCommentsModal() {
+    document.getElementById('commentsModal').classList.remove('open');
+    document.body.style.overflow = '';
+    window._activeCommentsPhotoId = null;
+}
+window.closeCommentsModal = closeCommentsModal;
+
+function renderCommentsModal() {
+    const list = document.getElementById('commentsList');
+    const photo = (window._allPhotos || []).find(p => p.id === window._activeCommentsPhotoId);
+    const comments = (photo && Array.isArray(photo.comments)) ? photo.comments : [];
+    if (!comments.length) {
+        list.innerHTML = '<div class="comments-empty">Todavía no hay notas. Sé la primera persona en escribir una.</div>';
+        return;
+    }
+    list.innerHTML = comments
+        .slice()
+        .sort((a,b)=>(a.ts||0)-(b.ts||0))
+        .map(c => `
+            <div class="comments-item">
+                <div class="comments-item-author">${escHtml(c.author || 'Invitado')}</div>
+                <div class="comments-item-text">${escHtml(c.text || '')}</div>
+                <div class="comments-item-date">${formatDate(c.ts)}</div>
+            </div>`)
+        .join('');
+}
+window.renderCommentsModal = renderCommentsModal;
+
+async function sendComment(photoId, authorOverride, textOverride) {
     if (!window._firebaseReady) return;
-    const inp    = document.getElementById('ci-'+photoId);
-    const text   = inp.value.trim();
-    const author = document.getElementById('authorName').value.trim() || 'Invitado';
+    const text   = (textOverride ?? '').trim();
+    const author = (authorOverride ?? '').trim() || document.getElementById('authorName').value.trim() || 'Invitado';
     if (!text) return;
-    inp.value = '';
     try {
         await window._updateDoc(
             window._doc(window._db,'photos_jennifer_xv',photoId),
@@ -709,6 +771,21 @@ async function sendComment(photoId) {
     } catch(e) { console.error(e); }
 }
 window.sendComment = sendComment;
+
+async function sendCommentFromModal() {
+    if (!window._activeCommentsPhotoId) return;
+    const authorInp = document.getElementById('commentAuthorInput');
+    const textInp = document.getElementById('commentTextInput');
+    const author = authorInp.value.trim() || document.getElementById('authorName').value.trim() || 'Invitado';
+    const text = textInp.value.trim();
+    if (!text) {
+        textInp.focus();
+        return;
+    }
+    textInp.value = '';
+    await sendComment(window._activeCommentsPhotoId, author, text);
+}
+window.sendCommentFromModal = sendCommentFromModal;
 
 /* ════════════════════════════════════
    LIGHTBOX
@@ -740,6 +817,13 @@ function formatDate(ts) {
     return new Date(ts).toLocaleDateString('es-MX',
         { day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit' });
 }
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeLightbox();
+        closeCommentsModal();
+    }
+});
 
 /* ════════════════════════════════════
    PARTÍCULAS

@@ -1,193 +1,182 @@
-document.addEventListener('DOMContentLoaded', function () {
+// Esta línea le dice al navegador que espere a que toda la página cargue antes de activar las funciones
+document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Referencias ──────────────────────────────
-    const scene      = document.getElementById('scene');
-    const enterBtn   = document.getElementById('enterBtn');
-    const closeBtn   = document.getElementById('closeBtn');
-    const music      = document.getElementById('bgMusic');
-    const musicBtn   = document.getElementById('musicToggle');
-    const musicOn    = document.getElementById('musicIconOn');
-    const musicOff   = document.getElementById('musicIconOff');
+    // --- 1. LÓGICA PARA LEER NOMBRE Y NÚMERO DE PASES ---
+    // Esta sección se encarga de buscar el nombre de la familia y los pases en el link que envías
+    const urlParams = new URLSearchParams(window.location.search); // Revisa la dirección de la página para buscar datos
+    
+    // Leemos el nombre (?n=)
+    const nombreInvitado = urlParams.get('n'); // Busca el nombre que pusiste después de la "n" en el link
+    const displayNombre = document.getElementById('invitadoNombre'); // Busca el lugar en el pase donde debe ir el nombre
 
-    // ── URL Params ───────────────────────────────
-    const params  = new URLSearchParams(window.location.search);
-    const nombre  = params.get('n');
-    const pases   = params.get('p');
-    const elNombre = document.getElementById('invitadoNombre');
-    const elPases  = document.getElementById('numPases');
+    // Leemos los pases (&p=)
+    const pasesInvitado = urlParams.get('p'); // Busca el número que pusiste después de la "p" en el link
+    const displayPases = document.getElementById('numPases'); // Busca el lugar en el pase donde va el número de personas
+    const albumLink = document.getElementById('albumLink');
 
-    if (nombre && elNombre) elNombre.innerText = nombre.replace(/_/g, ' ').toUpperCase();
-    if (elPases) elPases.innerText = pases || '1';
-
-    // ── Abrir invitación ─────────────────────────
-    if (enterBtn) {
-        enterBtn.addEventListener('click', () => {
-            // Confeti temático
-            // ← CAMBIO: confeti en paleta dorada (antes azul cielo)
-            // '#bf953f' = oro oscuro | '#d4a84b' = oro principal | '#fcf6ba' = oro brillante
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.65 },
-                colors: ['#bf953f', '#d4a84b', '#fcf6ba', '#fffde8', '#ffffff', '#e8d5a3'],
-                ticks: 300 });
-
-            setTimeout(() => {
-                scene.classList.add('is-open');
-                document.body.style.overflowY = 'auto';
-
-                // Intentar música
-                if (music && music.paused) {
-                    music.volume = 0.4;
-                    music.play().catch(() => {});
-                    musicBtn.classList.add('visible');
-                }
-            }, 250);
-        });
+    // Inyectamos el nombre en la tarjeta
+    if (nombreInvitado && displayNombre) { // Si el link trae un nombre, hace lo siguiente:
+        // Convierte guiones bajos en espacios y pone todo en MAYÚSCULAS para que se vea elegante
+        displayNombre.innerText = nombreInvitado.replace(/_/g, ' ').toUpperCase();
     }
 
-    // ── Cerrar ───────────────────────────────────
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            scene.classList.remove('is-open');
-            document.body.style.overflowY = 'hidden';
-            if (music) music.pause();
-            setTimeout(() => window.scrollTo({ top: 0, behavior: 'instant' }), 800);
-        });
+    // Inyectamos el número de pases
+    if (pasesInvitado && displayPases) { // Si el link trae un número de pases:
+        displayPases.innerText = pasesInvitado; // Pone ese número en el óvalo dorado
+    } else if (displayPases) {
+        displayPases.innerText = "1"; // Si el link no tiene número, pone "1" por defecto
     }
 
-    // ── Control de música ────────────────────────
-    let playing = false;
-    if (musicBtn && music) {
-        musicBtn.addEventListener('click', () => {
-            if (music.paused) {
-                music.play();
-                playing = true;
-            } else {
-                music.pause();
-                playing = false;
-            }
-            musicOn.style.display  = music.paused ? 'none' : 'block';
-            musicOff.style.display = music.paused ? 'block' : 'none';
-        });
+    // Mantener datos del invitado al pasar al álbum
+    if (albumLink) {
+        const params = new URLSearchParams();
+        if (nombreInvitado) params.set('n', nombreInvitado);
+        if (pasesInvitado) params.set('p', pasesInvitado);
+        const q = params.toString();
+        albumLink.href = q ? `album.html?${q}` : 'album.html';
     }
 
-    // ── Visibilidad de página ────────────────────
-    document.addEventListener('visibilitychange', () => {
-        if (!music) return;
-        if (document.hidden) { music.pause(); }
-        else if (scene.classList.contains('is-open') && playing) { music.play().catch(() => {}); }
-    });
-
-    // ── Acordeón ─────────────────────────────────
-    document.querySelectorAll('.acc-header').forEach(header => {
-        header.addEventListener('click', () => {
-            const isOpen = header.getAttribute('aria-expanded') === 'true';
-            // Cerrar todos
-            document.querySelectorAll('.acc-header').forEach(h => {
-                h.setAttribute('aria-expanded', 'false');
-                h.nextElementSibling.classList.remove('is-open');
+    // --- 2. LÓGICA DE APERTURA, CIERRE Y MÚSICA INTELIGENTE ---
+    // Esta parte controla los botones de entrar, cerrar y el sonido
+    const sealBtn = document.getElementById('entrarBtn'); // Identifica el pase (la tarjeta de inicio)
+    const closeBtn = document.getElementById('closeBtn'); // Identifica el sello de cerrar al final
+    const wrapper = document.getElementById('wrapper'); // Identifica toda la estructura de la invitación
+    const music = document.getElementById('bgMusic'); // Identifica la canción elegida
+    const musicBtn = document.getElementById('musicToggle'); // Identifica el botón circular de la esquina
+    const musicIcon = document.getElementById('musicIcon'); // Identifica el icono de la bocina que cambia
+    
+    
+    // Abrir y reproducir (Lo que pasa al tocar el botón de entrar)
+    if (sealBtn && wrapper) {
+        sealBtn.addEventListener('click', () => {
+            // 1. LANZAR EL CONFETI DORADO
+            // Usamos los colores oro que ya tienes en tu CSS (#bf953f y #fcf6ba)
+            confetti({
+                particleCount: 150, // Cantidad de chispas
+                spread: 70,         // Qué tanto se abren hacia los lados
+                origin: { y: 0.6 }, // Altura desde donde salen
+                colors: ['#84b6f4', '#c4dafa', '#ffffff'], // Oro rico, oro brillante y blanco seda
+                ticks: 300          // Cuánto tiempo duran las chispas en pantalla
             });
-            // Abrir el tocado (o dejar cerrado si ya estaba abierto)
-            if (!isOpen) {
-                header.setAttribute('aria-expanded', 'true');
-                header.nextElementSibling.classList.add('is-open');
+
+            // 2. EFECTO DE VIBRACIÓN (Opcional)
+            sealBtn.style.transform = "scale(0.9)"; // El botón se encoge un poquito al tocarlo
+            
+            // 3. ABRIR LA INVITACIÓN (con un pequeño retraso para disfrutar el confeti)
+            setTimeout(() => {
+                wrapper.classList.add('open');
+                document.body.style.overflow = 'auto'; 
+                if (music) {
+                    music.play().catch(err => console.log("Audio bloqueado:", err));
+                    musicBtn.classList.add('visible');
+                    musicIcon.innerText = "🔊";
+                }
+            }, 300); // Espera 300 milisegundos para abrir el pergamino
+        });
+    }
+
+    // Cerrar y PAUSAR (Lo que pasa al tocar el sello al final)
+    if (closeBtn && wrapper) {
+        closeBtn.addEventListener('click', (e) => { // Cuando el invitado toca "CERRAR":
+            e.stopPropagation(); // Evita que se activen otros botones por error
+            wrapper.classList.remove('open'); // Enrolla y oculta la invitación
+            document.body.style.overflow = 'hidden'; // Bloquea el movimiento de la pantalla
+            
+            if (music) {
+                music.pause(); // Detiene la canción de inmediato
+                musicIcon.innerText = "🔇"; // Cambia el icono a sonido apagado
             }
+
+            // Regresa la pantalla hasta arriba suavemente para mostrar de nuevo el pase
+            setTimeout(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, 1500); 
+            setTimeout(() => { document.body.style.overflow = 'auto'; }, 1800); 
+        });
+    }
+
+    // Pausa automática al salir del navegador (Para no molestar si el invitado se sale de la página)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) { // Si el invitado minimiza el navegador o cambia de pestaña:
+            if (music) music.pause(); // Pausa la música solo
+        } else {
+            // Si el invitado regresa y la invitación estaba abierta, vuelve a sonar
+            if (wrapper.classList.contains('open') && music) {
+                music.play();
+                musicIcon.innerText = "🔊";
+            }
+        }
+    });
+
+    // Control manual (Botón flotante circular)
+    if (musicBtn && music) {
+        musicBtn.addEventListener('click', (e) => { // Cuando el invitado toca el botón de la esquina:
+            e.stopPropagation();
+            if (music.paused) { // Si la música estaba pausada:
+                music.play(); // Dale play
+                musicIcon.innerText = "🔊"; // Pon la bocina encendida
+            } else { // Si la música estaba sonando:
+                music.pause(); // Ponle pausa
+                musicIcon.innerText = "🔇"; // Pon la bocina tachada
+            }
+        });
+    }
+
+    // --- 3. ACORDEONES ---
+    // Esta sección controla las ventanitas informativas que se abren y cierran (Iglesia, Recepción, etc.)
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => { // Cuando el invitado toca una sección:
+            const item = header.parentElement; // Identifica la sección que se tocó
+            document.querySelectorAll('.accordion-item').forEach(other => {
+                if (other !== item) other.classList.remove('active'); // Si hay otra abierta, la cierra
+            });
+            item.classList.toggle('active'); // Abre la sección tocada o la cierra si ya estaba abierta
         });
     });
 
-    // ── Reloj ─────────────────────────────────────
-    iniciarReloj();
+    // ******************************************************
+    // AQUÍ ES DONDE LLAMAMOS AL RELOJ PARA QUE ENCIENDA
+    // ******************************************************
+    // Esta línea es el interruptor que pone a funcionar el reloj de los días
+    iniciarReloj(); 
 
-    // ── Partículas ───────────────────────────────
-    initParticles();
-});
+}); // <-- Aquí termina el bloque principal que espera la carga de la página
 
-
-/* ══════════════════════════════
-   CUENTA REGRESIVA
-══════════════════════════════ */
+// --- 4. DEFINICIÓN DEL RELOJ (Instrucciones de cómo debe contar) ---
 function iniciarReloj() {
-    const target  = new Date('2026-12-19T12:00:00').getTime();
-    const display = document.getElementById('mainCountdown');
-    const daysBox = document.getElementById('daysBox');
-    if (!display) return;
+    // Configuramos la fecha exacta de tus XV años
+    const fechaFiesta = new Date('2026-12-19T12:00:00').getTime();
+    const display = document.getElementById('mainCountdown'); // Busca los cuadritos del reloj en la tarjeta
+    const daysBox = document.getElementById('daysBox'); // El nuevo recuadro
+    
+    if (!display) return; // Si no encuentra el reloj en la página, se detiene para evitar errores
 
-    function render() {
-        const diff = target - Date.now();
-        if (diff <= 0) {
-            display.innerHTML = "<div class='finish-msg'>¡Es hoy el gran día!</div>";
-            if (daysBox) daysBox.innerText = '0 DÍAS';
+    // Le dice al reloj que revise y actualice el tiempo cada 1 segundo
+    setInterval(() => {
+        const ahora = new Date().getTime(); // Revisa qué hora y día es justo ahora
+        const diff = fechaFiesta - ahora; // Calcula cuánto tiempo falta para llegar a la fecha de la fiesta
+
+        if (diff <= 0) { // Si el tiempo se acabó (es el día de la fiesta):
+            // 1. El mensaje aparece debajo de "MIS XV AÑOS"
+            display.innerHTML = "<div class='finish-msg'>¡ES HOY EL GRAN DÍA!</div>";
+            // 2. El recuadro de la cuadrícula se queda en ceros
+            if (daysBox) daysBox.innerText = "0 DÍAS"; 
             return;
         }
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
 
+        // Cálculos matemáticos sencillos para separar el tiempo restante
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24)); // Saca los Días
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); // Saca las Horas
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); // Saca los Minutos
+        const s = Math.floor((diff % (1000 * 60)) / 1000); // Saca los Segundos
+
+        // Actualizamos el nuevo recuadro numérico
         if (daysBox) daysBox.innerText = `${d} DÍAS`;
 
+        // Inyecta los números calculados dentro de los cuadritos de la tarjeta
         display.innerHTML = `
-            ${unit(d,'Días')}${unit(h,'Hrs')}${unit(m,'Min')}${unit(s,'Seg')}`;
-    }
-    function unit(n, l) {
-        return `<div class="c-unit"><span class="c-num">${n}</span><span class="c-lbl">${l}</span></div>`;
-    }
-    render();
-    setInterval(render, 1000);
-}
-
-
-/* ══════════════════════════════
-   PARTÍCULAS (CANVAS)
-══════════════════════════════ */
-function initParticles() {
-    const canvas = document.getElementById('particleCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    let W = canvas.width  = window.innerWidth;
-    let H = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-    });
-
-    // ← CAMBIO: paleta de partículas dorada (antes azul cielo)
-    // Orden: oro oscuro, oro principal, oro brillante, crema, blanco puro, crema suave
-    // Para ajustar el brillo: modifica el alpha en cada partícula (propiedad .alpha abajo)
-    const GOLD = ['#bf953f', '#d4a84b', '#fcf6ba', '#fffde8', '#ffffff', '#e8d5a3'];
-    const count = Math.min(80, Math.floor(W * H / 18000));
-
-    const particles = Array.from({ length: count }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: Math.random() * 1.2 + 0.3,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: -(Math.random() * 0.3 + 0.05),
-        color: GOLD[Math.floor(Math.random() * GOLD.length)],
-        alpha: Math.random() * 0.6 + 0.1,
-        blink: Math.random() * Math.PI * 2,
-        blinkSpeed: Math.random() * 0.02 + 0.005,
-    }));
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-        particles.forEach(p => {
-            p.blink += p.blinkSpeed;
-            const a = p.alpha * (0.5 + 0.5 * Math.sin(p.blink));
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.globalAlpha = a;
-            ctx.fill();
-
-            p.x += p.vx;
-            p.y += p.vy;
-            if (p.y < -5) { p.y = H + 5; p.x = Math.random() * W; }
-            if (p.x < -5) p.x = W + 5;
-            if (p.x > W + 5) p.x = -5;
-        });
-        ctx.globalAlpha = 1;
-        requestAnimationFrame(draw);
-    }
-    draw();
+            <div class="countdown-unit"><span class="countdown-number">${d}</span><span class="countdown-label">Días</span></div>
+            <div class="countdown-unit"><span class="countdown-number">${h}</span><span class="countdown-label">Hrs</span></div>
+            <div class="countdown-unit"><span class="countdown-number">${m}</span><span class="countdown-label">Min</span></div>
+            <div class="countdown-unit"><span class="countdown-number">${s}</span><span class="countdown-label">Seg</span></div>
+        `;
+    }, 1000); // El "1000" significa que todo esto se repite cada segundo exacto
 }

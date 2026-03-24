@@ -1,727 +1,1124 @@
-/* ═══════════════════════════════════════════════
-   XV AÑOS – JENNIFER ARLETE
-   Diseño: Elegante · Azul Marino · Dorado Real
-   ═══════════════════════════════════════════════ */
-
+/* --- VARIABLES: COLORES QUE USAREMOS EN TODA LA INVITACIÓN --- */
 :root {
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #1 — COLORES DE FONDO                               │
-       │  Qué afecta: el color base de TODA la página y las tarjetas │
-       │  Antes: azules medios (#1e3c72 / #2a5298)                   │
-       │  Ahora: azul marino profundo, casi negro (#002366 / #001845)│
-       │  Para cambiarlo manualmente: modifica --bg-deep y --bg-mid  │
-       └─────────────────────────────────────────────────────────────┘ */
-    --bg-deep:      #002366;   /* ← CAMBIO #1: fondo más oscuro y profundo */
-    --bg-mid:       #001845;   /* ← CAMBIO #1: capa intermedia aún más oscura */
-    --bg-card:      #001e50;   /* ← CAMBIO #1: fondo de la tarjeta/pase */
-
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #2 — PALETA DORADA (acentos principales)            │
-       │  Qué afecta: líneas decorativas, bordes, botones, íconos,   │
-       │              monograma, flechas, brillos y destellos         │
-       │  Antes: tonos azul acero / azul cielo                       │
-       │  Ahora: dorado rico, igual al proyecto original de Jennifer  │
-       │  Para cambiarlo: modifica las 4 variables --gold-*           │
-       └─────────────────────────────────────────────────────────────┘ */
-    --gold-dim:     #bf953f;   /* ← CAMBIO #2: dorado oscuro/apagado */
-    --gold-main:    #d4a84b;   /* ← CAMBIO #2: dorado principal */
-    --gold-bright:  #fcf6ba;   /* ← CAMBIO #2: dorado muy brillante / casi blanco oro */
-    --gold-pale:    #fffde8;   /* ← CAMBIO #2: dorado pálido para fondos suaves */
-
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #3 — COLORES DE TEXTO                               │
-       │  Qué afecta: texto principal, texto secundario y texto tenue │
-       │  Antes: tonos azulados (#e8f4fb / #a8c8de / #4a7090)        │
-       │  Ahora: blanco limpio + crema dorada + café dorado apagado   │
-       └─────────────────────────────────────────────────────────────┘ */
-    --white:        #ffffff;
-    --off-white:    #fdf8ee;   /* ← CAMBIO #3: blanco cálido con toque dorado */
-    --text-body:    #c9b87a;   /* ← CAMBIO #3: texto secundario dorado suave */
-    --text-dim:     #7a6a3a;   /* ← CAMBIO #3: texto tenue color café dorado */
-
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #4 — BORDES                                         │
-       │  Qué afecta: bordes de tarjeta, acordeones, badges, sellos  │
-       │  Antes: azul translúcido                                     │
-       │  Ahora: dorado translúcido                                   │
-       └─────────────────────────────────────────────────────────────┘ */
-    --border-gold:  rgba(212,168,75,0.28);  /* ← CAMBIO #4 */
-    --border-light: rgba(255,255,255,0.05);
-
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #5 — COLORES DEL PERGAMINO INTERIOR                 │
-       │  Qué afecta: la sección que se despliega al abrir invitación │
-       │  Antes: fondo blanco azulado, texto azul                     │
-       │  Ahora: fondo crema cálida, texto marrón oscuro elegante     │
-       └─────────────────────────────────────────────────────────────┘ */
-    --scroll-bg:    #fdf6e3;   /* ← CAMBIO #5: fondo pergamino color crema */
-    --scroll-text:  #2a1f0a;   /* ← CAMBIO #5: texto pergamino marrón oscuro */
-    --scroll-dim:   #7a5f2a;   /* ← CAMBIO #5: texto secundario del pergamino */
-
-    --transition:   all 0.6s cubic-bezier(0.4,0,0.2,1);
+    /* --- NUEVA PALETA DE COLORES CENICIENTA --- */
+    --azul-cenicienta-oscuro: #1e3c72; /* Un azul marino más suave para el fondo */
+    --azul-cenicienta-fondo: #2a5298; /* Azul base para el degradado */
+    
+    /* TUS COLORES DE VESTIDO EXACTOS */
+    --azul-cenicienta-fuerte: #84b6f4; 
+    --azul-cenicienta-claro: #c4dafa; 
+    
+    /* DETALLES MÁGICOS (REEMPLAZO DE DORADO) */
+    --plata-vieja: #a8a8a8; 
+    --plata-brillante: #e0e0e0; /* Para bordes y destellos */
+    --magic-white: #ffffff; /* Para confeti y textos */
+    --texto-cenicienta: #1a3a5f; /* Azul elegante para el pergamino */
+    
+    --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── RESET & BASE ───────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
+/* --- CONFIGURACIÓN DE LA PANTALLA --- */
+* { 
+    box-sizing: border-box; /* Cambia "spacing" por "sizing" */
+    margin: 0; 
+    padding: 0; 
+}
 
 body {
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #6 — GRADIENTE DE FONDO DEL BODY                   │
-       │  Qué afecta: la atmósfera visual de toda la página          │
-       │  Antes: destellos azul medio                                │
-       │  Ahora: destellos azul marino profundo + toque dorado sutil │
-       └─────────────────────────────────────────────────────────────┘ */
-    background: var(--bg-deep);
-    background-image:
-        radial-gradient(ellipse 90% 55% at 50% 0%,  rgba(0,20,60,0.85) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 40% at 15% 100%, rgba(0,10,40,0.7) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 35% at 90% 60%,  rgba(180,140,30,0.06) 0%, transparent 55%); /* ← CAMBIO #6: destello dorado sutil en esquina */
-    color: var(--off-white);
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+    margin: 0; /* Quita espacios vacíos en las orillas de la pantalla */
+    display: flex; /* Activa un sistema para acomodar los objetos fácilmente */
+    justify-content: center; /* Centra la tarjeta de izquierda a derecha */
+    align-items: flex-start; /* Hace que la invitación empiece desde arriba del celular */
+    min-height: 100vh; /* Asegura que el fondo cubra todo el largo de la pantalla */
+    font-family: 'Montserrat', sans-serif; /* El tipo de letra principal */
+    background-color: var(--azul-profundo-fondo); /* Aplica el azul casi negro al fondo */
+    background-image: 
+        radial-gradient(circle at 50% 30%, rgba(132, 182, 244, 0.3) 0%, transparent 60%), 
+        linear-gradient(180deg, var(--azul-cenicienta-oscuro) 0%, var(--azul-cenicienta-fondo) 100%);
+    background-attachment: fixed;    
+    overflow-x: hidden; /* Evita que la pantalla se mueva hacia los lados */
+    padding-top: 20px; /* Deja un espacio arriba para que el pase no pegue al borde */
 }
 
-/* ── CANVAS PARTÍCULAS ──────────────────────── */
-#particleCanvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.6;
+h1, h2 { font-family: 'Cinzel Decorative', cursive; }
+
+/* --- EL FONDO CON ESTRELLAS --- */
+.stars-layer {
+    position: fixed; /* Mantiene las estrellas quietas aunque muevas la pantalla */
+    top: 0; /* Pega las estrellas al borde de arriba */
+    left: 0; /* Pega las estrellas al borde de la izquierda */
+    width: 100%; /* Cubre todo el ancho */
+    height: 100%; /* Cubre todo el alto */
+    z-index: -2; /* Las pone hasta atrás de todo el diseño */
+    background-image: 
+        radial-gradient(2px 2px at 15px 30px, var(--magic-white), rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 100px, var(--azul-cenicienta-claro), rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 120px 60px, var(--plata-brillante), rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 200px 180px, var(--magic-white), rgba(0,0,0,0)),
+        radial-gradient(4px 4px at 250px 50px, rgba(132, 182, 244, 0.4), rgba(0,0,0,0)),
+        radial-gradient(2.5px 2.5px at 300px 150px, var(--plata-vieja), rgba(0,0,0,0));    
+    background-size: 300px 300px; /* Repite el patrón de estrellas por toda la pantalla */
+    opacity: 0.6; /* Hace que las estrellas sean un poco transparentes */
+    animation: magicDust 12s infinite linear; /* Movimiento más lento y mágico */
+}
+@keyframes magicDust {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-300px) rotate(4deg); opacity: 0.4; }
 }
 
-/* ── BOTÓN MÚSICA ───────────────────────────── */
-.music-btn {
-    position: fixed;
-    top: 20px; right: 20px;
-    z-index: 9999;
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    background: rgba(0,10,30,0.85); /* ← CAMBIO #1 aplicado aquí: fondo más oscuro */
-    border: 1px solid var(--border-gold);
-    color: var(--gold-main);
-    cursor: pointer;
-    display: flex;
-    align-items: center; justify-content: center;
-    backdrop-filter: blur(8px);
-    transition: var(--transition);
-    opacity: 0;
-    visibility: hidden;
+/* --- LUCES BOKEH TEMÁTICAS --- */
+.bokeh-container { position: fixed; width: 100%; height: 100%; z-index: -1; }
+.bokeh-light {
+    position: absolute; border-radius: 50%;
+    /* Ahora brillan con el azul clarito */
+    background: radial-gradient(circle, rgba(196, 218, 250, 0.3) 0%, rgba(42, 82, 152, 0) 70%); 
+    animation: floatBokeh 25s infinite linear; opacity: 0;
 }
-.music-btn.visible { opacity: 1; visibility: visible; }
-.music-btn svg { width: 18px; height: 18px; }
-.music-btn:hover { border-color: var(--gold-bright); transform: scale(1.08); }
+.s-1 { width: 100px; height: 100px; left: 10%; top: 20%; animation-delay: 0s; }
+.s-2 { width: 150px; height: 150px; right: 15%; top: 40%; animation-delay: 5s; }
+.s-3 { width: 80px; height: 80px; left: 30%; bottom: 15%; animation-delay: 10s; }
+.s-4 { width: 120px; height: 120px; right: 5%; bottom: 30%; animation-delay: 15s; }
+.s-5 { width: 90px; height: 90px; left: 50%; top: 10%; animation-delay: 20s; }
 
-/* ── ESCENA PRINCIPAL ───────────────────────── */
-.scene {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 0 60px;
+
+
+/* Grupo 1: Se prenden y apagan cada 3 segundos */
+.stars-1 {
+    background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+                      radial-gradient(1.5px 1.5px at 100px 150px, #fff, rgba(0,0,0,0));
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+/* Grupo 2: Se prenden y apagan cada 5 segundos y empiezan después */
+.stars-2 {
+    background-image: radial-gradient(1px 1px at 50px 80px, #fff, rgba(0,0,0,0)),
+                      radial-gradient(2px 2px at 200px 100px, var(--oro-brillante), rgba(0,0,0,0));
+    animation: twinkle 5s infinite ease-in-out;
+    animation-delay: 1.5s; /* Esto hace que no parpadeen al mismo tiempo que las otras */
+}
+
+/* Animación del brillo */
+@keyframes twinkle {
+    0%, 100% { 
+        opacity: 0.2; /* Empieza con poco brillo */        
+    }
+    50% { 
+        opacity: 0.8; /* Se pone más brillante a la mitad */        
+    }
+}
+
+/* --- LAS LUCES QUE FLOTAN (Efecto Bokeh) --- */
+.bokeh-container { 
+    position: fixed; /* Se queda quieto en la pantalla */
+    top: 0; /* Arriba del todo */
+    left: 0; /* A la izquierda del todo */
+    width: 100%; /* Todo el ancho */
+    height: 100%; /* Todo el alto */
+    z-index: -1; /* Detrás de la tarjeta, pero adelante de las estrellas */
+}
+
+.bokeh-light {
+    position: absolute; /* Permite mover los círculos de luz libremente */
+    border-radius: 50%; /* Hace que la luz sea un círculo */
+    background: radial-gradient(circle, rgba(100, 181, 246, 0.3) 0%, rgba(0, 35, 102, 0) 70%); /* Luz azul esfumada */
+    animation: floatBokeh 25s infinite linear; /* Hace que suban lentamente */
+    opacity: 0; /* Empieza invisible */
+}
+
+/* Animación de subida de las luces */
+@keyframes floatBokeh {
+    0% { transform: translateY(100vh) scale(0.8); opacity: 0; } /* Empieza abajo de la pantalla */
+    20% { opacity: 0.6; } /* Se vuelve visible mientras sube */
+    100% { transform: translateY(-20vh) scale(1.2); opacity: 0; } /* Termina arriba de la pantalla */
+}
+
+/* --- 1. EL PASE DE CRISTAL ENCANTADO --- */
+.pass-container {
+    width: 100%; padding-top: 50px; cursor: pointer; transition: all 0.5s ease;
+}
+
+.invitation-wrapper.open .pass-container {
+    opacity: 0; transform: translateY(-100px) scale(0.8); pointer-events: none;
+}
+
+
+
+/* --- DISEÑO DE LA TARJETA (El Pase) --- */
+.glass-pass {
+    background: rgba(196, 218, 250, 0.15); /* Tinte azulado de Cenicienta */
+    backdrop-filter: blur(10px); /* Efecto de vidrio empañado */
+    -webkit-backdrop-filter: blur(10px); /* Lo mismo, pero para navegadores de iPhone */
+    border-radius: 20px; /* Redondea las esquinas de la tarjeta */
+    border: 2px solid var(--azul-cenicienta-claro); /* Borde color vestido */
+    padding: 15px; /* Espacio entre el borde de la tarjeta y el contenido */
+    border: 1px solid rgba(252, 226, 163, 0.4); /* La línea delgadita dorada del borde */
+    box-shadow: 0 0 30px rgba(132, 182, 244, 0.3); /* Resplandor azulado */
+    position: relative; overflow: hidden; /* Para la luz viajera */
+    width: 100%; /* Ocupa todo el ancho de su caja */
+    box-sizing: border-box; /* Asegura que los bordes no ensanchen la tarjeta */
+}
+
+/* --- EFECTO: LUZ VIAJERA PLATEADA/AZUL --- */
+.glass-pass::before {
+    content: ''; 
+    position: absolute; 
+    inset: -2px;
+    border-radius: 22px;
+    /* Aro de luz en el borde, sin cubrir el centro */
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg 300deg,
+        rgba(196, 218, 250, 0.95) 325deg 348deg,
+        rgba(255, 255, 255, 0.9) 349deg 360deg
+    );
+    animation: rotateBorder 6s linear infinite;
     z-index: 1;
-}
-
-/* ══════════════════════════════════════════════
-   PASE DE ENTRADA
-══════════════════════════════════════════════ */
-.pass-wrap {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 100;
-    transition: opacity 0.6s ease 0.8s, transform 0.6s ease 0.8s, visibility 0s linear 1.4s;
-}
-
-.scene.is-open .pass-wrap {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.95);
-    visibility: hidden;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    padding: 3px;
     pointer-events: none;
 }
+@keyframes rotateBorder { 100% { transform: rotate(360deg); } }
 
-.pass-card {
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #7 — FONDO Y BRILLO DE LA TARJETA DEL PASE         │
-       │  Qué afecta: la tarjeta principal que ven los invitados      │
-       │  Antes: destello azul suave                                  │
-       │  Ahora: destello dorado muy sutil + textura oscura           │
-       └─────────────────────────────────────────────────────────────┘ */
-    background: var(--bg-card);
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,160,40,0.07) 0%, transparent 70%), /* ← CAMBIO #7 */
-        url("https://www.transparenttextures.com/patterns/45-degree-fabric-dark.png");
-    border: 1px solid var(--border-gold);
-    border-radius: 4px;
-    width: 100%;
-    max-width: 420px;
-    padding: 36px 28px;
-    text-align: center;
-    position: relative;
-    box-shadow:
-        0 0 0 1px rgba(212,168,75,0.09),    /* ← CAMBIO #7: brillo dorado en el borde */
-        0 0 60px rgba(0,0,0,0.85),
-        0 0 120px rgba(200,160,40,0.06);    /* ← CAMBIO #7: halo dorado muy sutil */
+.pass-inner-border {
+    position: relative; z-index: 2; border-radius: 15px; padding: 35px 20px;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    border: 1px solid rgba(191, 149, 63, 0.2);
 }
 
-/* Esquinas decorativas del pase */
-.pass-card::before,
-.pass-card::after {
-    content: '';
-    position: absolute;
-    width: 20px; height: 20px;
-    border-color: var(--gold-dim); /* ← CAMBIO #2 aplicado: esquinas doradas */
-    border-style: solid;
+.pass-inner-border {
+    position: relative; z-index: 2; /* Por encima de la luz viajera */
+    border: 1px solid rgba(224, 224, 224, 0.3); /* Borde interno plateado sutil */
+    border-radius: 15px; padding: 20px; background: rgba(0, 26, 51, 0.3);
 }
-.pass-card::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
-.pass-card::after  { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+.pass-guest-section { text-align: center; margin-bottom: 25px; }
 
-.pass-ornament svg { width: 100%; display: block; overflow: visible; }
-.top-ornament { margin-bottom: 20px; }
-.bottom-ornament { margin: 20px 0 24px; }
 
-.pass-guest-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 4px;
-    color: var(--gold-dim); /* ← CAMBIO #2 aplicado: etiqueta dorada */
-    text-transform: uppercase;
-    margin-bottom: 8px;
+
+.pass-inner-border {
+    position: relative; z-index: 2; /* Por encima de la luz viajera */
+    border: 1px solid rgba(224, 224, 224, 0.3); /* Borde interno plateado sutil */
+    border-radius: 15px; padding: 20px; background: rgba(0, 26, 51, 0.3);
 }
 
-.pass-guest-name {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(1rem, 5vw, 1.3rem);
-    font-weight: 600;
-    color: var(--white);
-    letter-spacing: 2px;
-    line-height: 1.3;
-    text-shadow: 0 0 30px rgba(212,168,75,0.25); /* ← CAMBIO #2: halo dorado en nombre */
-    margin-bottom: 10px;
-    word-break: break-word;
+/* El recuadro interno del pase */
+.pass-inner-border {
+    border: 1px solid rgba(191, 149, 63, 0.25); /* Línea dorada interna */
+    border-radius: 15px; /* Esquinas redondeadas del marco interno */
+    padding: 40px 25px; /* Espacio para que el texto no pegue al marco */
+    display: flex; /* Activa el ordenamiento vertical */
+    flex-direction: column; /* Pone los elementos uno debajo de otro */
+    align-items: center; /* Centra todo el contenido */
+    gap: 25px; /* Separa los bloques de texto automáticamente */
+    height: auto; /* Se ajusta solo al largo del texto */
+    box-sizing: border-box; /* Mantiene el tamaño exacto */
 }
 
-.pass-pases-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border: 1px solid var(--border-gold); /* ← CAMBIO #4: borde dorado */
-    border-radius: 2px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    color: var(--gold-main); /* ← CAMBIO #2 */
-    margin-bottom: 20px;
-}
-.pass-pases-badge span:first-child { color: var(--gold-bright); font-weight: 600; }
-.badge-text { opacity: 0.7; }
-
-.pass-divider {
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-main), transparent); /* ← CAMBIO #2: línea divisoria dorada */
-    margin: 0 auto 20px;
+/* El contenedor principal de la tarjeta */
+.pass-container {
+    position: fixed; /* Se queda al centro de la pantalla */
+    top: 50%; /* 50% desde arriba */
+    left: 50%; /* 50% desde la izquierda */
+    transform: translate(-50%, -50%); /* Centrado matemático perfecto */
+    z-index: 100; /* Lo pone encima del fondo */
+    cursor: default; /* Cambia el ratón por una mano al pasar por encima */
+    width: 92%; /* Ancho en celulares */
+    max-width: 500px; /* Ancho máximo en computadoras */
+    height: auto; /* Altura flexible */
+    transition: opacity 0.5s ease 1.7s, transform 0.5s ease 1.7s, visibility 0s linear 1.7s; /* Controla cómo desaparece al abrir la invitación */
 }
 
-.pass-monogram {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 6px;
-    color: var(--gold-dim); /* ← CAMBIO #2 */
-    margin-bottom: 6px;
+/* --- SECCIÓN DEL NOMBRE DEL INVITADO --- */
+.pass-guest-section { 
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Todo el ancho disponible */
+    display: flex; /* Sistema de acomodo */
+    flex-direction: column; /* Texto uno sobre otro */
+    align-items: center; /* Centrado horizontal */
 }
 
-.pass-name {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(2.4rem, 10vw, 3.2rem);
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #8 — DEGRADADO DEL NOMBRE PRINCIPAL                 │
-       │  Qué afecta: el nombre "Jennifer Arlete" en el pase y en    │
-       │              el pergamino interior                           │
-       │  Antes: degradado de blanco → azul cielo                    │
-       │  Ahora: degradado de blanco → dorado brillante → dorado rico│
-       └─────────────────────────────────────────────────────────────┘ */
-    background: linear-gradient(170deg, #ffffff 0%, var(--gold-bright) 40%, var(--gold-main) 70%, var(--gold-dim) 100%); /* ← CAMBIO #8 */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 10px rgba(212,168,75,0.4)); /* ← CAMBIO #8: sombra dorada */
-    line-height: 1.2;
-    margin-bottom: 6px;
+/* Etiqueta "PASE VÁLIDO PARA" */
+.pass-label { 
+    display: block; /* Ocupa su propio renglón */
+    color: var(--azul-cenicienta-claro); font-weight: 600; /* Texto color vestido */
+    font-size: 0.75rem; /* Letra pequeñita */
+    letter-spacing: 3px; /* Separa las letras para elegancia */
+    margin-bottom: 15px; /* Espacio hacia abajo */
 }
 
-.pass-title-text {
-    font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
-    letter-spacing: 6px;
-    color: var(--gold-dim); /* ← CAMBIO #2 */
-    text-transform: uppercase;
-    margin-bottom: 16px;
+/* El nombre de la familia o persona */
+.guest-name { 
+    color: #ffffff; /* Letra blanca */    
+    font-family: 'Montserrat', sans-serif; /* Tipo de letra legible */
+    font-size: 1.4rem; /* Tamaño de letra mediano */
+    font-weight: 600; /* Letra un poco gruesa */
+    text-shadow: 0 0 5px rgba(255,255,255,0.5); /* Sombra negra para que resalte del fondo */
+    word-wrap: break-word; /* Rompe palabras largas si no caben */
+    line-height: 1.2; /* Espacio entre renglones si el nombre es largo */
+    margin: 5px 0; /* Margen inferior */
+    border-bottom: none !important; /* Quita cualquier línea de abajo */
 }
 
-/* Cuenta Regresiva */
-.countdown-row {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
+/* La burbuja del número de personas */
+.guest-count-badge {
+    display: inline-block; /* Se ajusta al ancho del texto */
+    padding: 5px 15px; /* Espacio adentro de la burbuja */
+    border-radius: 20px; /* Bordes redondos de la burbuja */
+    border: 1px solid var(--plata-vieja); /* Borde plateado */ /* Línea dorada del contorno */
+    background: rgba(132, 182, 244, 0.2); /* Fondo dorado transparente */
+    color: var(--azul-cenicienta-claro); /* Texto color vestido */
+    font-size: 0.8rem; /* Tamaño de letra de los pases */
+    margin-top: 5px; /* Espacio extra arriba */
 }
 
-.c-unit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 44px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border-gold); /* ← CAMBIO #4: borde dorado en cuadritos */
-    border-radius: 3px;
-    padding: 8px 6px 6px;
+/* --- TÍTULO: JENNIFER ARLETE --- */
+.pass-main-title { 
+    text-align: center; /* Centra el nombre */
+    margin-bottom: 30px; 
+
 }
-.c-num {
-    font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
-    color: var(--gold-bright); /* ← CAMBIO #2: números del contador dorados */
-    font-weight: 600;
+
+.pass-title { 
+    font-family: 'Great Vibes'; /* Letra cursiva elegante */
+    font-size: 3.5rem; /* Tamaño de letra muy grande */
+    color: #ffffff; /* Letra blanca */
+    margin: 0; /* Sin espacios extra */
+    text-shadow: 0 0 10px rgba(132, 182, 244, 0.5); /* Brillo azul */
+}
+
+/* El texto "MIS XV AÑOS" */
+.pass-subtitle {
+    font-family: 'Cinzel Decorative'; /* Letra tipo grabada */
+    color: var(--plata-vieja); /* Plata vieja */
+    font-size: 0.8rem; /* Tamaño moderado */
+    letter-spacing: 3px; /* Letras separadas */
+    display: block; /* Renglón único */
+    width: 100%; /* Todo el ancho */
+    text-align: center; /* Centrado */
+    margin: 5px 0 25px 0; /* Espacios arriba y abajo */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8); /* Sombra para legibilidad */
+}
+
+/* Reloj Cuenta Regresiva Plateado/Azul */
+.countdown-display { margin-top: 15px; color: var(--plata-brillante); }
+.countdown-number { font-weight: 600; font-size: 1.1rem; color: #ffffff; }
+.countdown-label { font-size: 0.7rem; color: var(--azul-cenicienta-claro); margin-right: 5px; }
+
+
+/* --- CUADRÍCULA DE DATOS (Fecha, Hora) --- */
+/* CUADRÍCULA 2X2 PARA ORDEN PERFECTO */
+.pass-info-grid {
+    display: grid; /* Activa la cuadrícula */
+    grid-template-columns: 1fr 1fr; /* Divide en 3 columnas iguales */
+    width: 100%; /* Todo el ancho */
+    border-top: 1px solid rgba(191, 149, 63, 0.2); /* Línea divisoria de arriba */
+    padding-top: 25px; /* Espacio después de la línea */
+    gap: 15px; /* Espacio entre columnas */
+    margin-bottom: 30px;
+}
+
+.pass-data-item { 
+    text-align: center; /* Centra cada dato */
+    background: rgba(132, 182, 244, 0.1); 
+    padding: 10px; 
+    border-radius: 8px;
+}
+
+/* Los títulos "FECHA", "HORA" */
+.pass-data-item span { 
+    color: var(--azul-cenicienta-claro); /* Dorado claro */
+    font-size: 0.7rem; /* Letra chiquita */
+    letter-spacing: 1px; /* Letras poco separadas */
+    display: block; /* Renglón solo para esto */
+    font-weight: 600; /
+}
+
+/* El dato real (como "19.12.26") */
+.pass-data-item p { 
+    color: #ffffff; /* Letra blanca */
+    margin-top: 3px; /* Espacio arriba del número */
+    font-size: 1rem; /* Tamaño estándar */
+    font-weight: 600; /* Letra negrita */
+}
+
+.finish-msg {
+    color: var(--azul-cenicienta-claro); font-weight: 700; font-size: 1.2rem;
+    text-shadow: 0 0 10px var(--azul-cenicienta-fuerte); animation: glow 2s infinite alternate;
+}
+
+
+/* --- EL BOTÓN DORADO --- */
+.pass-action-btn {
+    background: linear-gradient(135deg, var(--plata-vieja), var(--plata-brillante)); /* Color dorado tipo metal */
+    color: #1a3a5f; /* Letras azul oscuro */
+    text-align: center; 
+    padding: 15px; /* Tamaño del botón */
+    border-radius: 10px; /* Botón con forma de cápsula */
+    font-weight: 700; /* Letra muy gruesa */
+    font-size: 0.9rem; /* Tamaño de letra del botón */
+    text-transform: uppercase; /* Todo en MAYÚSCULAS */
+    margin-top: 10px; /* Separación de lo de arriba */
+    box-shadow: 0 0 15px rgba(224, 224, 224, 0.5); /* Brillo plateado */
+    animation: pulsePlata 2s infinite;/* Activa el parpadeo del brillo */
+    cursor: pointer; /* Ahora solo el botón mostrará que se puede cliquear */
+}
+
+/* Animación del brillo del botón */
+@keyframes glow { 
+    from { 
+        transform: scale(1); /* Tamaño normal */
+        box-shadow: 0 0 20px var(--oro-rico); /* Brillo inicial */
+    }
+    to { 
+        transform: scale(1.05); /* Se infla un poco */
+        box-shadow: 0 0 40px var(--oro-brillante); /* Brillo máximo */
+    }
+}
+
+@keyframes pulsePlata { 0% { box-shadow: 0 0 0 0 rgba(224, 224, 224, 0.7); } 70% { box-shadow: 0 0 15px 10px rgba(224, 224, 224, 0); } 100% { box-shadow: 0 0 0 0 rgba(224, 224, 224, 0); } }
+
+
+/* --- EL PAPEL (Pergamino) --- */
+.parchment {
+    max-width: 500px; /* Ancho máximo para que no se estire */
+    width: 90%; /* Ancho en celulares */
+    margin: 40px auto; /* Centra el papel y le da aire arriba y abajo */
+    padding: 0 50px; /* Espacio lateral adentro del papel */
+    background-color: #fdfaf2; /* Color crema tipo papel viejo */
+    background-image: url("https://www.transparenttextures.com/patterns/linen.png"); /* Textura de tela fina */
+    border-radius: 4px; /* Esquinas apenas redondeadas */
+    border-left: 12px double var(--azul-imperial); /* Doble línea azul a la izquierda */
+    border-right: 12px double var(--azul-imperial); /* Doble línea azul a la derecha */
+    border: 1px solid rgba(191, 149, 63, 0.2); /* Borde sutil exterior */
+    max-height: 0; /* Empieza cerrado (sin altura) */
+    opacity: 0; /* Empieza invisible */
+    overflow: hidden; /* Oculta el texto mientras está cerrado */
+    transition: var(--transicion-lenta); /* El tiempo que tarda en abrirse */
+    text-align: center; /* Centra todos los textos del papel */
+    position: relative; /* Permite acomodar adornos adentro */
+    box-sizing: border-box; /* Tamaño exacto */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.2); /* Sombra muy oscura del papel */
+    
+}
+
+/* El marco dorado delgadito adentro del papel */
+.parchment::before {
+    content: ''; /* Obligatorio para crear el recuadro */
+    position: absolute; /* Se acomoda respecto al papel */
+    top: 15px; bottom: 15px; left: 15px; right: 15px; /* Separación del borde */
+    border: 2px solid rgba(191, 149, 63, 0.3); /* La línea dorada del marco */
+    pointer-events: none; /* Ignora toques para que no estorbe al dar clic */
+    z-index: 1; /* Encima del color crema */
+}
+
+/* Cuando abres la invitación */
+.invitation-wrapper.open .parchment { 
+    max-height: 5000px; /* Se expande hacia abajo */
+    opacity: 1; /* Se vuelve visible */
+    padding: 80px 50px; /* Espacio interno cuando ya está abierto */
+}
+
+
+/* Elementos que aparecen poco a poco */
+.intro-text, .parents, .celebration-msg, .anim-wrapper, 
+.accordion-item, .final-msg, .gold-line-bottom, .close-seal-wrapper {
+    opacity: 0; /* Inician invisibles */
+}
+
+/* Animación de subida suave */
+@keyframes revealUp {
+    from { 
+        opacity: 0; /* Inicia invisible */
+        transform: translateY(20px); /* Inicia un poco más abajo */
+    }
+    to { 
+        opacity: 1; /* Termina visible */
+        transform: translateY(0); /* Termina en su lugar real */
+    }
+}
+
+/* Activa la animación en cascada para todos los textos */
+.invitation-wrapper.open .intro-text,
+.invitation-wrapper.open .parents,
+.invitation-wrapper.open .celebration-msg, 
+.invitation-wrapper.open .anim-wrapper,
+.invitation-wrapper.open .accordion-item,
+.invitation-wrapper.open .final-msg,
+.invitation-wrapper.open .gold-line-bottom,
+.invitation-wrapper.open .close-seal-wrapper { 
+    animation: revealUp 1.2s ease-out both; /* Aplica la subida suave */
+}
+
+/* Animación para que el nombre se mueva de forma especial */
+.invitation-wrapper.open .anim-wrapper {
+    animation: revealUp 1.2s ease-out forwards; /* Se queda fijo al terminar */
+    animation-delay: 1.4s; /* Espera un poco antes de salir */
+}
+
+/* Esconde la tarjeta del pase cuando el pergamino baja */
+.invitation-wrapper.open .pass-container {
+    opacity: 0; /* Desaparece */
+    transform: translate(-50%, -50%) scale(0.9); /* Se hace un poquito más chica al irse */
+    pointer-events: none; /* No se puede tocar mientras no se vea */
+    visibility: hidden; /* Oculto para el sistema */
+    transition: opacity 0.4s ease 0s, transform 0.4s ease 0s, visibility 0s linear 0s; /* Se va rápido sin esperar */
+}
+
+/* Retrasos para que las cosas salgan una tras otra (efecto cascada) */
+.invitation-wrapper.open .intro-text { animation-delay: 0.8s; } /* El primer texto */
+.invitation-wrapper.open .parents { animation-delay: 1.1s; } /* Los nombres de los papás */
+.invitation-wrapper.open .celebration-msg { animation-delay: 1.3s; } /* El mensaje de invitación */
+.invitation-wrapper.open .anim-wrapper { animation-delay: 1.6s; } /* Tu nombre grande */
+.invitation-wrapper.open .accordion-item:nth-child(1) { animation-delay: 1.9s; } /* Primera cajita (Iglesia) */
+.invitation-wrapper.open .accordion-item:nth-child(2) { animation-delay: 2.2s; } /* Segunda cajita (Fiesta) */
+.invitation-wrapper.open .accordion-item:nth-child(3) { animation-delay: 2.5s; } /* Tercera cajita (Vestimenta) */
+.invitation-wrapper.open .accordion-item:nth-child(4) { animation-delay: 2.8s; } /* Cuarta cajita (Confirmar) */
+.invitation-wrapper.open .final-msg { animation-delay: 3.1s; } /* El mensaje final */
+.invitation-wrapper.open .gold-line-bottom { animation-delay: 3.4s; } /* La línea dorada de abajo */
+.invitation-wrapper.open .close-seal-wrapper { animation-delay: 3.7s; } /* El botón de cerrar */
+
+/* --- LAS CAJAS QUE SE ABREN (Acordeón) --- */
+.accordion-container { 
+    width: 100%; /* Todo el ancho */
+    margin: 20px 0; /* Separación arriba y abajo */
+    box-sizing: border-box; /* Tamaño exacto */
+}
+.accordion-item { 
+    margin-bottom: 15px; /* Espacio entre cada cajita */
+    border-radius: 12px; /* Esquinas redondas de las cajitas */
+    overflow: hidden; /* Corta lo que se salga al estar cerrada */
+    width: 100%; /* Todo el ancho */
+}
+
+/* Mensaje del medio */
+.celebration-msg {
+    margin: 40px 0; /* Espacio generoso */
+    color: #444; /* Gris oscuro para leer bien en el papel crema */
+}
+
+/* Texto de la introducción */
+.intro-text {
+    font-size: 0.95rem; /* Tamaño de letra legible */
+    line-height: 2; /* Espacio doble entre renglones */
+    max-width: 85%; /* No llega a las orillas */
+    margin: 20px auto; /* Centrado con aire arriba y abajo */
+    color: #444; /* Gris oscuro */
+    font-style: normal; /* Letra normal (no inclinada) */
+    text-align: center; /* Centrado */
+}
+
+/* Línea plateada de arriba con destellos */
+.magic-line-top {
+    height: 3px; background: linear-gradient(to right, transparent, var(--plata-brillante), transparent);
+    width: 80%; margin: 0 auto 30px auto; position: relative;
+}
+.magic-line-top::before { content: '✨'; position: absolute; top: -10px; left: calc(50% - 10px); font-size: 1.2rem; }
+
+/* Textos Generales: Azul Cenicienta Elegante */
+.intro-text, .celebration-msg, .final-msg {
+    font-size: 0.9rem; line-height: 1.8; color: var(--texto-cenicienta); margin-bottom: 25px;
+}
+
+/* Nombres de los Padres: Azul Fuerte */
+.parents { color: var(--azul-cenicienta-fuerte); font-weight: 600; margin-bottom: 20px; font-size: 0.85rem; }
+.parent-name { display: block; }
+.ampersand { font-family: 'Cinzel Decorative', cursive; color: var(--plata-vieja); font-size: 1.2rem; margin: 5px 0; }
+
+/* Tu nombre completo - Flotando con brillo plateado/azul */
+.anim-wrapper { margin: 30px 0; animation: floatCenicienta 5s ease-in-out infinite; }
+
+
+/* TU NOMBRE: JENNIFER ARLETE */
+.princess-name {
+    font-family: 'Great Vibes', cursive; /* Letra de princesa */
+    font-size: clamp(2rem, 8vw, 3.8rem); /* Se encoge en celulares y crece en PC */
+    background: linear-gradient(to right, #b8860b, #fce2a3, #b8860b); /* Color dorado metálico con brillo */
+    -webkit-background-clip: text; /* Aplica el dorado solo a las letras */
+    background-clip: text; /* Lo mismo para otros navegadores */
+    -webkit-text-fill-color: transparent; /* Hace que el relleno sea transparente para ver el dorado */
+    margin: 10px 0; /* Aire arriba y abajo del nombre */
+    filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2)); /* Sombra suave debajo del nombre */
+    animation: floating 3s ease-in-out infinite; /* Activa el movimiento de flotar */
+    line-height: 1.1; /* No deja mucho espacio entre renglones del nombre */
+    display: block; /* Renglón único */
+    width: 100%; /* Todo el ancho */
+       
+}
+/* Animación de flotar */
+@keyframes floatCenicienta { 
+    0%, 100% { transform: translateY(0); } 
+    50% { transform: translateY(-8px); } }
+
+/* --- CAJITAS DE INFORMACIÓN (ACORDEÓN MÁGICO) --- */
+.accordion-container { width: 100%; margin-bottom: 30px; }
+
+/* Los nombres de tus padres */
+.parents {
+    display: flex; /* Activa el acomodo */
+    flex-direction: column; /* Nombres uno sobre otro */
+    align-items: center; /* Centrados */
+    font-family: 'Montserrat', sans-serif; /* Letra moderna */
+    font-weight: 600; /* Letra negrita */
+    font-size: 1.2rem; /* Tamaño mediano */
+    color: var(--azul-imperial); /* Color azul oscuro */
+    text-transform: uppercase; /* Todo en MAYÚSCULAS */
+    margin: 40px 0; /* Aire arriba y abajo */
+}
+
+/* Estilo de los encabezados (como CEREMONIA) */
+h2 { 
+    font-family: 'Cinzel Decorative'; /* Letra grabada */
+    color: var(--oro-rico); /* Dorado oscuro */
+    border-bottom: 1px solid var(--oro-rico); /* Línea dorada debajo del título */
+    font-size: 1.1rem; /* Tamaño mediano */
+    display: inline-block; /* La línea de abajo solo mide lo que el texto */
+    margin-bottom: 10px; /* Separación del texto de abajo */
+    margin-top: 0; /* Sin espacio arriba */
+}
+
+/* BOTONES DE UBICACIÓN (VER MAPA) */
+.btn-glass-gold {
+    text-decoration: none; /* Quita el subrayado del link */
+    display: inline-block; /* Ocupa solo el espacio necesario */
+    padding: 12px 30px; /* Tamaño del botón */
+    margin-top: 15px; /* Espacio arriba del botón */
+    background: rgba(255, 255, 255, 0.05); /* Fondo casi invisible */
+    backdrop-filter: blur(10px); /* Efecto vidrio */
+    -webkit-backdrop-filter: blur(10px); /* Vidrio para iPhone */
+    border: 2px solid var(--oro-rico); /* Contorno dorado */
+    border-radius: 50px; /* Redondo en las puntas */
+    color: var(--azul-imperial); /* Letra azul oscuro */
+    font-weight: 600; /* Letra negrita */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3), inset 0 0 10px rgba(191, 149, 63, 0.2); /* Sombras externa e interna */
+    transition: all 0.4s ease; /* Suaviza el cambio al tocarlo */
+}
+
+/* Al pasar el dedo por el botón */
+.btn-glass-gold:hover {
+    transform: translateY(-5px); /* Se eleva un poquito */
+    box-shadow: 0 15px 25px rgba(0,0,0,0.4); /* Sombra más grande */
+    border-color: var(--oro-brillante); /* El borde brilla */
+}
+
+.confirm { 
+    background: var(--azul-imperial); /* Fondo azul oscuro */
+    color: var(--oro-brillante); /* Letra dorada clara */
+}
+
+/* Líneas doradas con la estrellita ✦ */
+.gold-line-top, .gold-line-bottom {
+    height: 1px; /* Línea muy finita */
+    background: linear-gradient(to right, transparent, var(--oro-rico), transparent); /* Se desvanece a los lados */
+    margin: 40px auto; /* Centrado con espacio arriba y abajo */
+    width: 70%; /* No llega a los bordes del papel */
+    position: relative; /* Permite acomodar la estrella en medio */
+}
+
+/* El adorno de la estrellita ✦ en la línea */
+.gold-line-top::after, .gold-line-bottom::after {
+    content: '✦'; /* Dibuja la estrellita */
+    position: absolute; /* La acomoda en un lugar exacto */
+    top: 50%; /* La pone a la mitad de la línea */
+    left: 50%; /* La pone a la mitad del ancho */
+    transform: translate(-50%, -50%); /* Centrado exacto */
+    color: var(--oro-rico); /* Estrella dorada oscura */
+    background-color: #fdfaf2; /* Recuadro crema para que no cruce la línea la estrella */
+    padding: 0 15px; /* Espacio a los lados de la estrella */
+    font-size: 1.2rem; /* Tamaño de la estrella */
+    z-index: 2; /* Encima de la línea */
+}
+
+/* Cuadro del Código de Vestimenta */
+.dress-code-card { 
+    background: rgba(0, 35, 102, 0.03); /* Fondo azul súper clarito */
+    padding: 20px; /* Aire adentro del cuadro */
+    border-radius: 15px; /* Esquinas redondas */
+    margin: 30px 0; /* Separación de otras secciones */
+    border: 1px dashed rgba(191, 149, 63, 0.3); /* Línea punteada dorada */
+}
+
+/* Aviso para reservar el azul */
+.blue-notice {
+    color: var(--azul-imperial); /* Letra azul elegante */
+    font-weight: 600; /* Letra negrita */
+    font-size: 0.9rem; /* Tamaño legible */
+    display: block; /* Renglón solo */
+    margin-top: 15px; /* Separación de arriba */
+    letter-spacing: 1px; /* Letras un poquito separadas */
+}
+
+section { 
+    margin: 20px 0 60px 0; /* Separa los bloques de información */
+}
+
+/* El círculo para cerrar la invitación */
+.close-seal-wrapper { 
+    display: flex; /* Activa el sistema de centrado */
+    justify-content: center; /* Centra el botón de izquierda a derecha */
+    align-items: center; /* Centra el botón de arriba a abajo */
+    margin: 30px auto 10px; /* Aire alrededor */
+    cursor: pointer; /* Mano al pasar el dedo */
+}
+
+.accordion-item { border: 1px solid rgba(168, 168, 168, 0.3); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+
+/* Estilo del botón "CERRAR" (tipo sello) */
+.wax-seal.final-seal {
+    width: 85px; /* Ancho del círculo */
+    height: 85px; /* Alto del círculo */
+    border: 3px solid #c4dafa; /* Contorno dorado grueso */
+    background: radial-gradient(circle at 30% 30%, #84b6f4, #001a33); /* Fondo azul con brillo */
+    border-radius: 50%; /* Lo hace un círculo perfecto */
+    display: flex; /* Activa el orden de adentro */
+    flex-direction: column; /* "XV" arriba y "CERRAR" abajo */
+    justify-content: center; /* Centrado vertical */
+    align-items: center; /* Centrado horizontal */
+    gap: 0px; /* Separación entre el XV y la palabra */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Sombra y brillo interno */
+    transition: transform 0.3s ease; /* Suavidad al tocar */
+}
+
+/* Al tocar el botón cerrar */
+.wax-seal.final-seal:hover {
+    transform: scale(1.05);
+}
+
+/* El "XV" dentro del sello */
+.wax-seal.final-seal .seal-inner span {
+    color: #ffffff; /* Dorado claro */
+    font-size: 1.8rem; /* Tamaño grande */
+    font-family: 'Cinzel Decorative', serif; /* Letra de gala */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Sombra para profundidad */
     line-height: 1;
 }
-.c-lbl {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.5rem;
-    letter-spacing: 1.5px;
-    color: var(--gold-dim); /* ← CAMBIO #2: etiquetas del contador doradas */
-    text-transform: uppercase;
-    margin-top: 4px;
+
+/* La palabra "CERRAR" */
+.wax-seal.final-seal .seal-text {
+    color: #c4dafa; /* Azul clarito para que resalte */
+    font-size: 0.65rem; /* Letra chiquita */
+    font-weight: bold; /* Letra gruesa */
+    letter-spacing: 2px; /* Letras separadas */
+    margin-top: -2px; /* Ajuste para acercarlo un poco al XV */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* Sombra suave */
 }
 
-/* Cuadrícula de datos */
-.pass-meta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 4px;
+/* Las cajitas que se abren (Acordeón) */
+.accordion-container { 
+    width: 100%; /* Todo el ancho */
+    margin: 20px 0; /* Aire arriba y abajo */
+}
+.accordion-item { 
+    margin-bottom: 15px; /* Espacio entre cajitas */
+    border-radius: 12px; /* Esquinas redondas */
+    overflow: hidden; /* No muestra lo que hay adentro hasta abrirla */
 }
 
-.meta-item {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
-    border-radius: 3px;
-    padding: 10px 8px;
-}
-.meta-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.5rem;
-    letter-spacing: 2px;
-    color: var(--gold-dim); /* ← CAMBIO #2 */
-    text-transform: uppercase;
-    margin-bottom: 4px;
-}
-.meta-val {
-    font-family: 'Cinzel', serif;
-    font-size: 0.85rem;
-    color: var(--white);
-    font-weight: 400;
+/* El encabezado de cada cajita (Donde tocas) */
+.accordion-header {
+    background: linear-gradient(to right, var(--azul-cenicienta-fuerte), var(--azul-cenicienta-claro)); /* Degradado del color del vestido */
+    border: 1px solid var(--oro-rico); /* Contorno dorado */
+    padding: 15px 20px; /* Espacio adentro del botón */
+    display: flex; /* Activa el orden horizontal */
+    justify-content: space-between; /* Texto a la izquierda, flecha a la derecha */
+    align-items: center; /* Centrado vertical */
+    cursor: pointer; /* Mano al tocar */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1); /* Sombra y brillo */
+    transition: all 0.3s ease; /* Suavidad al abrir */
+    width: 100%; /* Todo el ancho */
+    box-sizing: border-box; /* Tamaño exacto */
+    min-height: 65px; /* Altura mínima uniforme */
 }
 
-/* Botón entrar */
-.enter-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px 20px;
-    /* ┌─────────────────────────────────────────────────────────────┐
-       │  CAMBIO #9 — COLOR DEL BOTÓN "ABRIR INVITACIÓN"            │
-       │  Qué afecta: el botón principal de la tarjeta               │
-       │  Antes: degradado azul cielo                                │
-       │  Ahora: degradado dorado rico (igual al proyecto original)  │
-       │  También aplica al botón "Ver el Álbum"                     │
-       └─────────────────────────────────────────────────────────────┘ */
-    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold-main) 50%, var(--gold-dim) 100%); /* ← CAMBIO #9 */
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-.enter-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-}
-.enter-btn:hover::before { left: 100%; }
-.enter-btn:hover { box-shadow: 0 0 30px rgba(212,168,75,0.55); } /* ← CAMBIO #9: brillo dorado al hacer hover */
-.enter-btn-text {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 4px;
-    color: var(--bg-deep); /* El texto del botón usa el color de fondo para contraste */
-    font-weight: 600;
-    text-transform: uppercase;
-}
-.enter-arrow { width: 16px; height: 16px; color: var(--bg-deep); }
-
-
-/* ══════════════════════════════════════════════
-   PERGAMINO / INVITACIÓN INTERIOR
-══════════════════════════════════════════════ */
-.invitation-scroll {
-    width: 100%;
-    max-width: 500px;
-    padding: 0 20px;
-    margin: 0 auto;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s, visibility 0s linear 1.1s;
-    pointer-events: none;
+.header-content { 
+    display: flex; /* Ícono y texto a la par */
+    align-items: center; /* Alineados al medio */
+    gap: 15px; /* Separación entre ícono y texto */
 }
 
-.scene.is-open .invitation-scroll {
+/* Los íconos chiquitos (como la cruz o el mapa) */
+.mini-icon { 
+    width: 22px; /* Ancho */
+    height: 22px; /* Alto */
+    margin-right: 15px;
+    object-fit: contain; /* No deforma la imagen */
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.3)); /* Sombra del ícono */
+}
+
+/* El texto de la cajita (ej. CEREMONIA) */
+.accordion-header span { 
+    color: var(--azul-imperial); /* Azul oscuro */
+    font-weight: 700; /* Negrita */
+    font-size: 0.8rem; /* Letra mediana */
+    letter-spacing: 1px; /* Letras un poco separadas */
+    text-align: left; /* Alineado a la izquierda */
+}
+
+.arrow-magic { color: #ffffff; font-size: 0.8rem; transition: var(--transition); }
+
+/* La flechita ▼ */
+.arrow-gold { 
+    color: var(--oro-rico); /* Flecha dorada oscura */
+    transition: transform 0.3s ease; /* Suavidad al girar */
+}
+
+.accordion-item.active .arrow-magic { transform: rotate(180deg); }
+
+/* El contenido que está escondido adentro */
+.accordion-content {
+    max-height: 0; /* Altura 0 (escondido) */
+    overflow: hidden; /* No permite ver nada */
     opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: all;
-    transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s, visibility 0s linear 0s;
-    padding-top: 60px;
-    padding-bottom: 60px;
+    background: rgba(191, 149, 63, 0.03); /* Fondo dorado muy sutil */
+    transition: max-height 0.5s ease-out, padding 0.5s ease; /* Cómo de rápido se desliza al abrir */
+    padding: 0 20px; /* Sin espacio arriba/abajo mientras esté cerrado */
 }
 
-/* Header del pergamino */
-.inv-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    justify-content: center;
-    margin-bottom: 40px;
+/* Cuando la cajita está abierta */
+.accordion-item.active .accordion-content { 
+    max-height: 350px; /* Se estira para mostrar el texto */
+    padding: 25px 20px; /* Se activa el espacio interno */
+    border-bottom: 1px solid rgba(191, 149, 63, 0.2); /* Línea dorada de base */
 }
-.inv-header-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-main), transparent); /* ← CAMBIO #2: línea dorada */
+
+/* Gira la flecha hacia arriba al abrir ▲ */
+.accordion-item.active .arrow-gold { 
+    transform: rotate(180deg); /* Giro de 180 grados */
 }
-.inv-monogram {
-    font-family: 'Cinzel', serif;
-    font-size: 1.4rem;
-    color: var(--gold-main); /* ← CAMBIO #2 */
-    letter-spacing: 4px;
-    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
-    width: 52px; height: 52px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+/* Cambia un poco el fondo al estar abierto */
+.accordion-item.active .accordion-header { 
+    background: rgba(191, 149, 63, 0.1); /* Se vuelve un poquito más dorado */
+}
+
+/* --- AJUSTES PARA CELULAR (iPhone 13 mini) --- */
+@media (max-width: 480px) {
+    /* La tarjeta del pase */
+    .pass-container { 
+        width: 92%; /* Se ensancha un poquito más para aprovechar el espacio */
+        transition: opacity 0.5s ease 1.7s, transform 0.5s ease 1.7s, visibility 0s linear 1.7s; /* Animación de cierre suave */
+    }
+    
+    .pass-inner-border { 
+        padding: 25px 15px; /* Menos espacio adentro para que quepa todo */
+        gap: 15px; /* Menos separación entre bloques */
+    }
+    
+    /* Nombre del invitado en celular */
+    .guest-name { 
+        font-size: 1.2rem !important; /* Letra más chica */
+        margin-bottom: 10px !important; /* Menos margen */
+    }
+
+    .accordion-content p { color: var(--texto-cenicienta); font-size: 0.85rem; margin-bottom: 15px; }
+
+    /* BOTONES INTERNOS: Plateado/Azul para Ver Ubicación/Mensaje */
+    .btn-glass-magic {
+        display: inline-block; background: rgba(132, 182, 244, 0.1);
+        border: 1px solid var(--azul-cenicienta-fuerte); /* Borde azul fuerte */
+        color: var(--texto-cenicienta); padding: 10px 20px; border-radius: 20px;
+        font-size: 0.75rem; font-weight: 600; text-decoration: none;
+        box-shadow: 0 2px 10px rgba(132, 182, 244, 0.2);
+    }
+    .btn-glass-magic:hover {
+        background: var(--azul-cenicienta-fuerte); /* Color lleno al hover */
+        color: #ffffff; box-shadow: 0 4px 15px rgba(132, 182, 244, 0.4);
+    }
+
+    .final-msg { font-weight: 600; margin-top: 30px; }
+
+    /* Línea plateada de abajo */
+    .magic-line-bottom {
+        height: 3px; background: linear-gradient(to right, transparent, var(--plata-brillante), transparent);
+        width: 60%; margin: 30px auto;
+    }
+    
+    
+    /* Burbuja de pases en celular */
+    .guest-count-badge {
+        font-size: 0.75rem !important; /* Letra más chica */
+        padding: 4px 15px !important; /* Burbuja más compacta */
+    }
+
+    /* Tu nombre "Jennifer Arlete" en el pase */
+    .pass-title { 
+        font-size: 2.5rem !important; /* Letra reducida */
+    }
+    
+    /* En celular, la fecha y hora se ponen una debajo de otra (en lista) */
+    .pass-info-grid { 
+        grid-template-columns: 1fr; /* Una sola columna */
+        gap: 0; /* Sin huecos */
+    }
+    
+    /* Cada dato de la lista */
+    .pass-data-item { 
+        padding: 12px 0; /* Espacio arriba y abajo de cada dato */
+        border-bottom: 1px solid rgba(191, 149, 63, 0.15); /* Línea dorada divisoria */
+    }
+    
+    .pass-data-item:last-child { 
+        border-bottom: none; /* La última fecha no lleva línea abajo */
+    }
+
+    /* Tu nombre dentro de la invitación (papel) */
+    .princess-name {
+        font-size: 2.2rem !important; /* Se ajusta para que no se salga del papel */
+        line-height: 1.1 !important; /* Renglones pegaditos */
+        margin: 20px 0 !important; /* Aire arriba y abajo */
+    }
+
+    /* El papel pergamino en celular */
+    .parchment { 
+        padding: 0 20px !important; /* Menos margen lateral */
+        width: 95% !important; /* Casi toca las orillas */
+        box-sizing: border-box; /* Tamaño exacto */
+    }
+    
+    .invitation-wrapper.open .parchment { 
+        padding: 60px 20px !important; /* Espacio arriba cuando se abre */
+    }
+}
+
+/* --- ÍCONOS Y ESTRELLAS FUGACES --- */
+.section-icon {
+    width: 50px !important; /* Ancho fijo */
+    max-width: 50px; /* No puede ser más grande */
+    margin: 0 auto 15px auto; /* Centrado horizontal */
+    display: block; /* Ocupa su propio espacio */
+    opacity: 0.8; /* Un poquito transparente */
+}
+
+/* El ícono de la vestimenta es un poco más grande */
+.dress-code-card .section-icon { 
+    width: 70px !important; /* Más ancho */
+    max-width: 70px; /* Límite de ancho */
+}
+
+/* Animación de entrada de los íconos */
+.invitation-wrapper.open .section-icon {
+    animation: revealUp 1.2s ease-out forwards; /* Subida suave */
+}
+
+/* Las estrellas que cruzan la pantalla */
+.shooting-star {
+    position: fixed; /* Se mueven por encima de todo */
+    top: 0; /* Arriba */
+    left: 0; /* Izquierda */
+    width: 3px; /* Muy delgaditas */
+    height: 3px; /* Puntito */
+    background: #fff; /* Color blanco */   
+    box-shadow: 0 0 15px white;  /* Crea una estela (cola) larga para la estrella */
+    opacity: 0; /* Inician invisibles */
+    z-index: 2000; /* Detrás de la tarjeta */
+    animation: shooting 10s infinite; /* Un poco más lento para que se aprecie */
+}
+
+.star-1 { top: 10%; left: 80%; animation-delay: 0s; } /* Posición y tiempo de salida de la estrella 1 */
+.star-2 { top: 30%; left: 90%; animation-delay: 2s; } /* Posición y tiempo de salida de la estrella 2 */
+
+.f-1 { top: 15%; left: 90%; animation-delay: 0s; }
+.f-2 { top: 40%; left: 100%; animation-delay: 5s; } /* La segunda sale mucho después */
+
+/* Animación del viaje de la estrella fugaz */
+@keyframes shooting {
+    0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; } /* Sale de su lugar */
+    30% { transform: translate(-600px, 600px) rotate(-45deg); opacity: 0; } /* Viaja en diagonal y desaparece */
+    100% { opacity: 0; } /* Se queda invisible un rato */
+}
+
+/* --- CABECERA DE LAS CAJITAS (Estilo final) --- */
+.accordion-header {
+    background: rgba(255, 255, 255, 0.05); /* Fondo casi invisible */
+    border: 1px solid var(--oro-rico); /* Borde dorado */
+    padding: 15px; /* Relleno interno */
+    margin: 10px 0; /* Separación entre botones */
+    border-radius: 10px; /* Esquinas redondas */
+    display: flex; /* Orden horizontal */
+    justify-content: space-between; /* Texto y flecha a los extremos */
+    align-items: center; /* Alineado al medio */
+    cursor: pointer; /* Mano al pasar dedo */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* Pequeña sombra de relieve */
+    transition: all 0.3s ease; /* Suavidad general */
+}
+
+/* El fondo que se abre */
+.accordion-content {
+    max-height: 0; /* Cerrado */
+    overflow: hidden; /* Nada a la vista */
+    transition: max-height 0.5s ease-out; /* Velocidad de apertura */
+    background: rgba(191, 149, 63, 0.05); /* Color de fondo sutil */
+    border-radius: 0 0 10px 10px; /* Redondo solo abajo */
+}
+
+/* Cuando se abre la cajita */
+.accordion-item.active .accordion-content {
+    max-height: 300px; /* Altura suficiente para el texto */
+    padding: 20px 0; /* Aire arriba y abajo del texto */
+}
+
+/* --- BOTÓN FLOTANTE DE LA MÚSICA --- */
+.music-control {
+    position: fixed; /* Flota siempre en el mismo lugar */
+    top: 20px; /* 20 píxeles desde arriba */
+    right: 20px; /* 20 píxeles desde la derecha */
+    z-index: 2000; /* Siempre encima de TODO */
+    width: 45px; /* Ancho del botón */
+    height: 45px; /* Alto del botón */
+    border-radius: 50%; /* Lo hace un círculo */
+    background: rgba(0, 35, 102, 0.7); /* Azul oscuro transparente */
+    border: 2px solid var(--oro-rico); /* Contorno dorado grueso */
+    color: var(--oro-brillante); /* Color del icono de música */
+    cursor: pointer; /* Mano al tocar */
+    display: flex; /* Para centrar el icono */
+    justify-content: center; /* Centra el icono horizontalmente */
+    align-items: center; /* Centra el icono verticalmente */
+    font-size: 1.2rem; /* Tamaño del icono 🔊 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); /* Sombra para que flote con estilo */
+    transition: all 0.3s ease; /* Suavidad al aparecer o esconderse */
+    opacity: 0; /* Inicia oculto */
+    visibility: hidden; /* Inicia oculto para el sistema */
+}
+
+/* Cuando la música ya puede sonar */
+.music-control.visible {
+    opacity: 1; /* Se vuelve visible */
+    visibility: visible; /* Se puede tocar */
+}
+
+/* Al tocar el botón de música */
+.music-control:hover {
+    transform: scale(1.1); /* Se infla un poco */
+    background: var(--azul-imperial); /* El fondo se pone azul sólido */
+}
+
+/* --- EL RELOJ QUE CUENTA LOS DÍAS --- */
+.countdown-display {
+    display: flex; /* Activa el orden horizontal */
+    justify-content: center; /* Centra el reloj de izquierda a derecha */
+    gap: 15px; /* Espacio entre Días, Horas, Minutos, Segundos */
+    margin-top: 10px; /* Separación de arriba */
+    color: var(--oro-brillante); /* Números dorados claros */
+    font-family: 'Montserrat', sans-serif; /* Letra moderna */
+    font-weight: 300; /* Letra finita */
+    letter-spacing: 1px; /* Letras poco separadas */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para que se lea mejor */
+}
+
+/* Bloque individual (Número + Palabra) */
+.countdown-unit {
+    display: flex; /* Activa el orden */
+    flex-direction: column; /* Número arriba, Palabra abajo */
+    align-items: center; /* Centrados entre sí */
+}
+
+/* El número del reloj */
+.countdown-number {
+    font-size: 1.2rem; /* Tamaño de los números */
+    font-weight: 600; /* Números en negrita */
+    display: block; /* Asegura que el número ocupe su propio renglón */
+}
+
+/* La palabra (Días, Hrs, etc.) */
+.countdown-label {
+    font-size: 0.5rem; /* Letra muy chiquita */
+    text-transform: uppercase; /* Todo en MAYÚSCULAS */
+    opacity: 0.8; /* Un poquito transparente */
+}
+
+/* --- SECCIÓN BOTÓN DE ÁLBUM --- */
+.album-invite-card {
+    margin: 25px 0 30px;
+    padding: 28px 20px 24px;
+    border: 1px solid rgba(191, 149, 63, 0.35);
+    border-radius: 12px;
+    background: radial-gradient(circle at 50% 0%, rgba(132, 182, 244, 0.12) 0%, rgba(0, 26, 51, 0.35) 75%);
+    text-align: center;
+    box-shadow: 0 0 20px rgba(196, 218, 250, 0.15);
+}
+
+.album-invite-icon {
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 12px;
     border-radius: 50%;
-    flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(212,168,75,0.2); /* ← CAMBIO #2: halo dorado en monograma XV */
-}
-
-.inv-blessing {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.95rem;
-    line-height: 1.9;
-    color: var(--text-body); /* ← CAMBIO #3 */
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 0 10px;
-}
-
-.inv-parents {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-}
-.parent {
-    font-family: 'Cinzel', serif;
-    font-size: 0.78rem;
-    letter-spacing: 2px;
-    color: var(--gold-main); /* ← CAMBIO #2: nombres de padres en dorado */
-}
-.amp {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 1.2rem;
-    color: var(--gold-dim); /* ← CAMBIO #2 */
+    justify-content: center;
+    border: 1px solid rgba(196, 218, 250, 0.6);
+    color: var(--azul-cenicienta-claro);
+    font-size: 1.7rem;
+    box-shadow: 0 0 16px rgba(196, 218, 250, 0.25);
 }
 
-.inv-invite-msg {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--text-dim); /* ← CAMBIO #3 */
-    text-align: center;
-    margin-bottom: 28px;
-    letter-spacing: 0.5px;
-}
-
-.inv-name-wrap {
-    text-align: center;
-    margin-bottom: 28px;
-    position: relative;
-}
-.inv-name {
+.album-invite-title {
     font-family: 'Great Vibes', cursive;
-    font-size: clamp(2.8rem, 10vw, 4rem);
-    background: linear-gradient(170deg, #ffffff 0%, var(--gold-bright) 40%, var(--gold-main) 70%, var(--gold-dim) 100%); /* ← CAMBIO #8 aplicado al pergamino */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 2px 10px rgba(212,168,75,0.35)); /* ← CAMBIO #8: sombra dorada */
-    line-height: 1.15;
-}
-.inv-last-name {
-    font-size: 0.7em;
-}
-
-.inv-ornamental-rule {
-    margin: 24px 0;
-}
-.inv-ornamental-rule svg { width: 100%; display: block; overflow: visible; }
-
-/* Acordeón */
-.inv-accordion {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 32px;
-}
-
-.acc-item { border: 1px solid var(--border-gold); border-radius: 3px; overflow: hidden; } /* ← CAMBIO #4 */
-
-.acc-header {
-    width: 100%;
-    background: rgba(255,255,255,0.02);
+    font-size: clamp(1.9rem, 8vw, 2.6rem);
+    line-height: 1.1;
+    margin: 6px 0 10px;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(132, 182, 244, 0.45);
     border: none;
-    padding: 15px 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    transition: background 0.3s;
-    text-align: left;
-}
-/* ┌─────────────────────────────────────────────────────────────────┐
-   │  CAMBIO #10 — HOVER Y ESTADO ACTIVO DEL ACORDEÓN               │
-   │  Qué afecta: el color de fondo al pasar el mouse o abrir una   │
-   │              sección (Ceremonia, Recepción, etc.)               │
-   │  Antes: brillo azul translúcido                                 │
-   │  Ahora: brillo dorado translúcido                               │
-   └─────────────────────────────────────────────────────────────────┘ */
-.acc-header:hover { background: rgba(212,168,75,0.07); }           /* ← CAMBIO #10 */
-.acc-header[aria-expanded="true"] { background: rgba(212,168,75,0.11); } /* ← CAMBIO #10 */
-
-.acc-icon {
-    color: var(--gold-main); /* ← CAMBIO #2 */
-    font-size: 0.6rem;
-    flex-shrink: 0;
-    transition: transform 0.4s;
-}
-.acc-header[aria-expanded="true"] .acc-icon { transform: rotate(45deg); }
-
-.acc-title {
-    font-family: 'Cinzel', serif;
-    font-size: 0.72rem;
-    letter-spacing: 2px;
-    color: var(--off-white); /* ← CAMBIO #3 */
-    flex: 1;
 }
 
-.acc-chevron {
-    color: var(--gold-dim); /* ← CAMBIO #2 */
+.album-invite-text {
+    color: var(--azul-cenicienta-claro);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    max-width: 360px;
+    margin: 0 auto 18px;
+}
+
+.btn-go-album {
+    display: inline-block;
+    min-width: 220px;
+    text-decoration: none;
+    text-align: center;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-family: 'Cinzel Decorative', serif;
     font-size: 0.8rem;
-    transition: transform 0.4s;
-    flex-shrink: 0;
-}
-.acc-header[aria-expanded="true"] .acc-chevron { transform: rotate(180deg); }
-
-.acc-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), padding 0.3s;
-    padding: 0 18px;
-}
-.acc-body.is-open {
-    max-height: 200px;
-    padding: 18px 18px;
+    letter-spacing: 2px;
+    border: 1px solid rgba(191, 149, 63, 0.7);
+    background: linear-gradient(135deg, rgba(191, 149, 63, 0.95), rgba(252, 226, 163, 0.95));
+    color: #1a3a5f;
+    box-shadow: 0 6px 18px rgba(191, 149, 63, 0.3);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
-.acc-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    color: var(--text-body); /* ← CAMBIO #3 */
-    line-height: 1.7;
-    margin-bottom: 14px;
-    text-align: center;
-}
-.acc-note {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--gold-dim); /* ← CAMBIO #2 */
-    text-align: center;
+.btn-go-album:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+    box-shadow: 0 10px 22px rgba(191, 149, 63, 0.42);
 }
 
-.inv-link-btn {
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
-    padding: 8px 24px;
-    border: 1px solid var(--gold-dim); /* ← CAMBIO #2: borde dorado en botones de mapa/WhatsApp */
-    border-radius: 2px;
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    letter-spacing: 3px;
-    color: var(--gold-main); /* ← CAMBIO #2 */
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: var(--transition);
-}
-.inv-link-btn:hover {
-    background: var(--gold-main); /* ← CAMBIO #9: relleno dorado al hacer hover */
-    color: var(--bg-deep);
-    border-color: var(--gold-main);
+/* Efecto de vibración rápida cuando se presiona el botón */
+.pass-action-btn:active {
+    animation: shake 0.2s ease-in-out;
 }
 
-/* ═══════════════════════════════════════════
-   SECCIÓN ÁLBUM DE FOTOS
-═══════════════════════════════════════════ */
-.album-teaser {
-    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
-    border-radius: 4px;
-    background:
-        /* ┌──────────────────────────────────────────────────────────┐
-           │  CAMBIO #11 — FONDO DE LA TARJETA DEL ÁLBUM             │
-           │  Qué afecta: la sección "Guarda un Lindo Recuerdo"       │
-           │  Antes: brillo azul                                       │
-           │  Ahora: brillo dorado suave                               │
-           └──────────────────────────────────────────────────────────┘ */
-        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(212,168,75,0.09) 0%, transparent 70%), /* ← CAMBIO #11 */
-        rgba(255,255,255,0.015);
-    margin: 8px 0 32px;
-    overflow: hidden;
-    position: relative;
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(5px); }
+    50% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
 }
-.album-teaser::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold-main), transparent); /* ← CAMBIO #2: línea superior dorada */
-}
-.album-teaser-inner {
-    padding: 28px 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    text-align: center;
-}
-.album-teaser-icon svg {
+
+/* --- SELLO DE CERRAR: XV Azul Cenicienta --- */
+.wax-seal {
     width: 60px; height: 60px;
-    filter: drop-shadow(0 0 12px rgba(212,168,75,0.45)); /* ← CAMBIO #2: halo dorado en el ícono */
-}
-.album-teaser-title {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.8rem;
-    background: linear-gradient(160deg, #ffffff, var(--gold-bright), var(--gold-main)); /* ← CAMBIO #8 */
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.2;
-}
-.album-teaser-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--text-body); /* ← CAMBIO #3 */
-    line-height: 1.7;
-    max-width: 300px;
-}
-.album-open-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 28px;
-    background: linear-gradient(135deg, var(--gold-dim) 0%, var(--gold-main) 50%, var(--gold-dim) 100%); /* ← CAMBIO #9 */
-    border-radius: 2px;
-    border: none;
-    text-decoration: none;
-    font-family: 'Cinzel', serif;
-    font-size: 0.68rem;
-    letter-spacing: 3px;
-    color: var(--bg-deep);
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
+    background: radial-gradient(circle at 30% 30%, var(--azul-cenicienta-fuerte), var(--azul-cenicienta-oscuro)); /* Degradado azul */
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--plata-brillante); /* Borde plateado */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer;
     transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    margin-top: 4px;
 }
-.album-open-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    transition: left 0.5s;
+.seal-inner {
+    font-family: 'Cinzel Decorative', cursive; font-size: 1.5rem; color: #ffffff; font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
-.album-open-btn:hover::before { left: 100%; }
-.album-open-btn:hover { box-shadow: 0 0 25px rgba(212,168,75,0.5); } /* ← CAMBIO #9: brillo dorado */
+.seal-text { font-size: 0.65rem; color: var(--plata-brillante); margin-top: 5px; } /* Texto plateado */
 
-/* Texto final */
-.inv-final {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.5rem;
-    color: var(--gold-main); /* ← CAMBIO #2 */
-    text-align: center;
-    margin: 20px 0 28px;
-}
-
-/* Sello cerrar */
-.inv-close-wrap { display: flex; justify-content: center; padding-bottom: 10px; }
-
-.close-seal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: 1px solid var(--border-gold); /* ← CAMBIO #4 */
-    border-radius: 50%;
-    width: 64px; height: 64px;
-    cursor: pointer;
-    color: var(--gold-main); /* ← CAMBIO #2 */
-    transition: var(--transition);
-    justify-content: center;
-}
-.close-seal:hover {
-    border-color: var(--gold-main); /* ← CAMBIO #2 */
-    box-shadow: 0 0 20px rgba(212,168,75,0.3); /* ← CAMBIO #2: halo dorado al hacer hover en cerrar */
-}
-.close-seal-roman { font-family: 'Cinzel', serif; font-size: 1rem; letter-spacing: 2px; }
-.close-seal-label { font-family: 'Montserrat', sans-serif; font-size: 0.45rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; }
-
-/* ── FINISH MSG ─────────────────────────────── */
-.finish-msg {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.6rem;
-    color: var(--gold-bright); /* ← CAMBIO #2 */
-    filter: drop-shadow(0 0 8px rgba(252,246,186,0.55)); /* ← CAMBIO #2: brillo dorado brillante en "¡Es hoy!" */
-    text-align: center;
-}
