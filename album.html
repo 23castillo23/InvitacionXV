@@ -289,7 +289,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
         </div>
         <div class="modal-actions">
             <button class="btn-modal-cancel" onclick="closeModal()">Cancelar</button>
-            <button class="btn-modal-confirm" onclick="createGallery()">✦ Crear Mi Galería</button>
+            <button class="btn-modal-confirm" id="btnConfirmGallery" onclick="createGallery()">✦ Crear Mi Galería</button>
         </div>
     </div>
 </div>
@@ -816,11 +816,45 @@ document.getElementById('emojiPicker').addEventListener('click', e => {
 });
 
 async function createGallery() {
-    if (!window._firebaseReady) return;
-    const inp  = document.getElementById('galleryNameInput');
-    const hint = document.getElementById('galleryNameHint');
-    const name = inp.value.trim();
+    const inp    = document.getElementById('galleryNameInput');
+    const hint   = document.getElementById('galleryNameHint');
+    const btn    = document.getElementById('btnConfirmGallery');
+    const name   = inp.value.trim();
+
     if (!name) { inp.focus(); return; }
+
+    // Si Firebase aún no está listo, mostrar aviso y esperar hasta 5 segundos
+    if (!window._firebaseReady) {
+        if (hint) {
+            hint.textContent = '⏳ Conectando… intenta de nuevo en un momento.';
+            hint.style.display = 'block';
+        }
+        if (btn) { btn.disabled = true; btn.textContent = 'Conectando…'; }
+
+        // Esperar hasta que Firebase esté listo (máx 5 s)
+        let intentos = 0;
+        await new Promise(resolve => {
+            const intervalo = setInterval(() => {
+                intentos++;
+                if (window._firebaseReady || intentos >= 10) {
+                    clearInterval(intervalo);
+                    resolve();
+                }
+            }, 500);
+        });
+
+        if (hint) hint.style.display = 'none';
+        if (btn)  { btn.disabled = false; btn.textContent = '✦ Crear Mi Galería'; }
+
+        if (!window._firebaseReady) {
+            if (hint) {
+                hint.textContent = '⚠ Sin conexión. Revisa tu internet e intenta de nuevo.';
+                hint.style.display = 'block';
+            }
+            setTimeout(() => { if (hint) hint.style.display = 'none'; }, 4000);
+            return;
+        }
+    }
 
     // Verificar duplicados
     const existing = (window._galleries || []).map(g => g.name.toLowerCase().trim());
@@ -839,11 +873,12 @@ async function createGallery() {
     }
 
     // folderId = slug del nombre, usado como subcarpeta en Cloudinary
-    // Ej: "Familia Rosas" → "familia_rosas"
     const folderId = name.toLowerCase()
         .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
         .replace(/[^a-z0-9]+/g,'_')
         .replace(/^_|_$/g,'');
+
+    if (btn) { btn.disabled = true; btn.textContent = '⏳ Creando…'; }
 
     try {
         const ref = await window._addDoc(
@@ -851,12 +886,21 @@ async function createGallery() {
             { name, emoji: selectedEmoji, folderId, createdAt: Date.now() }
         );
         closeModal();
+        if (btn) { btn.disabled = false; btn.textContent = '✦ Crear Mi Galería'; }
         // Seleccionar la nueva galería automáticamente
         setTimeout(() => {
             document.getElementById('destGallery').value = ref.id;
             switchGallery(ref.id);
         }, 500);
-    } catch(e) { console.error(e); }
+    } catch(e) {
+        console.error(e);
+        if (btn) { btn.disabled = false; btn.textContent = '✦ Crear Mi Galería'; }
+        if (hint) {
+            hint.textContent = '⚠ Error al crear la galería. Intenta de nuevo.';
+            hint.style.display = 'block';
+            setTimeout(() => { hint.style.display = 'none'; }, 4000);
+        }
+    }
 }
 window.createGallery = createGallery;
 
@@ -895,7 +939,20 @@ window.clearPreview = clearPreview;
      (excepto si hay comentarios)
 ════════════════════════════════════ */
 async function uploadPhoto() {
-    if (!window._firebaseReady) { showToast('Cargando servicios, intenta en un momento…','error'); return; }
+    // Si Firebase no está listo, esperar hasta 5 segundos antes de fallar
+    if (!window._firebaseReady) {
+        showToast('Conectando… espera un momento.', 'error');
+        let intentos = 0;
+        await new Promise(resolve => {
+            const intervalo = setInterval(() => {
+                intentos++;
+                if (window._firebaseReady || intentos >= 10) {
+                    clearInterval(intervalo); resolve();
+                }
+            }, 500);
+        });
+        if (!window._firebaseReady) { showToast('Sin conexión. Revisa tu internet e intenta de nuevo.','error'); return; }
+    }
 
     const galleryId   = document.getElementById('destGallery').value;
     const authorInput = document.getElementById('authorNameInput');
