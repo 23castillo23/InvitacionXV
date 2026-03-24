@@ -271,8 +271,8 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
     <div class="modal-box" onclick="event.stopPropagation()">
         <p class="modal-title">✦ Tu Galería Personal ✦</p>
         <p class="modal-hint">Guarda tus momentos especiales de esta noche</p>
-        <label class="modal-label" for="galleryNameInput">Tu nombre</label>
-        <input class="modal-input" id="galleryNameInput" type="text" placeholder="¿Cómo te llamas?" maxlength="40">
+        <label class="modal-label" for="galleryNameInput">Nombre de la galería</label>
+        <input class="modal-input" id="galleryNameInput" type="text" placeholder="Ej: Familia García, Mesa 5…" maxlength="40">
         <div id="galleryNameHint" style="display:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:rgba(196,218,250,0.75);margin:-12px 0 14px;text-align:center;line-height:1.5;"></div>
         <label class="modal-label">Elige un ícono para tu galería</label>
         <div class="modal-emoji-picker" id="emojiPicker">
@@ -317,7 +317,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
         </div>
         <div class="comments-list" id="commentsList"></div>
         <div class="comments-form">
-            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre (obligatorio)">
+            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre (obligatorio)" style="display:none">
             <textarea class="comments-textarea" id="commentTextInput" maxlength="220" placeholder="Escribe una nota..."></textarea>
             <button class="comments-save" onclick="sendCommentFromModal()">✦ GUARDAR NOTA</button>
         </div>
@@ -362,10 +362,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
                 <option value="">— Elige una galería —</option>
             </select>
         </div>
-        <div class="field-wrap">
-            <label class="field-label" for="authorNameInput">Tu nombre</label>
-            <input type="text" class="field-input" id="authorNameInput" placeholder="¿Cómo te llamas?" maxlength="60">
-        </div>
+        <input type="hidden" id="authorNameInput" value="">
         <input type="hidden" id="authorName" value="">
         <input type="file" id="fileCam" accept="image/*" capture="environment">
         <input type="file" id="fileGal" accept="image/*">
@@ -533,11 +530,18 @@ window._sessionLiked = new Set();
     const close = document.getElementById('closeBtn');
     if (close) close.href = href;
 
-    // Pre-llenar nombre desde URL
-    if (n) {
-        const display = n.replace(/_/g,' ');
-        const inp = document.getElementById('authorNameInput');
-        if (inp) inp.value = display.replace(/\b\w/g, c => c.toUpperCase());
+    // Pre-llenar nombre desde URL (campo oculto y comentarios)
+    const inp = document.getElementById('authorNameInput');
+    const commentAuthorInp = document.getElementById('commentAuthorInput');
+    const displayName = n
+        ? n.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase())
+        : 'Invitado';
+    if (inp) inp.value = displayName;
+    if (commentAuthorInp) {
+        commentAuthorInp.value = displayName;
+        // Si viene nombre de la URL, ocultar el campo en el modal de comentarios
+        if (n) commentAuthorInp.style.display = 'none';
+        else   commentAuthorInp.style.display = '';
     }
 })();
 
