@@ -185,16 +185,205 @@
 
             </div>
 
-            <!-- ACCESO A GALERÍA -->
-            <section class="album-invite-card">
-                <div class="album-invite-icon">🖼️</div>
-                <h2 class="album-invite-title">Guarda un Lindo Recuerdo</h2>
+            <!-- ACCESO A GALERÍA — REDISEÑADO -->
+            <section class="album-invite-card" id="albumCard">
+                <!-- Estrellas decorativas flotantes -->
+                <div class="album-sparkles">
+                    <span class="spark sp1">✦</span>
+                    <span class="spark sp2">✦</span>
+                    <span class="spark sp3">·</span>
+                    <span class="spark sp4">✦</span>
+                    <span class="spark sp5">·</span>
+                </div>
+
+                <!-- Marco tipo vitrina con luz giratoria -->
+                <div class="album-frame-glow"></div>
+
+                <!-- Ícono animado -->
+                <div class="album-invite-icon">
+                    <div class="album-icon-ring">
+                        <span class="album-icon-emoji">📷</span>
+                    </div>
+                </div>
+
+                <!-- Texto principal -->
+                <h2 class="album-invite-title">Guarda un Lindo<br>Recuerdo</h2>
+
+                <div class="album-divider">
+                    <span class="album-divider-line"></span>
+                    <span class="album-divider-star">✦</span>
+                    <span class="album-divider-line"></span>
+                </div>
+
                 <p class="album-invite-text">
-                    Comparte tus fotos de este día especial y ayúdanos a construir un álbum
-                    de memorias para Jennifer.
+                    Comparte tus fotos de este día especial y ayúdanos
+                    a construir un álbum de memorias para Jennifer.
                 </p>
-                <a id="albumLink" href="album.html" class="btn-go-album">VER EL ÁLBUM</a>
+
+                <!-- Botón con efecto shimmer -->
+                <a id="albumLink" href="album.html" class="btn-go-album">
+                    <span class="btn-shimmer"></span>
+                    <span class="btn-icon">🖼️</span>
+                    <span class="btn-text">VER EL ÁLBUM</span>
+                    <span class="btn-arrow">→</span>
+                </a>
             </section>
+
+            <style>
+            /* ═══════ ALBUM CARD REDISEÑADA ═══════ */
+            .album-invite-card {
+                position: relative;
+                margin: 30px 0 30px;
+                padding: 36px 24px 30px;
+                border-radius: 16px;
+                overflow: hidden;
+                text-align: center;
+                /* Fondo con vidrio azul cenicienta */
+                background: linear-gradient(145deg,
+                    rgba(30, 60, 114, 0.65) 0%,
+                    rgba(42, 82, 152, 0.50) 50%,
+                    rgba(30, 60, 114, 0.65) 100%);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(196, 218, 250, 0.30);
+                box-shadow:
+                    0 0 40px rgba(132, 182, 244, 0.15),
+                    inset 0 1px 0 rgba(255,255,255,0.08);
+
+                /* Animación de aparición */
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+                transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1),
+                            transform 0.8s cubic-bezier(0.4,0,0.2,1);
+            }
+            .album-invite-card.visible {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            /* Luz giratoria en el borde */
+            .album-frame-glow {
+                position: absolute;
+                inset: -2px;
+                border-radius: 18px;
+                background: conic-gradient(
+                    from 0deg,
+                    transparent 0deg 300deg,
+                    rgba(196,218,250,0.80) 325deg 348deg,
+                    rgba(255,255,255,0.70) 349deg 360deg
+                );
+                animation: rotateBorder 6s linear infinite;
+                z-index: 0;
+                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                mask-composite: exclude;
+                padding: 2px;
+                pointer-events: none;
+            }
+            @keyframes rotateBorder { 100% { transform: rotate(360deg); } }
+
+            /* Estrellas flotantes */
+            .album-sparkles { position:absolute;inset:0;pointer-events:none;z-index:1; }
+            .spark {
+                position: absolute;
+                font-size: 0.7rem;
+                color: rgba(196, 218, 250, 0.6);
+                animation: sparkFloat 4s infinite ease-in-out;
+            }
+            .sp1{top:12%;left:8%; animation-delay:0s; font-size:0.9rem;}
+            .sp2{top:18%;right:10%;animation-delay:1.2s;}
+            .sp3{bottom:20%;left:12%;animation-delay:2.1s;font-size:0.5rem;}
+            .sp4{bottom:15%;right:8%; animation-delay:0.7s;}
+            .sp5{top:45%;right:5%; animation-delay:1.8s;font-size:0.5rem;}
+            @keyframes sparkFloat {
+                0%,100%{transform:translateY(0) rotate(0deg);  opacity:.4;}
+                50%     {transform:translateY(-8px) rotate(20deg);opacity:.9;}
+            }
+
+            /* Ícono circular animado */
+            .album-icon-ring {
+                position:relative;z-index:2;
+                width:68px;height:68px;margin:0 auto 14px;
+                border-radius:50%;
+                border:2px solid rgba(196,218,250,0.55);
+                background:radial-gradient(circle at 35% 35%,rgba(132,182,244,0.30),rgba(30,60,114,0.60));
+                display:flex;align-items:center;justify-content:center;
+                box-shadow:0 0 20px rgba(132,182,244,0.30);
+                animation:iconPulse 3s infinite ease-in-out;
+            }
+            .album-icon-emoji{font-size:1.8rem;display:block;}
+            @keyframes iconPulse{
+                0%,100%{box-shadow:0 0 20px rgba(132,182,244,0.30);}
+                50%    {box-shadow:0 0 35px rgba(132,182,244,0.55);}
+            }
+
+            /* Título */
+            .album-invite-title {
+                position:relative;z-index:2;
+                font-family:'Great Vibes',cursive !important;
+                font-size:clamp(2rem,9vw,2.8rem);
+                line-height:1.15;
+                margin:0 0 12px;
+                color:#fff;
+                text-shadow:0 2px 14px rgba(132,182,244,0.55);
+                border:none !important;
+            }
+
+            /* Divisor */
+            .album-divider{position:relative;z-index:2;display:flex;align-items:center;gap:10px;margin:0 auto 14px;max-width:200px;}
+            .album-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(196,218,250,0.50),transparent);}
+            .album-divider-star{font-size:.75rem;color:rgba(196,218,250,0.70);}
+
+            /* Texto */
+            .album-invite-text {
+                position:relative;z-index:2;
+                color:rgba(196,218,250,0.90);
+                font-size:0.98rem;line-height:1.7;
+                max-width:310px;margin:0 auto 22px;
+                font-style:italic;
+            }
+
+            /* Botón */
+            .btn-go-album {
+                position:relative;z-index:2;
+                display:inline-flex;align-items:center;justify-content:center;gap:8px;
+                min-width:200px;text-decoration:none;text-align:center;
+                padding:13px 24px;border-radius:30px;
+                font-family:'Cinzel Decorative',serif;
+                font-size:0.72rem;letter-spacing:2px;
+                border:1px solid rgba(196,218,250,0.60);
+                background:linear-gradient(135deg,
+                    rgba(30,60,114,0.90) 0%,
+                    rgba(132,182,244,0.35) 50%,
+                    rgba(30,60,114,0.90) 100%);
+                color:#fff;
+                overflow:hidden;
+                box-shadow:0 4px 20px rgba(132,182,244,0.25);
+                transition:transform .3s ease,box-shadow .3s ease,background .3s ease;
+            }
+            .btn-go-album:hover {
+                transform:translateY(-3px);
+                box-shadow:0 8px 28px rgba(132,182,244,0.45);
+                background:linear-gradient(135deg,
+                    rgba(42,82,152,0.95) 0%,
+                    rgba(132,182,244,0.45) 50%,
+                    rgba(42,82,152,0.95) 100%);
+            }
+            /* Efecto shimmer del botón */
+            .btn-shimmer{
+                position:absolute;top:0;left:-100%;width:100%;height:100%;
+                background:linear-gradient(90deg,transparent,rgba(255,255,255,.20),transparent);
+                animation:btnShimmer 3s infinite;
+            }
+            @keyframes btnShimmer{
+                0%  {left:-100%;}
+                50%,100%{left:100%;}
+            }
+            .btn-icon{font-size:1rem;}
+            .btn-text{position:relative;z-index:1;}
+            .btn-arrow{font-size:1rem;transition:transform .3s;}
+            .btn-go-album:hover .btn-arrow{transform:translateX(4px);}
+            </style>
 
             <p class="final-msg">¡Te esperamos para compartir una noche inolvidable!</p>
 
@@ -214,6 +403,25 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Archivo JavaScript externo -->
-    <script src="js/javascript.js"></script> <!-- Controla animaciones, contador, acordeón, música -->
+    <script src="js/javascript.js"></script>
+
+    <!-- Efecto de aparición de la sección álbum -->
+    <script>
+    (function() {
+        const card = document.getElementById('albumCard');
+        if (!card) return;
+        // Usar IntersectionObserver para activar cuando sea visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Pequeño delay para que sea más dramático
+                    setTimeout(() => card.classList.add('visible'), 150);
+                    observer.unobserve(card);
+                }
+            });
+        }, { threshold: 0.15 });
+        observer.observe(card);
+    })();
+    </script>
 </body>
 </html>

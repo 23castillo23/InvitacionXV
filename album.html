@@ -10,243 +10,327 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
 :root {
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       VARIABLES DE COLOR — Sistema Dorado (igual a style.css)
-       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       Para cambiar el fondo oscuro: modifica --bg y --bg-mid
-       Para cambiar el tono dorado:  modifica --gold-dim / --gold / --gold-bright
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* PALETA DE LA INVITACIÓN — Cenicienta azul + detalles dorados */
+    --azul-oscuro:   #1e3c72;
+    --azul-fondo:    #2a5298;
+    --azul-fuerte:   #84b6f4;
+    --azul-claro:    #c4dafa;
+    --plata-vieja:   #a8a8a8;
+    --plata-brill:   #e0e0e0;
+    --magic-white:   #ffffff;
+    --oro-rico:      #bf953f;
+    --oro-brillante: #fcf6ba;
 
-    /* FONDOS — antes: azules medios (#1e3c72)
-       Ahora: azul marino profundo casi negro, igual al pase */
-    --bg:           #002366;   /* ← fondo principal (azul marino profundo) */
-    --bg-mid:       #001845;   /* ← capa intermedia más oscura */
-    --card:         #001e50;   /* ← fondo de tarjetas (modal, fotos) */
-
-    /* DORADOS — antes: azul cielo (#7aafd4 / #a8d8f0 / #d6eefa)
-       Ahora: dorado real igual al proyecto de la invitación */
-    --gold-dim:     #bf953f;   /* ← dorado oscuro: bordes, íconos, etiquetas tenues */
-    --gold:         #d4a84b;   /* ← dorado principal: texto activo, botones */
-    --gold-bright:  #fcf6ba;   /* ← dorado brillante: números, destellos */
-    --gold-pale:    #fffde8;   /* ← dorado muy pálido: fondos suaves */
-
-    /* TEXTO — antes: azulado (#e8f4fb / #a8c8de)
-       Ahora: blanco cálido + dorado suave */
+    /* Aliases usados en el álbum */
+    --bg:           #1e3c72;
+    --bg-mid:       #152d5a;
+    --card:         rgba(0, 26, 70, 0.75);
+    --gold-dim:     #bf953f;
+    --gold:         #d4a84b;
+    --gold-bright:  #fcf6ba;
+    --gold-pale:    #fffde8;
     --white:        #ffffff;
-    --off-white:    #fdf8ee;   /* ← blanco con toque dorado (textos principales) */
-    --text:         #c9b87a;   /* ← texto secundario: captions, descripciones */
-    --text-dim:     #7a6a3a;   /* ← texto tenue: fechas, placeholders, hints */
-
-    /* BORDES — antes: azul translúcido rgba(168,216,240,0.22)
-       Ahora: dorado translúcido */
-    --border:       rgba(212,168,75,0.28);   /* ← borde dorado estándar */
-    --border-light: rgba(255,255,255,0.05);  /* ← borde casi invisible (separadores internos) */
-
+    --off-white:    #ffffff;
+    --text:         var(--azul-claro);
+    --text-dim:     #7a9fd4;
+    --border:       rgba(191,149,63,0.35);
+    --border-light: rgba(255,255,255,0.05);
     --transition:   all 0.45s cubic-bezier(0.4,0,0.2,1);
 }
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+
 body{
-    background:var(--bg);
+    margin:0;
+    background-color: var(--azul-oscuro);
     background-image:
-        /* Capa oscura arriba para dar profundidad al encabezado */
-        radial-gradient(ellipse 90% 55% at 50% 0%,  rgba(0,20,60,0.85) 0%, transparent 65%),
-        /* Capa oscura en esquina inferior izquierda */
-        radial-gradient(ellipse 60% 40% at 15% 100%, rgba(0,10,40,0.7)  0%, transparent 60%),
-        /* ← NUEVO: destello dorado muy sutil en esquina derecha (igual que style.css) */
-        radial-gradient(ellipse 50% 35% at 90% 60%,  rgba(180,140,30,0.06) 0%, transparent 55%);
-    color:var(--off-white);
+        radial-gradient(circle at 50% 30%, rgba(132,182,244,0.30) 0%, transparent 60%),
+        linear-gradient(180deg, var(--azul-oscuro) 0%, var(--azul-fondo) 100%);
+    background-attachment: fixed;
+    color: var(--off-white);
     font-family:'Cormorant Garamond',serif;
     min-height:100vh;
     overflow-x:hidden;
 }
-canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.45;}
+
+/* ── ESTRELLAS (idéntico a la invitación) ── */
+.stars-layer{
+    position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
+    background-image:
+        radial-gradient(2px 2px at 15px 30px,  var(--magic-white),  rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 100px,  var(--azul-claro),   rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 120px 60px,  var(--plata-brill),  rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 200px 180px, var(--magic-white),  rgba(0,0,0,0)),
+        radial-gradient(4px 4px at 250px 50px,  rgba(132,182,244,.4),rgba(0,0,0,0)),
+        radial-gradient(2.5px 2.5px at 300px 150px, var(--plata-vieja), rgba(0,0,0,0));
+    background-size:300px 300px;
+    opacity:.6;
+    animation:magicDust 12s infinite linear;
+}
+.stars-layer.s1{
+    background-image:
+        radial-gradient(1px 1px at 20px 30px,  #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 100px 150px, #fff, rgba(0,0,0,0));
+    animation:twinkle 3s infinite ease-in-out;
+}
+.stars-layer.s2{
+    background-image:
+        radial-gradient(1px 1px at 50px 80px,   #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 200px 100px, var(--azul-claro), rgba(0,0,0,0));
+    animation:twinkle 5s infinite ease-in-out;
+    animation-delay:1.5s;
+}
+@keyframes magicDust{
+    0%  {transform:translateY(0) rotate(0deg);   opacity:.4;}
+    50% {opacity:.8;}
+    100%{transform:translateY(-300px) rotate(4deg); opacity:.4;}
+}
+@keyframes twinkle{
+    0%,100%{opacity:.2;}
+    50%    {opacity:.8;}
+}
+
+/* ── BOKEH (idéntico a la invitación) ── */
+.bokeh-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.bokeh-light{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle,rgba(196,218,250,.30) 0%,rgba(42,82,152,0) 70%);
+    animation:floatBokeh 25s infinite linear;opacity:0;
+}
+.b1{width:100px;height:100px;left:10%; top:20%;animation-delay:0s;}
+.b2{width:150px;height:150px;right:15%;top:40%;animation-delay:5s;}
+.b3{width:80px; height:80px; left:30%; bottom:15%;animation-delay:10s;}
+.b4{width:120px;height:120px;right:5%; bottom:30%;animation-delay:15s;}
+.b5{width:90px; height:90px; left:50%; top:10%;animation-delay:20s;}
+@keyframes floatBokeh{
+    0%  {transform:translateY(100vh) scale(.8);opacity:0;}
+    20% {opacity:.6;}
+    100%{transform:translateY(-20vh) scale(1.2);opacity:0;}
+}
+
+/* ── ESTRELLA FUGAZ ── */
+.shooting-star{
+    position:fixed;width:120px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--azul-claro),var(--magic-white));
+    border-radius:2px;opacity:0;pointer-events:none;z-index:0;
+}
+.shooting-star.f1{top:18%;left:-140px;animation:shoot 8s 2s infinite;}
+.shooting-star.f2{top:40%;left:-140px;animation:shoot 8s 5s infinite;}
+@keyframes shoot{
+    0%  {transform:translate(0,0)    rotate(-30deg);opacity:0;}
+    5%  {opacity:1;}
+    30% {transform:translate(120vw,60px) rotate(-30deg);opacity:0;}
+    100%{opacity:0;}
+}
+
+canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.35;}
 
 /* HEADER */
 .album-header{position:relative;z-index:2;text-align:center;padding:56px 20px 38px;border-bottom:1px solid var(--border);
-    /* ← antes: destello azul rgba(30,80,140). Ahora: destello dorado muy suave */
-    background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(200,160,40,0.08) 0%,transparent 70%);}
-.header-back{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--gold-dim);text-decoration:none;transition:var(--transition);}
-.header-back:hover{color:var(--gold);}
+    background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(132,182,244,0.12) 0%,transparent 70%);}
+.header-back{position:absolute;top:20px;left:20px;display:flex;align-items:center;gap:6px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--azul-claro);text-decoration:none;transition:var(--transition);}
+.header-back:hover{color:var(--magic-white);}
 .header-back svg{width:14px;height:14px;}
-.header-monogram{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--gold);border:1px solid var(--border);width:52px;height:52px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;letter-spacing:3px;margin-bottom:14px;
-    /* ← antes: halo azul rgba(100,180,240). Ahora: halo dorado */
-    box-shadow:0 0 20px rgba(212,168,75,0.2);}
+.header-monogram{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--magic-white);border:1px solid var(--azul-claro);width:52px;height:52px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;letter-spacing:3px;margin-bottom:14px;
+    box-shadow:0 0 20px rgba(132,182,244,0.35);}
 .header-title{font-family:'Great Vibes',cursive;font-size:clamp(2.2rem,8vw,3.2rem);
-    /* ← antes: gradiente a azul (#a8d8f0). Ahora: degradado dorado igual al nombre principal */
-    background:linear-gradient(160deg,#fff,var(--gold-bright),var(--gold),var(--gold-dim));
+    background:linear-gradient(160deg,#fff,var(--azul-claro),var(--azul-fuerte));
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    /* ← antes: sombra azul rgba(100,180,240,0.3). Ahora: sombra dorada */
-    filter:drop-shadow(0 2px 10px rgba(212,168,75,0.35));
+    filter:drop-shadow(0 2px 12px rgba(132,182,244,0.45));
     line-height:1.2;margin-bottom:6px;}
-.header-sub{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:5px;color:var(--gold-dim);margin-bottom:12px;}
-.header-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--text);max-width:340px;margin:0 auto;line-height:1.8;}
+.header-sub{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:5px;color:var(--azul-claro);margin-bottom:12px;}
+.header-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--azul-claro);max-width:340px;margin:0 auto;line-height:1.8;}
 
 /* MAIN */
 .album-main{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:36px 16px 80px;}
 
-/* TABS GALERÍAS */
+/* GALERÍAS — portarretratos */
 .galleries-nav{margin-bottom:28px;}
 .galleries-nav-title{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;text-align:center;margin-bottom:14px;}
-.galleries-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px;}
-.gallery-tab{display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;color:var(--text);cursor:pointer;transition:var(--transition);white-space:nowrap;}
-.gallery-tab:hover{border-color:var(--gold-dim);color:var(--gold);}
-.gallery-tab.active{
-    /* ← antes: fondo azul rgba(100,180,240,0.1) con sombra azul */
-    background:rgba(212,168,75,0.1);border-color:var(--gold);color:var(--gold-bright);
-    box-shadow:0 0 12px rgba(212,168,75,0.18);}
-.tab-count{background:rgba(212,168,75,0.12);border-radius:10px;padding:1px 7px;font-size:.55rem;color:var(--gold-dim);}
-/* ← antes: conteo activo con fondo azul rgba(168,216,240,0.25). Ahora: dorado */
-.gallery-tab.active .tab-count{background:rgba(212,168,75,0.25);color:var(--gold);}
-.btn-new-gallery{display:flex;align-items:center;gap:6px;padding:8px 16px;background:none;border:1px dashed var(--border);border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;color:var(--text-dim);cursor:pointer;transition:var(--transition);}
-.btn-new-gallery:hover{border-color:var(--gold-dim);color:var(--gold-dim);}
+
+/* Botón crear galería — va primero */
+.btn-new-gallery-wrap{display:flex;justify-content:center;margin-bottom:18px;}
+.btn-new-gallery{display:flex;align-items:center;gap:6px;padding:9px 20px;background:none;border:1px dashed rgba(132,182,244,0.55);border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;color:var(--azul-claro);cursor:pointer;transition:var(--transition);}
+.btn-new-gallery:hover{border-color:var(--magic-white);color:var(--magic-white);background:rgba(132,182,244,0.08);}
 .btn-new-gallery svg{width:12px;height:12px;}
+
+/* Grid de portarretratos */
+.galleries-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px;}
+@media(min-width:480px){.galleries-grid{grid-template-columns:repeat(4,1fr);}}
+
+/* Tarjeta portarretrato */
+.gallery-frame{position:relative;aspect-ratio:3/4;border:2px solid rgba(196,218,250,0.30);border-radius:4px;overflow:hidden;cursor:pointer;background:rgba(0,26,70,0.6);transition:var(--transition);}
+.gallery-frame:hover{border-color:var(--azul-claro);box-shadow:0 0 18px rgba(132,182,244,0.30);transform:translateY(-3px);}
+.gallery-frame.active{border-color:var(--azul-fuerte);box-shadow:0 0 22px rgba(132,182,244,0.45);}
+.gallery-frame-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;}
+.gallery-frame:hover .gallery-frame-cover{transform:scale(1.06);}
+.gallery-frame-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,10,40,0.88) 100%);pointer-events:none;}
+.gallery-frame-info{position:absolute;bottom:0;left:0;right:0;padding:8px 7px 7px;z-index:2;}
+.gallery-frame-emoji{font-size:1.1rem;display:block;margin-bottom:2px;}
+.gallery-frame-name{font-family:'Cinzel',serif;font-size:.52rem;letter-spacing:2px;color:var(--magic-white);display:block;text-transform:uppercase;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gallery-frame-count{font-family:'Montserrat',sans-serif;font-size:.48rem;color:var(--azul-claro);letter-spacing:1px;margin-top:2px;display:block;}
+.gallery-frame-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.35;}
+.gallery-frame-badge{position:absolute;top:5px;right:5px;background:var(--azul-fuerte);border-radius:50%;width:16px;height:16px;display:none;align-items:center;justify-content:center;font-size:.55rem;color:#fff;}
+.gallery-frame.active .gallery-frame-badge{display:flex;}
+
+/* Tab "Todas" — píldora azul */
+.tab-all{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(132,182,244,0.06);border:1px solid rgba(132,182,244,0.35);border-radius:20px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);cursor:pointer;transition:var(--transition);margin-bottom:14px;}
+.tab-all:hover{border-color:var(--azul-claro);color:var(--magic-white);}
+.tab-all.active{background:rgba(132,182,244,0.18);border-color:var(--azul-fuerte);color:var(--magic-white);box-shadow:0 0 14px rgba(132,182,244,0.30);}
+.tab-count{background:rgba(132,182,244,0.15);border-radius:10px;padding:1px 7px;font-size:.52rem;color:var(--azul-claro);}
+.tab-all.active .tab-count{background:rgba(132,182,244,0.30);color:var(--magic-white);}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
-.modal-box{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:32px 26px;width:100%;max-width:380px;position:relative;
-    /* ← antes: halo azul rgba(100,180,240,0.06). Ahora: halo dorado */
-    box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 30px rgba(212,168,75,0.08);}
-.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.modal-title{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:4px;color:var(--gold);text-align:center;text-transform:uppercase;margin-bottom:22px;}
-.modal-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
-.modal-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--off-white);outline:none;transition:border-color .3s;caret-color:var(--gold);margin-bottom:18px;}
-.modal-input:focus{border-color:var(--gold);}
+.modal-box{background:rgba(0,26,70,0.92);border:1px solid rgba(196,218,250,0.35);border-radius:6px;padding:32px 26px;width:100%;max-width:380px;position:relative;
+    box-shadow:0 0 60px rgba(0,0,0,0.8),0 0 30px rgba(132,182,244,0.12);}
+.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--azul-claro),transparent);}
+.modal-stars{position:absolute;top:0;left:0;right:0;height:1px;border-radius:6px 6px 0 0;} /* alias de ::before */
+.modal-hint{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--azul-claro);text-align:center;margin:-10px 0 18px;opacity:.85;}
+.modal-title{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:4px;color:var(--azul-claro);text-align:center;text-transform:uppercase;margin-bottom:22px;}
+.modal-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:8px;}
+.modal-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(196,218,250,0.25);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--magic-white);outline:none;transition:border-color .3s;caret-color:var(--azul-claro);margin-bottom:18px;}
+.modal-input:focus{border-color:var(--azul-claro);}
 .modal-input::placeholder{color:var(--text-dim);font-style:italic;}
 .modal-emoji-picker{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
-.emoji-opt{width:36px;height:36px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
-.emoji-opt:hover,.emoji-opt.selected{
-    /* ← antes: borde dorado con fondo azul rgba(100,180,240,0.1). Ahora: fondo dorado */
-    border-color:var(--gold);background:rgba(212,168,75,0.12);transform:scale(1.1);}
+.emoji-opt{width:36px;height:36px;background:rgba(255,255,255,0.03);border:1px solid rgba(196,218,250,0.20);border-radius:8px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.emoji-opt:hover,.emoji-opt.selected{border-color:var(--azul-claro);background:rgba(132,182,244,0.15);transform:scale(1.1);}
 .modal-actions{display:flex;gap:10px;}
-.btn-modal-cancel{flex:1;padding:11px;background:none;border:1px solid var(--border);border-radius:3px;color:var(--text-dim);font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;cursor:pointer;transition:var(--transition);}
-.btn-modal-cancel:hover{border-color:var(--gold-dim);color:var(--gold-dim);}
-.btn-modal-confirm{flex:2;padding:11px;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 50%,var(--gold-dim) 100%);border:none;border-radius:3px;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;color:var(--bg);font-weight:600;cursor:pointer;transition:var(--transition);}
-/* ← antes: glow azul rgba(100,180,240,0.35). Ahora: glow dorado */
-.btn-modal-confirm:hover{box-shadow:0 0 20px rgba(212,168,75,0.45);}
+.btn-modal-cancel{flex:1;padding:11px;background:none;border:1px solid rgba(196,218,250,0.25);border-radius:3px;color:var(--azul-claro);font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;cursor:pointer;transition:var(--transition);}
+.btn-modal-cancel:hover{border-color:var(--azul-claro);color:var(--magic-white);}
+.btn-modal-confirm{flex:2;padding:11px;background:linear-gradient(135deg,var(--azul-oscuro) 0%,var(--azul-fuerte) 50%,var(--azul-oscuro) 100%);border:none;border-radius:3px;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;color:var(--magic-white);font-weight:600;cursor:pointer;transition:var(--transition);}
+.btn-modal-confirm:hover{box-shadow:0 0 20px rgba(132,182,244,0.45);}
 
 /* UPLOAD SECTION */
-.upload-section{border:1px solid var(--border);border-radius:4px;padding:28px 20px;margin-bottom:36px;
-    /* ← antes: destello azul rgba(80,160,220,0.06). Ahora: destello dorado sutil */
-    background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(212,168,75,0.07) 0%,transparent 70%);
+.upload-section{border:1px solid rgba(196,218,250,0.25);border-radius:4px;padding:28px 20px;margin-bottom:36px;
+    background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(132,182,244,0.10) 0%,transparent 70%);
     position:relative;}
-.upload-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.upload-section-title{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:4px;color:var(--gold-dim);text-align:center;text-transform:uppercase;margin-bottom:20px;}
-.field-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:8px;}
+.upload-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--azul-claro),transparent);}
+.upload-section-title{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:4px;color:var(--azul-claro);text-align:center;text-transform:uppercase;margin-bottom:20px;}
+.field-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:8px;}
 .field-wrap{margin-bottom:14px;}
-.field-input,.field-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--off-white);outline:none;transition:border-color .3s;caret-color:var(--gold);}
-.field-input:focus,.field-select:focus{border-color:var(--gold);}
+.field-input,.field-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(196,218,250,0.25);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--magic-white);outline:none;transition:border-color .3s;caret-color:var(--azul-claro);}
+.field-input:focus,.field-select:focus{border-color:var(--azul-claro);}
 .field-input::placeholder{color:var(--text-dim);font-style:italic;}
 .field-select{appearance:none;cursor:pointer;
-    /* ← la flecha del select: antes azul #7aafd4. Ahora dorada #bf953f (en la URL del SVG) */
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23bf953f' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2384b6f4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
     background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
-/* ← antes: opciones del dropdown con fondo azul #0d1a30. Ahora: azul marino profundo */
-.field-select option{background:#001432;color:var(--off-white);}
+.field-select option{background:#001432;color:var(--magic-white);}
 .upload-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.upload-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;border:1px dashed var(--border);border-radius:3px;background:rgba(255,255,255,0.02);color:var(--text);cursor:pointer;transition:var(--transition);}
-.upload-btn:hover{
-    /* ← antes: fondo azul rgba(100,180,240,0.05). Ahora: fondo dorado tenue */
-    border-color:var(--gold);background:rgba(212,168,75,0.06);color:var(--gold);}
+.upload-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;border:1px dashed rgba(196,218,250,0.30);border-radius:3px;background:rgba(255,255,255,0.02);color:var(--azul-claro);cursor:pointer;transition:var(--transition);}
+.upload-btn:hover{border-color:var(--azul-fuerte);background:rgba(132,182,244,0.08);color:var(--magic-white);}
 .upload-btn svg{width:26px;height:26px;}
 .upload-btn span{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;}
-#previewWrap{display:none;margin-bottom:14px;border:1px solid var(--border);border-radius:3px;overflow:hidden;position:relative;}
+#previewWrap{display:none;margin-bottom:14px;border:1px solid rgba(196,218,250,0.25);border-radius:3px;overflow:hidden;position:relative;}
 #previewImg{width:100%;max-height:260px;object-fit:cover;display:block;}
-.preview-clear{position:absolute;top:8px;right:8px;width:28px;height:28px;background:rgba(6,12,24,0.85);border:1px solid var(--border);border-radius:50%;color:var(--gold-dim);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:var(--transition);}
-.preview-clear:hover{color:var(--gold);border-color:var(--gold);}
-.caption-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--off-white);outline:none;transition:border-color .3s;resize:none;caret-color:var(--gold);margin-bottom:14px;}
-.caption-input:focus{border-color:var(--gold);}
+.preview-clear{position:absolute;top:8px;right:8px;width:28px;height:28px;background:rgba(6,12,24,0.85);border:1px solid rgba(196,218,250,0.25);border-radius:50%;color:var(--azul-claro);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:var(--transition);}
+.preview-clear:hover{color:var(--magic-white);border-color:var(--azul-fuerte);}
+.caption-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(196,218,250,0.25);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--magic-white);outline:none;transition:border-color .3s;resize:none;caret-color:var(--azul-claro);margin-bottom:14px;}
+.caption-input:focus{border-color:var(--azul-claro);}
 .caption-input::placeholder{color:var(--text-dim);}
-.submit-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 50%,var(--gold-dim) 100%);border:none;border-radius:3px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:4px;color:var(--bg);font-weight:600;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;}
+.submit-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--azul-oscuro) 0%,var(--azul-fuerte) 50%,var(--azul-oscuro) 100%);border:none;border-radius:3px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:4px;color:var(--magic-white);font-weight:600;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;}
 .submit-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .5s;}
 .submit-btn:hover::before{left:100%;}
-/* ← antes: glow azul rgba(100,180,240,0.45). Ahora: glow dorado en botón "Subir al Álbum" */
-.submit-btn:hover{box-shadow:0 0 25px rgba(212,168,75,0.5);}
+.submit-btn:hover{box-shadow:0 0 25px rgba(132,182,244,0.45);}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;}
 .submit-btn svg{width:16px;height:16px;}
 .upload-progress{display:none;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin-top:12px;overflow:hidden;}
-.upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold-bright));width:0%;transition:width .3s;border-radius:2px;}
+.upload-progress-bar{height:100%;background:linear-gradient(90deg,var(--azul-oscuro),var(--azul-claro));width:0%;transition:width .3s;border-radius:2px;}
 .toast{display:none;padding:10px 16px;border-radius:3px;font-family:'Montserrat',sans-serif;font-size:.72rem;letter-spacing:1px;margin-top:12px;text-align:center;}
-/* ← antes: toast exitoso con fondo azul rgba(80,160,220,0.1). Ahora: dorado */
-.toast.success{background:rgba(212,168,75,0.1);border:1px solid var(--border);color:var(--gold);display:block;}
+.toast.success{background:rgba(132,182,244,0.12);border:1px solid rgba(196,218,250,0.30);color:var(--azul-claro);display:block;}
 .toast.error{background:rgba(200,80,80,0.1);border:1px solid rgba(200,80,80,0.3);color:#e07070;display:block;}
 
 /* GALERÍA */
 .gallery-header-row{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
-.gallery-header-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
-.gallery-title-txt{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:5px;color:var(--gold-dim);white-space:nowrap;}
+.gallery-header-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--azul-claro),transparent);}
+.gallery-title-txt{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:5px;color:var(--azul-claro);white-space:nowrap;}
 .gallery-count-txt{font-family:'Montserrat',sans-serif;font-size:.6rem;color:var(--text-dim);letter-spacing:1px;text-align:center;margin-bottom:18px;}
 .photo-grid{columns:2;column-gap:10px;}
 @media(min-width:480px){.photo-grid{columns:3;}}
-.photo-card{break-inside:avoid;margin-bottom:10px;border:1px solid var(--border);border-radius:3px;overflow:hidden;background:var(--card);transition:var(--transition);cursor:pointer;}
-.photo-card:hover{border-color:var(--gold-dim);
-    /* ← antes: glow azul rgba(100,180,240,0.14). Ahora: glow dorado al pasar el dedo */
-    box-shadow:0 0 18px rgba(212,168,75,0.18);}
+.photo-card{break-inside:avoid;margin-bottom:10px;border:1px solid rgba(196,218,250,0.20);border-radius:3px;overflow:hidden;background:rgba(0,26,70,0.6);transition:var(--transition);cursor:pointer;}
+.photo-card:hover{border-color:var(--azul-fuerte);box-shadow:0 0 18px rgba(132,182,244,0.20);}
 .photo-card img{width:100%;display:block;object-fit:cover;aspect-ratio:1;transition:transform .5s;}
 .photo-card:hover img{transform:scale(1.04);}
 .photo-info{padding:9px 10px 12px;}
 .photo-gallery-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;
-    /* ← antes: fondo azul rgba(100,180,240,0.1). Ahora: fondo dorado tenue */
-    background:rgba(212,168,75,0.1);border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--gold-dim);margin-bottom:6px;}
-.photo-author{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:4px;}
-.photo-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--text);line-height:1.5;}
+    background:rgba(132,182,244,0.12);border:1px solid rgba(196,218,250,0.20);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--azul-claro);margin-bottom:6px;}
+.photo-author{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:4px;}
+.photo-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--magic-white);line-height:1.5;}
 .photo-date{font-family:'Montserrat',sans-serif;font-size:.52rem;color:var(--text-dim);margin-top:5px;letter-spacing:1px;}
 .photo-actions{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
-.photo-like{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);width:fit-content;}
+.photo-like{display:flex;align-items:center;gap:5px;background:none;border:1px solid rgba(196,218,250,0.20);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);width:fit-content;}
 .photo-like:hover,.photo-like.liked{border-color:#e07070;color:#e07070;}
 .photo-like svg{width:12px;height:12px;}
-.photo-notes-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid var(--border);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);}
-.photo-notes-btn:hover{border-color:var(--gold-dim);color:var(--gold);}
+.photo-notes-btn{display:flex;align-items:center;gap:5px;background:none;border:1px solid rgba(196,218,250,0.20);border-radius:20px;padding:4px 10px;color:var(--text-dim);cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.6rem;letter-spacing:1px;transition:var(--transition);}
+.photo-notes-btn:hover{border-color:var(--azul-fuerte);color:var(--magic-white);}
 .photo-notes-btn svg{width:12px;height:12px;}
-.gallery-empty{text-align:center;padding:50px 20px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;border:1px dashed var(--border);border-radius:4px;column-span:all;}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--bg);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0;}
+.gallery-empty{text-align:center;padding:50px 20px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;border:1px dashed rgba(196,218,250,0.20);border-radius:4px;column-span:all;}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--azul-fuerte);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:14px;}
 .lightbox.open{display:flex;}
-.lightbox-img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid var(--border);border-radius:3px;
-    /* ← antes: sombra azul rgba(100,180,240,0.1). Ahora: sombra dorada en imagen ampliada */
-    box-shadow:0 0 60px rgba(212,168,75,0.12);}
+.lightbox-img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid rgba(196,218,250,0.25);border-radius:3px;
+    box-shadow:0 0 60px rgba(132,182,244,0.15);}
 .lightbox-info{text-align:center;}
-.lightbox-author{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--gold-dim);margin-bottom:4px;}
-.lightbox-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--text);}
-.lightbox-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:rgba(6,12,24,0.85);border:1px solid var(--border);border-radius:50%;color:var(--gold-dim);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
-.lightbox-close:hover{color:var(--gold);border-color:var(--gold);}
+.lightbox-author{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--azul-claro);margin-bottom:4px;}
+.lightbox-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--magic-white);}
+.lightbox-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:rgba(6,12,24,0.85);border:1px solid rgba(196,218,250,0.25);border-radius:50%;color:var(--azul-claro);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+.lightbox-close:hover{color:var(--magic-white);border-color:var(--azul-fuerte);}
 #fileCam,#fileGal{display:none;}
 
 /* MODAL DE COMENTARIOS */
 .comments-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);z-index:9998;align-items:center;justify-content:center;padding:18px;}
 .comments-modal.open{display:flex;}
-.comments-box{width:100%;max-width:460px;max-height:86vh;background:var(--card);color:var(--off-white);border:1px solid var(--border);border-radius:22px;padding:22px 18px 18px;position:relative;display:flex;flex-direction:column;box-shadow:0 12px 45px rgba(0,0,0,0.48),0 0 20px rgba(212,168,75,0.1);}
-.comments-close{position:absolute;top:10px;right:10px;width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.02);font-size:1.5rem;line-height:1;color:var(--gold-dim);cursor:pointer;}
-.comments-title{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--off-white);margin:0 34px 10px 4px;}
+.comments-box{width:100%;max-width:460px;max-height:86vh;background:rgba(0,26,70,0.95);color:var(--magic-white);border:1px solid rgba(196,218,250,0.28);border-radius:22px;padding:22px 18px 18px;position:relative;display:flex;flex-direction:column;box-shadow:0 12px 45px rgba(0,0,0,0.48),0 0 20px rgba(132,182,244,0.12);}
+.comments-close{position:absolute;top:10px;right:10px;width:34px;height:34px;border:1px solid rgba(196,218,250,0.28);border-radius:8px;background:rgba(255,255,255,0.02);font-size:1.5rem;line-height:1;color:var(--azul-claro);cursor:pointer;}
+.comments-title{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--magic-white);margin:0 34px 10px 4px;}
 .comments-list{overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px;max-height:46vh;margin-bottom:10px;}
-.comments-empty{padding:14px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:.8rem;}
-.comments-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:10px 12px;}
-.comments-item-author{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.82rem;color:var(--gold-bright);}
-.comments-item-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--off-white);line-height:1.4;margin-top:3px;}
+.comments-empty{padding:14px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(196,218,250,0.20);color:var(--azul-claro);font-family:'Montserrat',sans-serif;font-size:.8rem;}
+.comments-item{background:rgba(255,255,255,0.03);border:1px solid rgba(196,218,250,0.20);border-radius:12px;padding:10px 12px;}
+.comments-item-author{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.82rem;color:var(--azul-claro);}
+.comments-item-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--magic-white);line-height:1.4;margin-top:3px;}
 .comments-item-date{font-family:'Montserrat',sans-serif;font-size:.72rem;color:var(--text-dim);margin-top:4px;}
 .comments-form{display:flex;flex-direction:column;gap:10px;padding:2px 4px;}
-.comments-input{width:100%;border:1px solid var(--border);background:rgba(255,255,255,0.03);border-radius:11px;padding:10px 12px;font-family:'Montserrat',sans-serif;font-size:.95rem;color:var(--off-white);outline:none;}
-.comments-textarea{width:100%;border:1px solid var(--border);background:rgba(255,255,255,0.03);border-radius:11px;padding:10px 12px;font-family:'Montserrat',sans-serif;font-size:.95rem;color:var(--off-white);outline:none;min-height:72px;resize:vertical;}
+.comments-input{width:100%;border:1px solid rgba(196,218,250,0.25);background:rgba(255,255,255,0.03);border-radius:11px;padding:10px 12px;font-family:'Montserrat',sans-serif;font-size:.95rem;color:var(--magic-white);outline:none;}
+.comments-textarea{width:100%;border:1px solid rgba(196,218,250,0.25);background:rgba(255,255,255,0.03);border-radius:11px;padding:10px 12px;font-family:'Montserrat',sans-serif;font-size:.95rem;color:var(--magic-white);outline:none;min-height:72px;resize:vertical;}
 .comments-input::placeholder,.comments-textarea::placeholder{color:var(--text-dim);}
-.comments-save{align-self:flex-start;background:linear-gradient(135deg,var(--gold-dim) 0%,var(--gold) 50%,var(--gold-dim) 100%);border:none;color:var(--bg);border-radius:10px;padding:10px 18px;font-family:'Montserrat',sans-serif;font-weight:600;cursor:pointer;}
-.comments-save:hover{box-shadow:0 0 18px rgba(212,168,75,0.35);}
+.comments-save{align-self:flex-start;background:linear-gradient(135deg,var(--azul-oscuro) 0%,var(--azul-fuerte) 50%,var(--azul-oscuro) 100%);border:none;color:var(--magic-white);border-radius:10px;padding:10px 18px;font-family:'Montserrat',sans-serif;font-weight:600;cursor:pointer;}
+.comments-save:hover{box-shadow:0 0 18px rgba(132,182,244,0.35);}
     </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
 
+<!-- FONDO ANIMADO — igual que la invitación -->
+<div class="stars-layer"></div>
+<div class="stars-layer s1"></div>
+<div class="stars-layer s2"></div>
+<div class="shooting-star f1"></div>
+<div class="shooting-star f2"></div>
+<div class="bokeh-container">
+    <div class="bokeh-light b1"></div>
+    <div class="bokeh-light b2"></div>
+    <div class="bokeh-light b3"></div>
+    <div class="bokeh-light b4"></div>
+    <div class="bokeh-light b5"></div>
+</div>
+
 <!-- ══ MODAL NUEVA GALERÍA ══ -->
-<div class="modal-overlay" id="modalNewGallery">
-    <div class="modal-box">
-        <p class="modal-title">✦ Nueva Galería ✦</p>
-        <label class="modal-label" for="galleryNameInput">Nombre de la galería</label>
+<div class="modal-overlay" id="modalNewGallery" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-stars"></div>
+        <p class="modal-title">✦ Tu Galería Personal ✦</p>
+        <p class="modal-hint" id="modalHint">Guarda tus momentos especiales de esta noche</p>
+
+        <label class="modal-label" for="galleryNameInput">Tu nombre</label>
         <input class="modal-input" id="galleryNameInput" type="text"
-               placeholder="ej. Ceremonia, Vals, Brindis…" maxlength="40">
-        <label class="modal-label">Elige un ícono</label>
+               placeholder="¿Cómo te llamas?" maxlength="40">
+
+        <label class="modal-label">Elige un ícono para tu galería</label>
         <div class="modal-emoji-picker" id="emojiPicker">
             <div class="emoji-opt selected" data-emoji="📸">📸</div>
             <div class="emoji-opt" data-emoji="💙">💙</div>
@@ -261,7 +345,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
         </div>
         <div class="modal-actions">
             <button class="btn-modal-cancel" onclick="closeModal()">Cancelar</button>
-            <button class="btn-modal-confirm" onclick="createGallery()">Crear Galería</button>
+            <button class="btn-modal-confirm" onclick="createGallery()">✦ Crear Mi Galería</button>
         </div>
     </div>
 </div>
@@ -283,7 +367,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
         <h3 class="comments-title">Notas de la foto</h3>
         <div class="comments-list" id="commentsList"></div>
         <div class="comments-form">
-            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre">
+            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre (obligatorio)">
             <textarea class="comments-textarea" id="commentTextInput" maxlength="220" placeholder="Escribe una nota..."></textarea>
             <button class="comments-save" onclick="sendCommentFromModal()">Guardar nota</button>
         </div>
@@ -292,24 +376,25 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 
 <!-- ══ HEADER ══ -->
 <header class="album-header">
-    <a href="index.html" class="header-back">
+    <a href="index.html" id="backBtn" class="header-back">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-        Volver
+        Regresar a la Invitación
     </a>
     <div class="header-monogram">XV</div>
     <h1 class="header-title">Álbum de Recuerdos</h1>
     <p class="header-sub">Jennifer Arlete · 19 · 12 · 26</p>
-    <p class="header-desc">Agrega tus fotos y guárdalas en la galería que más te guste</p>
+    <p class="header-desc">Crea tu galería y comparte tus fotos de esta noche mágica</p>
 </header>
 
 <!-- ══ MAIN ══ -->
 <main class="album-main">
 
-    <!-- TABS DE GALERÍAS -->
+    <!-- GALERÍAS COMO PORTARRETRATOS -->
     <div class="galleries-nav">
         <p class="galleries-nav-title">✦ Galerías ✦</p>
-        <div class="galleries-list" id="galleriesList"></div>
-        <div style="display:flex;justify-content:center">
+
+        <!-- Botón crear galería — PRIMERO -->
+        <div class="btn-new-gallery-wrap">
             <button class="btn-new-gallery" onclick="openModal()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
@@ -317,6 +402,16 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
                 Crear nueva galería
             </button>
         </div>
+
+        <!-- Tab "Todas" -->
+        <div style="display:flex;justify-content:center;margin-bottom:14px;">
+            <button class="tab-all active" id="tabAll" onclick="switchGallery('all')">
+                🖼️ Todas <span class="tab-count" id="tabAllCount">0</span>
+            </button>
+        </div>
+
+        <!-- Grid de portarretratos -->
+        <div class="galleries-grid" id="galleriesGrid"></div>
     </div>
 
     <!-- SUBIR FOTO -->
@@ -330,10 +425,8 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
             </select>
         </div>
 
-        <div class="field-wrap">
-            <label class="field-label" for="authorName">Tu nombre</label>
-            <input class="field-input" id="authorName" type="text" placeholder="¿Cómo te llamas?" maxlength="60">
-        </div>
+        <!-- authorName oculto, se llena desde comentarios -->
+        <input type="hidden" id="authorName" value="">
 
         <input type="file" id="fileCam" accept="image/*" capture="environment">
         <input type="file" id="fileGal" accept="image/*">
@@ -460,24 +553,60 @@ let selectedFile       = null;
 let selectedEmoji      = '📸';
 const likedPhotos = new Set(JSON.parse(localStorage.getItem('xv_liked') || '[]'));
 
+// Preservar ?n= y &p= en el botón de regreso
+(function() {
+    const p = new URLSearchParams(window.location.search);
+    const n = p.get('n'), pases = p.get('p');
+    const back = document.getElementById('backBtn');
+    if (back) {
+        const q = new URLSearchParams();
+        if (n) q.set('n', n);
+        if (pases) q.set('p', pases);
+        const qs = q.toString();
+        back.href = qs ? `index.html?${qs}` : 'index.html';
+    }
+})();
+
 /* ════════════════════════════════════
    TABS
 ════════════════════════════════════ */
+/* ════════════════════════════════════
+   PORTARRETRATOS
+════════════════════════════════════ */
 function renderGalleryTabs() {
-    const list     = document.getElementById('galleriesList');
-    const allCount = (window._allPhotos || []).length;
+    const grid     = document.getElementById('galleriesGrid');
+    const tabAll   = document.getElementById('tabAll');
+    const countEl  = document.getElementById('tabAllCount');
     const active   = window._activeGallery;
+    const photos   = window._allPhotos || [];
+    const allCount = photos.length;
 
-    let html = `<button class="gallery-tab ${active==='all'?'active':''}" onclick="switchGallery('all')">
-        🖼️ Todas <span class="tab-count">${allCount}</span></button>`;
+    // Actualizar tab "Todas"
+    if (countEl) countEl.textContent = allCount;
+    if (tabAll)  tabAll.className = 'tab-all' + (active === 'all' ? ' active' : '');
 
-    (window._galleries || []).forEach(g => {
-        const cnt = (window._allPhotos||[]).filter(p => p.galleryId === g.id).length;
-        html += `<button class="gallery-tab ${active===g.id?'active':''}" onclick="switchGallery('${g.id}')">
-            ${g.emoji||'📸'} ${escHtml(g.name)} <span class="tab-count">${cnt}</span></button>`;
-    });
+    if (!grid) return;
 
-    list.innerHTML = html;
+    grid.innerHTML = (window._galleries || []).map(g => {
+        const galleryPhotos = photos.filter(p => p.galleryId === g.id);
+        const cover         = galleryPhotos[0]; // primera foto como portada
+        const cnt           = galleryPhotos.length;
+        const isActive      = active === g.id;
+
+        return `
+        <div class="gallery-frame ${isActive ? 'active' : ''}" onclick="switchGallery('${g.id}')">
+            ${cover
+                ? `<img class="gallery-frame-cover" src="${cover.url}" alt="" loading="lazy">`
+                : `<div class="gallery-frame-placeholder">${g.emoji || '📸'}</div>`}
+            <div class="gallery-frame-overlay"></div>
+            <div class="gallery-frame-info">
+                <span class="gallery-frame-emoji">${g.emoji || '📸'}</span>
+                <span class="gallery-frame-name">${escHtml(g.name)}</span>
+                <span class="gallery-frame-count">${cnt} foto${cnt !== 1 ? 's' : ''}</span>
+            </div>
+            <div class="gallery-frame-badge">✦</div>
+        </div>`;
+    }).join('');
 }
 window.renderGalleryTabs = renderGalleryTabs;
 
@@ -485,13 +614,19 @@ function switchGallery(id) {
     window._activeGallery = id;
     const title = document.getElementById('galleryViewTitle');
     if (id === 'all') {
-        title.textContent = 'Todas las Fotos';
+        if (title) title.textContent = 'Todas las Fotos';
     } else {
         const g = (window._galleries||[]).find(x => x.id === id);
-        title.textContent = g ? `${g.emoji} ${g.name}` : 'Galería';
+        if (title) title.textContent = g ? `${g.emoji} ${g.name}` : 'Galería';
+        // Preseleccionar la galería en el select de subida
+        const sel = document.getElementById('destGallery');
+        if (sel) sel.value = id;
     }
     renderPhotoGrid();
     renderGalleryTabs();
+    // Scroll suave al grid de fotos
+    const uploadSec = document.querySelector('.upload-section');
+    if (uploadSec) uploadSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 window.switchGallery = switchGallery;
 
@@ -512,11 +647,19 @@ function refreshDestSelect() {
    MODAL
 ════════════════════════════════════ */
 function openModal() {
-    document.getElementById('galleryNameInput').value = '';
+    // Pre-cargar el nombre del invitado desde la URL (?n=)
+    const urlParams = new URLSearchParams(window.location.search);
+    const nombreUrl = (urlParams.get('n') || '').replace(/_/g, ' ');
+    const inp = document.getElementById('galleryNameInput');
+    inp.value = nombreUrl || '';
+    if (nombreUrl) {
+        inp.placeholder = nombreUrl;
+    }
     selectedEmoji = '📸';
     document.querySelectorAll('.emoji-opt').forEach(x => x.classList.remove('selected'));
     document.querySelector('.emoji-opt[data-emoji="📸"]').classList.add('selected');
     document.getElementById('modalNewGallery').classList.add('open');
+    setTimeout(() => inp.focus(), 100);
 }
 function closeModal() {
     document.getElementById('modalNewGallery').classList.remove('open');
@@ -583,11 +726,11 @@ async function uploadPhoto() {
     if (!window._firebaseReady) { showToast('Cargando servicios, intenta en un momento…','error'); return; }
 
     const galleryId = document.getElementById('destGallery').value;
-    const author    = document.getElementById('authorName').value.trim();
+    // El nombre se pide en los comentarios; si no hay, usamos 'Invitado'
+    const author    = document.getElementById('authorName').value.trim() || 'Invitado';
     const caption   = document.getElementById('captionText').value.trim();
 
     if (!selectedFile) { showToast('Selecciona o toma una foto primero.','error'); return; }
-    if (!author)       { showToast('Escribe tu nombre para continuar.','error'); return; }
     if (!galleryId)    { showToast('Elige en qué galería guardar tu foto.','error'); return; }
 
     const btn = document.getElementById('submitBtn');
@@ -776,12 +919,20 @@ async function sendCommentFromModal() {
     if (!window._activeCommentsPhotoId) return;
     const authorInp = document.getElementById('commentAuthorInput');
     const textInp = document.getElementById('commentTextInput');
-    const author = authorInp.value.trim() || document.getElementById('authorName').value.trim() || 'Invitado';
+    const author = authorInp.value.trim();
     const text = textInp.value.trim();
+    if (!author) {
+        authorInp.focus();
+        authorInp.style.borderColor = 'var(--gold)';
+        setTimeout(() => { authorInp.style.borderColor = ''; }, 1500);
+        return;
+    }
     if (!text) {
         textInp.focus();
         return;
     }
+    // Guardar el nombre para usarlo en la próxima subida de foto
+    document.getElementById('authorName').value = author;
     textInp.value = '';
     await sendComment(window._activeCommentsPhotoId, author, text);
 }
@@ -834,10 +985,8 @@ document.addEventListener('keydown', e => {
     const ctx = c.getContext('2d');
     let W = c.width = innerWidth, H = c.height = innerHeight;
     addEventListener('resize', () => { W = c.width = innerWidth; H = c.height = innerHeight; });
-    /* ← PARTÍCULAS: antes paleta azul (#a8d8f0, #d6eefa, #5b9fc4).
-       Ahora: mezcla de dorados, blancos y un azul muy pálido para dar variedad.
-       Si quieres cambiarlos edita este array PAL */
-    const PAL = ['#bf953f','#d4a84b','#fcf6ba','#fffde8','#ffffff','#e8d5a3'];
+    /* ← PARTÍCULAS: paleta azul cenicienta igual que la invitación */
+    const PAL = ['#84b6f4','#c4dafa','#ffffff','#e0e0e0','#a8a8a8','#2a5298'];
     const n   = Math.min(60, Math.floor(W*H/20000));
     const pts = Array.from({length:n},()=>({
         x:Math.random()*W, y:Math.random()*H,
