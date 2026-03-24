@@ -1236,16 +1236,31 @@ document.addEventListener('keydown', e => {
 
 // 1. Eliminar Foto completa
 async function confirmarEliminarFoto(photoId) {
-    const pin = prompt("Ingresa el PIN de administrador para eliminar:");
-    if (pin === "1234") { // Aquí puedes poner el PIN que quieras
+    const pin = prompt("Ingresa el PIN de administrador para eliminar la foto:");
+    
+    // Usamos el PIN 1234 como en tu ejemplo
+    if (pin === "1234") { 
         try {
-            await window._deleteDoc(window._doc(window._db, 'photos_jennifer_xv', photoId));
-            alert("Foto eliminada.");
-        } catch (e) { alert("Error al eliminar foto"); }
-    } else {
-        alert("PIN incorrecto.");
+            // 1. Buscamos la referencia exacta de la foto en tu colección de Firebase
+            const fotoRef = window._doc(window._db, 'photos_jennifer_xv', photoId);
+            
+            // 2. Ejecutamos el borrado del registro
+            await window._deleteDoc(fotoRef);
+            
+            // Al borrarse en Firebase, el "onSnapshot" detectará el cambio 
+            // y la quitará del navegador de todos los invitados automáticamente.
+            alert("¡Foto eliminada del álbum con éxito! ✦");
+        } catch (error) {
+            console.error("Error al eliminar de Firebase:", error);
+            alert("Hubo un problema al eliminar la foto de la base de datos.");
+        }
+    } else if (pin !== null) {
+        alert("PIN incorrecto. No tienes permisos para borrar.");
     }
 }
+
+// Asegúrate de que esta línea esté presente al final para que el botón funcione
+window.confirmarEliminarFoto = confirmarEliminarFoto;
 
 // 2. Eliminar una nota específica dentro de una foto
 async function eliminarNota(photoId, timestamp) {
