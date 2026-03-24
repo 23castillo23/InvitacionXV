@@ -1234,35 +1234,31 @@ document.addEventListener('keydown', e => {
     })();
 })();
 
-// 1. Eliminar Foto completa
+// 1. Función para eliminar la foto (Versión corregida para Firebase)
 async function confirmarEliminarFoto(photoId) {
-    const pin = prompt("Ingresa el PIN de administrador para eliminar la foto:");
+    const pin = prompt("Ingresa el PIN de administrador para eliminar:");
     
-    // Usamos el PIN 1234 como en tu ejemplo
     if (pin === "1234") { 
         try {
-            // 1. Buscamos la referencia exacta de la foto en tu colección de Firebase
             const fotoRef = window._doc(window._db, 'photos_jennifer_xv', photoId);
+            const docSnap = await window._getDoc(fotoRef);
             
-            // 2. Ejecutamos el borrado del registro
-            await window._deleteDoc(fotoRef);
-            
-            // Al borrarse en Firebase, el "onSnapshot" detectará el cambio 
-            // y la quitará del navegador de todos los invitados automáticamente.
-            alert("¡Foto eliminada del álbum con éxito! ✦");
+            if (docSnap.exists()) {
+                await window._deleteDoc(fotoRef);
+                alert("¡Foto eliminada con éxito! ✦");
+            } else {
+                alert("Esta foto ya no existe en la base de datos.");
+            }
         } catch (error) {
-            console.error("Error al eliminar de Firebase:", error);
-            alert("Hubo un problema al eliminar la foto de la base de datos.");
+            console.error("Error:", error);
+            alert("Hubo un problema al conectar con Firebase.");
         }
     } else if (pin !== null) {
-        alert("PIN incorrecto. No tienes permisos para borrar.");
+        alert("PIN incorrecto.");
     }
 }
 
-// Asegúrate de que esta línea esté presente al final para que el botón funcione
-window.confirmarEliminarFoto = confirmarEliminarFoto;
-
-// 2. Eliminar una nota específica dentro de una foto
+// 2. Función para eliminar notas
 async function eliminarNota(photoId, timestamp) {
     const pin = prompt("PIN de administrador:");
     if (pin !== "1234") return alert("PIN incorrecto");
@@ -1272,15 +1268,14 @@ async function eliminarNota(photoId, timestamp) {
     
     if (snap.exists()) {
         const data = snap.data();
-        // Filtramos los comentarios para quitar el que coincida con el tiempo (ts)
         const nuevosComentarios = data.comments.filter(c => c.ts !== timestamp);
         await window._updateDoc(ref, { comments: nuevosComentarios });
     }
 }
 
-// Hacerlas globales
-window.confirmarEliminarFoto = confirmarEliminarFoto;
-window.eliminarNota = eliminarNota;
+// 3. LAS LÍNEAS QUE EXPORTAN (¡DÉJALAS!)
+window.confirmarEliminarFoto = confirmarEliminarFoto; //
+window.eliminarNota = eliminarNota; //
 
 </script>
 </body>
