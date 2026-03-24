@@ -102,11 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pausa automática al salir del navegador (Para no molestar si el invitado se sale de la página)
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) { // Si el invitado minimiza el navegador o cambia de pestaña:
-            if (music) music.pause(); // Pausa la música solo
+        if (document.hidden) { 
+            if (music) music.pause(); 
         } else {
-            // Si el invitado regresa y la invitación estaba abierta, vuelve a sonar
-            if (wrapper.classList.contains('open') && music) {
+            if (wrapper && wrapper.classList.contains('open') && music) {
                 music.play();
                 musicIcon.innerText = "🔊";
             }
@@ -115,14 +114,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Control manual (Botón flotante circular)
     if (musicBtn && music) {
-        musicBtn.addEventListener('click', (e) => { // Cuando el invitado toca el botón de la esquina:
+        musicBtn.addEventListener('click', (e) => { 
             e.stopPropagation();
-            if (music.paused) { // Si la música estaba pausada:
-                music.play(); // Dale play
-                musicIcon.innerText = "🔊"; // Pon la bocina encendida
-            } else { // Si la música estaba sonando:
-                music.pause(); // Ponle pausa
-                musicIcon.innerText = "🔇"; // Pon la bocina tachada
+            // TRUCO PARA EVITAR MUDO: Forzamos muted = false al dar clic
+            music.muted = false; 
+            if (music.paused) {
+                music.play();
+                musicIcon.innerText = "🔊";
+            } else {
+                music.pause();
+                musicIcon.innerText = "🔇";
             }
         });
     }
@@ -138,6 +139,26 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.toggle('active'); // Abre la sección tocada o la cierra si ya estaba abierta
         });
     });
+
+    // --- MODO ADMINISTRADOR (3 Clics en el nombre del pergamino) ---
+    const nombrePergamino = document.querySelector('.princess-name');
+    let clicsAdmin = 0;
+
+    if (nombrePergamino) {
+        nombrePergamino.addEventListener('click', () => {
+            clicsAdmin++;
+            if (clicsAdmin === 3) {
+                const albumLink = document.getElementById('albumLink');
+                const albumMsg = document.getElementById('albumStatusMsg');
+                
+                if (albumLink) albumLink.style.display = 'inline-flex';
+                if (albumMsg) albumMsg.style.display = 'none';
+                
+                alert("✨ Modo Administrador: Álbum habilitado para pruebas.");
+                clicsAdmin = 0; 
+            }
+        });
+    } 
 
     // ******************************************************
     // AQUÍ ES DONDE LLAMAMOS AL RELOJ PARA QUE ENCIENDA
@@ -193,24 +214,4 @@ function iniciarReloj() {
         }
 
     }, 1000);
-}
-
-// --- MODO ADMINISTRADOR (3 Clics en el nombre del pergamino) ---
-const nombrePergamino = document.querySelector('.princess-name');
-let clicsAdmin = 0;
-
-if (nombrePergamino) {
-    nombrePergamino.addEventListener('click', () => {
-        clicsAdmin++;
-        if (clicsAdmin === 3) {
-            const albumLink = document.getElementById('albumLink');
-            const albumMsg = document.getElementById('albumStatusMsg');
-            
-            if (albumLink) albumLink.style.display = 'inline-flex';
-            if (albumMsg) albumMsg.style.display = 'none';
-            
-            alert("✨ Modo Administrador: Álbum habilitado para pruebas.");
-            clicsAdmin = 0; // Reiniciamos el contador
-        }
-    });
 }
