@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Álbum de Recuerdos · Jennifer Arlete</title>
+    <!-- ← theme-color: antes azul #060c18. Ahora azul marino profundo igual al index -->
     <meta name="theme-color" content="#0a0a14">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
 :root {
+    /* PALETA DE LA INVITACIÓN — Cenicienta azul + detalles dorados */
     --azul-oscuro:   #1e3c72;
     --azul-fondo:    #2a5298;
     --azul-fuerte:   #84b6f4;
@@ -18,97 +20,165 @@
     --magic-white:   #ffffff;
     --oro-rico:      #bf953f;
     --oro-brillante: #fcf6ba;
-    --bg:            #1e3c72;
-    --bg-mid:        #152d5a;
-    --card:          rgba(0,26,70,0.75);
-    --gold-dim:      #bf953f;
-    --gold:          #d4a84b;
-    --gold-bright:   #fcf6ba;
-    --gold-pale:     #fffde8;
-    --white:         #ffffff;
-    --off-white:     #ffffff;
-    --text:          var(--azul-claro);
-    --text-dim:      #7a9fd4;
-    --border:        rgba(191,149,63,0.35);
-    --border-light:  rgba(255,255,255,0.05);
-    --transition:    all 0.45s cubic-bezier(0.4,0,0.2,1);
+
+    /* Aliases usados en el álbum */
+    --bg:           #1e3c72;
+    --bg-mid:       #152d5a;
+    --card:         rgba(0, 26, 70, 0.75);
+    --gold-dim:     #bf953f;
+    --gold:         #d4a84b;
+    --gold-bright:  #fcf6ba;
+    --gold-pale:    #fffde8;
+    --white:        #ffffff;
+    --off-white:    #ffffff;
+    --text:         var(--azul-claro);
+    --text-dim:     #7a9fd4;
+    --border:       rgba(191,149,63,0.35);
+    --border-light: rgba(255,255,255,0.05);
+    --transition:   all 0.45s cubic-bezier(0.4,0,0.2,1);
 }
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+
 body{
     margin:0;
-    background-color:var(--azul-oscuro);
+    background-color: var(--azul-oscuro);
     background-image:
-        radial-gradient(circle at 50% 30%,rgba(132,182,244,0.30) 0%,transparent 60%),
-        linear-gradient(180deg,var(--azul-oscuro) 0%,var(--azul-fondo) 100%);
-    background-attachment:fixed;
-    color:var(--off-white);
+        radial-gradient(circle at 50% 30%, rgba(132,182,244,0.30) 0%, transparent 60%),
+        linear-gradient(180deg, var(--azul-oscuro) 0%, var(--azul-fondo) 100%);
+    background-attachment: fixed;
+    color: var(--off-white);
     font-family:'Cormorant Garamond',serif;
     min-height:100vh;
     overflow-x:hidden;
 }
-/* ── ESTRELLAS ── */
-.stars-layer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
+
+/* ── ESTRELLAS (idéntico a la invitación) ── */
+.stars-layer{
+    position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;
     background-image:
-        radial-gradient(2px 2px at 15px 30px,var(--magic-white),rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 50px 100px,var(--azul-claro),rgba(0,0,0,0)),
-        radial-gradient(3px 3px at 120px 60px,var(--plata-brill),rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 200px 180px,var(--magic-white),rgba(0,0,0,0)),
-        radial-gradient(4px 4px at 250px 50px,rgba(132,182,244,.4),rgba(0,0,0,0)),
-        radial-gradient(2.5px 2.5px at 300px 150px,var(--plata-vieja),rgba(0,0,0,0));
-    background-size:300px 300px;opacity:.6;animation:magicDust 12s infinite linear;}
-.stars-layer.s1{background-image:
-        radial-gradient(1px 1px at 20px 30px,#fff,rgba(0,0,0,0)),
-        radial-gradient(1.5px 1.5px at 100px 150px,#fff,rgba(0,0,0,0));
-    animation:twinkle 3s infinite ease-in-out;}
-.stars-layer.s2{background-image:
-        radial-gradient(1px 1px at 50px 80px,#fff,rgba(0,0,0,0)),
-        radial-gradient(2px 2px at 200px 100px,var(--azul-claro),rgba(0,0,0,0));
-    animation:twinkle 5s infinite ease-in-out;animation-delay:1.5s;}
-@keyframes magicDust{0%{transform:translateY(0) rotate(0deg);opacity:.4;}50%{opacity:.8;}100%{transform:translateY(-300px) rotate(4deg);opacity:.4;}}
-@keyframes twinkle{0%,100%{opacity:.2;}50%{opacity:.8;}}
-/* ── BOKEH ── */
+        radial-gradient(2px 2px at 15px 30px,  var(--magic-white),  rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 50px 100px,  var(--azul-claro),   rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 120px 60px,  var(--plata-brill),  rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 200px 180px, var(--magic-white),  rgba(0,0,0,0)),
+        radial-gradient(4px 4px at 250px 50px,  rgba(132,182,244,.4),rgba(0,0,0,0)),
+        radial-gradient(2.5px 2.5px at 300px 150px, var(--plata-vieja), rgba(0,0,0,0));
+    background-size:300px 300px;
+    opacity:.6;
+    animation:magicDust 12s infinite linear;
+}
+.stars-layer.s1{
+    background-image:
+        radial-gradient(1px 1px at 20px 30px,  #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 100px 150px, #fff, rgba(0,0,0,0));
+    animation:twinkle 3s infinite ease-in-out;
+}
+.stars-layer.s2{
+    background-image:
+        radial-gradient(1px 1px at 50px 80px,   #fff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 200px 100px, var(--azul-claro), rgba(0,0,0,0));
+    animation:twinkle 5s infinite ease-in-out;
+    animation-delay:1.5s;
+}
+@keyframes magicDust{
+    0%  {transform:translateY(0) rotate(0deg);   opacity:.4;}
+    50% {opacity:.8;}
+    100%{transform:translateY(-300px) rotate(4deg); opacity:.4;}
+}
+@keyframes twinkle{
+    0%,100%{opacity:.2;}
+    50%    {opacity:.8;}
+}
+
+/* ── BOKEH (idéntico a la invitación) ── */
 .bokeh-container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;}
-.bokeh-light{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(196,218,250,.30) 0%,rgba(42,82,152,0) 70%);animation:floatBokeh 25s infinite linear;opacity:0;}
-.b1{width:100px;height:100px;left:10%;top:20%;animation-delay:0s;}
+.bokeh-light{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle,rgba(196,218,250,.30) 0%,rgba(42,82,152,0) 70%);
+    animation:floatBokeh 25s infinite linear;opacity:0;
+}
+.b1{width:100px;height:100px;left:10%; top:20%;animation-delay:0s;}
 .b2{width:150px;height:150px;right:15%;top:40%;animation-delay:5s;}
-.b3{width:80px;height:80px;left:30%;bottom:15%;animation-delay:10s;}
-.b4{width:120px;height:120px;right:5%;bottom:30%;animation-delay:15s;}
-.b5{width:90px;height:90px;left:50%;top:10%;animation-delay:20s;}
-@keyframes floatBokeh{0%{transform:translateY(100vh) scale(.8);opacity:0;}20%{opacity:.6;}100%{transform:translateY(-20vh) scale(1.2);opacity:0;}}
+.b3{width:80px; height:80px; left:30%; bottom:15%;animation-delay:10s;}
+.b4{width:120px;height:120px;right:5%; bottom:30%;animation-delay:15s;}
+.b5{width:90px; height:90px; left:50%; top:10%;animation-delay:20s;}
+@keyframes floatBokeh{
+    0%  {transform:translateY(100vh) scale(.8);opacity:0;}
+    20% {opacity:.6;}
+    100%{transform:translateY(-20vh) scale(1.2);opacity:0;}
+}
+
 /* ── ESTRELLA FUGAZ ── */
-.shooting-star{position:fixed;width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--azul-claro),var(--magic-white));border-radius:2px;opacity:0;pointer-events:none;z-index:0;}
+.shooting-star{
+    position:fixed;width:120px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--azul-claro),var(--magic-white));
+    border-radius:2px;opacity:0;pointer-events:none;z-index:0;
+}
 .shooting-star.f1{top:18%;left:-140px;animation:shoot 8s 2s infinite;}
 .shooting-star.f2{top:40%;left:-140px;animation:shoot 8s 5s infinite;}
-@keyframes shoot{0%{transform:translate(0,0) rotate(-30deg);opacity:0;}5%{opacity:1;}30%{transform:translate(120vw,60px) rotate(-30deg);opacity:0;}100%{opacity:0;}}
+@keyframes shoot{
+    0%  {transform:translate(0,0)    rotate(-30deg);opacity:0;}
+    5%  {opacity:1;}
+    30% {transform:translate(120vw,60px) rotate(-30deg);opacity:0;}
+    100%{opacity:0;}
+}
+
 canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.35;}
 
 /* HEADER */
 .album-header{position:relative;z-index:2;text-align:center;padding:56px 20px 38px;border-bottom:1px solid var(--border);
     background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(132,182,244,0.12) 0%,transparent 70%);}
-.header-close-btn{display:inline-flex;flex-direction:column;align-items:center;gap:7px;text-decoration:none;cursor:pointer;margin-bottom:18px;transition:var(--transition);}
-.header-close-btn:hover .close-circle{box-shadow:0 0 28px rgba(132,182,244,0.45);border-color:var(--magic-white);}
+.header-back{display:none;}
+.header-monogram{display:none;}
+.header-close-btn{
+    display:inline-flex;flex-direction:column;align-items:center;gap:7px;
+    text-decoration:none;cursor:pointer;margin-bottom:18px;
+    transition:var(--transition);
+}
+.header-close-btn:hover .close-circle{
+    box-shadow:0 0 28px rgba(132,182,244,0.45);
+    border-color:var(--magic-white);
+}
 .header-close-btn:hover .close-label{color:var(--magic-white);}
-.close-circle{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--magic-white);border:1px solid var(--azul-claro);width:56px;height:56px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;letter-spacing:3px;box-shadow:0 0 18px rgba(132,182,244,0.25);transition:var(--transition);}
-.close-label{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:4px;color:var(--azul-claro);text-transform:uppercase;transition:var(--transition);}
+.close-circle{
+    font-family:'Cinzel',serif;font-size:1.3rem;color:var(--magic-white);
+    border:1px solid var(--azul-claro);width:56px;height:56px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;letter-spacing:3px;
+    box-shadow:0 0 18px rgba(132,182,244,0.25);
+    transition:var(--transition);
+}
+.close-label{
+    font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:4px;
+    color:var(--azul-claro);text-transform:uppercase;
+    transition:var(--transition);
+}
 .header-title{font-family:'Great Vibes',cursive;font-size:clamp(2.2rem,8vw,3.2rem);
     background:linear-gradient(160deg,#fff,var(--azul-claro),var(--azul-fuerte));
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-    filter:drop-shadow(0 2px 12px rgba(132,182,244,0.45));line-height:1.2;margin-bottom:6px;}
+    filter:drop-shadow(0 2px 12px rgba(132,182,244,0.45));
+    line-height:1.2;margin-bottom:6px;}
 .header-sub{font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:5px;color:var(--azul-claro);margin-bottom:12px;}
 .header-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--azul-claro);max-width:340px;margin:0 auto;line-height:1.8;}
 
 /* MAIN */
 .album-main{position:relative;z-index:2;max-width:680px;margin:0 auto;padding:36px 16px 80px;}
 
-/* GALERÍAS */
+/* GALERÍAS — portarretratos */
 .galleries-nav{margin-bottom:28px;}
 .galleries-nav-title{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;text-align:center;margin-bottom:14px;}
+
+/* Botón crear galería — va primero */
 .btn-new-gallery-wrap{display:flex;justify-content:center;margin-bottom:18px;}
 .btn-new-gallery{display:flex;align-items:center;gap:6px;padding:9px 20px;background:none;border:1px dashed rgba(132,182,244,0.55);border-radius:20px;font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;color:var(--azul-claro);cursor:pointer;transition:var(--transition);}
 .btn-new-gallery:hover{border-color:var(--magic-white);color:var(--magic-white);background:rgba(132,182,244,0.08);}
+.btn-new-gallery svg{width:12px;height:12px;}
+
+/* Grid de portarretratos */
 .galleries-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px;}
 @media(min-width:480px){.galleries-grid{grid-template-columns:repeat(4,1fr);}}
+
+/* Tarjeta portarretrato */
 .gallery-frame{position:relative;aspect-ratio:3/4;border:2px solid rgba(196,218,250,0.30);border-radius:4px;overflow:hidden;cursor:pointer;background:rgba(0,26,70,0.6);transition:var(--transition);}
 .gallery-frame:hover{border-color:var(--azul-claro);box-shadow:0 0 18px rgba(132,182,244,0.30);transform:translateY(-3px);}
 .gallery-frame.active{border-color:var(--azul-fuerte);box-shadow:0 0 22px rgba(132,182,244,0.45);}
@@ -122,6 +192,8 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .gallery-frame-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.35;}
 .gallery-frame-badge{position:absolute;top:5px;right:5px;background:var(--azul-fuerte);border-radius:50%;width:16px;height:16px;display:none;align-items:center;justify-content:center;font-size:.55rem;color:#fff;}
 .gallery-frame.active .gallery-frame-badge{display:flex;}
+
+/* Tab "Todas" — píldora azul */
 .tab-all{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(132,182,244,0.06);border:1px solid rgba(132,182,244,0.35);border-radius:20px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);cursor:pointer;transition:var(--transition);margin-bottom:14px;}
 .tab-all:hover{border-color:var(--azul-claro);color:var(--magic-white);}
 .tab-all.active{background:rgba(132,182,244,0.18);border-color:var(--azul-fuerte);color:var(--magic-white);box-shadow:0 0 14px rgba(132,182,244,0.30);}
@@ -131,8 +203,10 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(6px);z-index:9000;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
-.modal-box{background:rgba(15,30,65,0.88);border:1px solid rgba(196,218,250,0.20);border-radius:6px;padding:32px 26px;width:100%;max-width:380px;position:relative;box-shadow:0 0 60px rgba(0,0,0,0.6),0 0 20px rgba(132,182,244,0.07);}
+.modal-box{background:rgba(15,30,65,0.88);border:1px solid rgba(196,218,250,0.20);border-radius:6px;padding:32px 26px;width:100%;max-width:380px;position:relative;
+    box-shadow:0 0 60px rgba(0,0,0,0.6),0 0 20px rgba(132,182,244,0.07);}
 .modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--azul-claro),transparent);}
+.modal-stars{position:absolute;top:0;left:0;right:0;height:1px;border-radius:6px 6px 0 0;} /* alias de ::before */
 .modal-hint{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--azul-claro);text-align:center;margin:-10px 0 18px;opacity:.85;}
 .modal-title{font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:4px;color:var(--azul-claro);text-align:center;text-transform:uppercase;margin-bottom:22px;}
 .modal-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:8px;}
@@ -148,8 +222,10 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .btn-modal-confirm{flex:2;padding:11px;background:linear-gradient(135deg,rgba(30,60,114,0.7) 0%,rgba(80,130,180,0.5) 50%,rgba(30,60,114,0.7) 100%);border:1px solid rgba(132,182,244,0.30);border-radius:3px;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;color:var(--magic-white);font-weight:600;cursor:pointer;transition:var(--transition);}
 .btn-modal-confirm:hover{box-shadow:0 0 16px rgba(132,182,244,0.25);border-color:rgba(196,218,250,0.50);}
 
-/* UPLOAD */
-.upload-section{border:1px solid rgba(196,218,250,0.25);border-radius:4px;padding:28px 20px;margin-bottom:36px;background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(132,182,244,0.10) 0%,transparent 70%);position:relative;}
+/* UPLOAD SECTION */
+.upload-section{border:1px solid rgba(196,218,250,0.25);border-radius:4px;padding:28px 20px;margin-bottom:36px;
+    background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(132,182,244,0.10) 0%,transparent 70%);
+    position:relative;}
 .upload-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--azul-claro),transparent);}
 .upload-section-title{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:4px;color:var(--azul-claro);text-align:center;text-transform:uppercase;margin-bottom:20px;}
 .field-label{display:block;font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:8px;}
@@ -157,7 +233,9 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .field-input,.field-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(196,218,250,0.25);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--magic-white);outline:none;transition:border-color .3s;caret-color:var(--azul-claro);}
 .field-input:focus,.field-select:focus{border-color:var(--azul-claro);}
 .field-input::placeholder{color:var(--text-dim);font-style:italic;}
-.field-select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2384b6f4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.field-select{appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2384b6f4' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
 .field-select option{background:#001432;color:var(--magic-white);}
 .upload-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .upload-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px 10px;border:1px dashed rgba(196,218,250,0.30);border-radius:3px;background:rgba(255,255,255,0.02);color:var(--azul-claro);cursor:pointer;transition:var(--transition);}
@@ -168,6 +246,9 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 #previewImg{width:100%;max-height:260px;object-fit:cover;display:block;}
 .preview-clear{position:absolute;top:8px;right:8px;width:28px;height:28px;background:rgba(6,12,24,0.85);border:1px solid rgba(196,218,250,0.25);border-radius:50%;color:var(--azul-claro);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:var(--transition);}
 .preview-clear:hover{color:var(--magic-white);border-color:var(--azul-fuerte);}
+.caption-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(196,218,250,0.25);border-radius:3px;padding:11px 14px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;color:var(--magic-white);outline:none;transition:border-color .3s;resize:none;caret-color:var(--azul-claro);margin-bottom:14px;}
+.caption-input:focus{border-color:var(--azul-claro);}
+.caption-input::placeholder{color:var(--text-dim);}
 .submit-btn{width:100%;padding:13px;background:linear-gradient(135deg,rgba(30,60,114,0.7) 0%,rgba(80,130,180,0.45) 50%,rgba(30,60,114,0.7) 100%);border:1px solid rgba(132,182,244,0.28);border-radius:3px;font-family:'Cinzel',serif;font-size:.68rem;letter-spacing:4px;color:var(--magic-white);font-weight:600;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;}
 .submit-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);transition:left .5s;}
 .submit-btn:hover::before{left:100%;}
@@ -192,7 +273,8 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .photo-card img{width:100%;display:block;object-fit:cover;aspect-ratio:1;transition:transform .5s;}
 .photo-card:hover img{transform:scale(1.04);}
 .photo-info{padding:9px 10px 12px;}
-.photo-gallery-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;background:rgba(132,182,244,0.12);border:1px solid rgba(196,218,250,0.20);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--azul-claro);margin-bottom:6px;}
+.photo-gallery-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;
+    background:rgba(132,182,244,0.12);border:1px solid rgba(196,218,250,0.20);font-family:'Montserrat',sans-serif;font-size:.52rem;letter-spacing:1px;color:var(--azul-claro);margin-bottom:6px;}
 .photo-author{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:4px;}
 .photo-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:var(--magic-white);line-height:1.5;}
 .photo-date{font-family:'Montserrat',sans-serif;font-size:.52rem;color:var(--text-dim);margin-top:5px;letter-spacing:1px;}
@@ -210,7 +292,8 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 /* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;align-items:center;justify-content:center;padding:20px;flex-direction:column;gap:14px;}
 .lightbox.open{display:flex;}
-.lightbox-img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid rgba(196,218,250,0.25);border-radius:3px;box-shadow:0 0 60px rgba(132,182,244,0.15);}
+.lightbox-img{max-width:100%;max-height:78vh;object-fit:contain;border:1px solid rgba(196,218,250,0.25);border-radius:3px;
+    box-shadow:0 0 60px rgba(132,182,244,0.15);}
 .lightbox-info{text-align:center;}
 .lightbox-author{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:3px;color:var(--azul-claro);margin-bottom:4px;}
 .lightbox-caption{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--magic-white);}
@@ -218,62 +301,211 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .lightbox-close:hover{color:var(--magic-white);border-color:var(--azul-fuerte);}
 #fileCam,#fileGal{display:none;}
 
-/* MODAL COMENTARIOS */
+/* MODAL DE COMENTARIOS */
 .comments-modal{display:none;position:fixed;inset:0;background:rgba(0,5,30,0.82);backdrop-filter:blur(8px);z-index:9998;align-items:flex-end;justify-content:center;padding:0;}
 @media(min-width:500px){.comments-modal{align-items:center;padding:20px;}}
 .comments-modal.open{display:flex;}
-.comments-box{width:100%;max-width:480px;max-height:90vh;background:linear-gradient(160deg,rgba(10,20,70,0.98) 0%,rgba(20,45,110,0.98) 100%);color:var(--magic-white);border:1px solid rgba(196,218,250,0.35);border-radius:24px 24px 0 0;padding:24px 18px 20px;position:relative;display:flex;flex-direction:column;box-shadow:0 -8px 50px rgba(0,0,0,0.55),0 0 30px rgba(132,182,244,0.18);}
+
+.comments-box{
+    width:100%;max-width:480px;
+    max-height:90vh;
+    background:linear-gradient(160deg, rgba(10,20,70,0.98) 0%, rgba(20,45,110,0.98) 100%);
+    color:var(--magic-white);
+    border:1px solid rgba(196,218,250,0.35);
+    border-radius:24px 24px 0 0;
+    padding:24px 18px 20px;
+    position:relative;
+    display:flex;flex-direction:column;
+    box-shadow:0 -8px 50px rgba(0,0,0,0.55), 0 0 30px rgba(132,182,244,0.18);
+}
 @media(min-width:500px){.comments-box{border-radius:20px;}}
-.comments-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent,rgba(132,182,244,0.70),rgba(196,218,250,1),rgba(132,182,244,0.70),transparent);}
-.comments-handle{width:40px;height:4px;background:rgba(196,218,250,0.35);border-radius:4px;margin:0 auto 16px;}
-.comments-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border:1px solid rgba(196,218,250,0.35);border-radius:50%;background:rgba(132,182,244,0.10);font-size:1.1rem;line-height:1;color:var(--azul-claro);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);}
+
+/* Línea decorativa superior */
+.comments-box::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    border-radius:24px 24px 0 0;
+    background:linear-gradient(90deg, transparent, rgba(132,182,244,0.70), rgba(196,218,250,1), rgba(132,182,244,0.70), transparent);
+}
+
+/* Handle visual (solo en móvil) */
+.comments-handle{
+    width:40px;height:4px;
+    background:rgba(196,218,250,0.35);
+    border-radius:4px;
+    margin:0 auto 16px;
+}
+
+.comments-close{
+    position:absolute;top:14px;right:14px;
+    width:32px;height:32px;
+    border:1px solid rgba(196,218,250,0.35);
+    border-radius:50%;
+    background:rgba(132,182,244,0.10);
+    font-size:1.1rem;line-height:1;
+    color:var(--azul-claro);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:var(--transition);
+}
 .comments-close:hover{background:rgba(132,182,244,0.22);color:#fff;border-color:var(--azul-fuerte);}
-.comments-title{font-family:'Great Vibes',cursive;font-size:clamp(1.6rem,7vw,2.2rem);color:#fff;margin:0 36px 14px 4px;text-shadow:0 2px 12px rgba(132,182,244,0.45);}
-.comments-divider{display:flex;align-items:center;gap:8px;margin:0 4px 14px;}
+
+.comments-title{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(1.6rem,7vw,2.2rem);
+    color:#fff;
+    margin:0 36px 14px 4px;
+    text-shadow:0 2px 12px rgba(132,182,244,0.45);
+}
+
+/* Divisor decorativo */
+.comments-divider{
+    display:flex;align-items:center;gap:8px;
+    margin:0 4px 14px;
+}
 .comments-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(196,218,250,0.40),transparent);}
 .comments-divider-star{font-size:.65rem;color:rgba(196,218,250,0.60);}
-.comments-list{overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 2px;max-height:38vh;margin-bottom:14px;scrollbar-width:thin;scrollbar-color:rgba(132,182,244,0.30) transparent;}
+
+.comments-list{
+    overflow-y:auto;
+    display:flex;flex-direction:column;gap:10px;
+    padding:4px 2px;
+    max-height:38vh;
+    margin-bottom:14px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(132,182,244,0.30) transparent;
+}
 .comments-list::-webkit-scrollbar{width:4px;}
 .comments-list::-webkit-scrollbar-thumb{background:rgba(132,182,244,0.30);border-radius:4px;}
-.comments-empty{padding:16px 14px;border-radius:14px;background:rgba(132,182,244,0.06);border:1px dashed rgba(196,218,250,0.22);color:rgba(196,218,250,0.75);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;text-align:center;line-height:1.6;}
-.comments-item{background:linear-gradient(135deg,rgba(30,60,114,0.55) 0%,rgba(10,25,70,0.70) 100%);border:1px solid rgba(196,218,250,0.22);border-radius:14px;padding:12px 14px;position:relative;overflow:hidden;}
-.comments-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(196,218,250,0.35),transparent);}
-.comments-item-author{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:2px;color:var(--azul-claro);text-transform:uppercase;margin-bottom:4px;}
-.comments-item-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;line-height:1.5;margin-top:3px;}
-.comments-item-date{font-family:'Montserrat',sans-serif;font-size:.62rem;color:rgba(196,218,250,0.50);margin-top:6px;letter-spacing:1px;}
-.comments-form{display:flex;flex-direction:column;gap:10px;padding:2px 2px 0;}
-.comments-input{width:100%;border:1px solid rgba(196,218,250,0.28);background:rgba(132,182,244,0.06);border-radius:12px;padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:.92rem;color:#fff;outline:none;transition:border-color .3s,background .3s;-webkit-appearance:none;}
+
+.comments-empty{
+    padding:16px 14px;
+    border-radius:14px;
+    background:rgba(132,182,244,0.06);
+    border:1px dashed rgba(196,218,250,0.22);
+    color:rgba(196,218,250,0.75);
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1rem;
+    text-align:center;
+    line-height:1.6;
+}
+
+.comments-item{
+    background:linear-gradient(135deg,rgba(30,60,114,0.55) 0%,rgba(10,25,70,0.70) 100%);
+    border:1px solid rgba(196,218,250,0.22);
+    border-radius:14px;
+    padding:12px 14px;
+    position:relative;
+    overflow:hidden;
+}
+.comments-item::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(196,218,250,0.35),transparent);
+}
+.comments-item-author{
+    font-family:'Cinzel',serif;
+    font-size:.65rem;letter-spacing:2px;
+    color:var(--azul-claro);
+    text-transform:uppercase;
+    margin-bottom:4px;
+}
+.comments-item-text{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.05rem;
+    color:#fff;
+    line-height:1.5;
+    margin-top:3px;
+}
+.comments-item-date{
+    font-family:'Montserrat',sans-serif;
+    font-size:.62rem;
+    color:rgba(196,218,250,0.50);
+    margin-top:6px;
+    letter-spacing:1px;
+}
+
+.comments-form{
+    display:flex;flex-direction:column;gap:10px;
+    padding:2px 2px 0;
+}
+.comments-input{
+    width:100%;
+    border:1px solid rgba(196,218,250,0.28);
+    background:rgba(132,182,244,0.06);
+    border-radius:12px;
+    padding:11px 14px;
+    font-family:'Montserrat',sans-serif;font-size:.92rem;
+    color:#fff;outline:none;
+    transition:border-color .3s,background .3s;
+    -webkit-appearance:none;
+}
 .comments-input:focus{border-color:var(--azul-fuerte);background:rgba(132,182,244,0.12);}
-.comments-textarea{width:100%;border:1px solid rgba(196,218,250,0.28);background:rgba(132,182,244,0.06);border-radius:12px;padding:11px 14px;font-family:'Montserrat',sans-serif;font-size:.92rem;color:#fff;outline:none;min-height:72px;resize:vertical;transition:border-color .3s,background .3s;-webkit-appearance:none;}
+.comments-textarea{
+    width:100%;
+    border:1px solid rgba(196,218,250,0.28);
+    background:rgba(132,182,244,0.06);
+    border-radius:12px;
+    padding:11px 14px;
+    font-family:'Montserrat',sans-serif;font-size:.92rem;
+    color:#fff;outline:none;
+    min-height:72px;resize:vertical;
+    transition:border-color .3s,background .3s;
+    -webkit-appearance:none;
+}
 .comments-textarea:focus{border-color:var(--azul-fuerte);background:rgba(132,182,244,0.12);}
 .comments-input::placeholder,.comments-textarea::placeholder{color:rgba(196,218,250,0.45);font-style:italic;}
-.comments-save{align-self:stretch;background:linear-gradient(135deg,rgba(30,60,114,0.95) 0%,rgba(84,142,194,0.90) 50%,rgba(30,60,114,0.95) 100%);border:1px solid rgba(196,218,250,0.40);color:#fff;border-radius:12px;padding:13px 18px;font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:3px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;}
-.comments-save::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-100%);transition:transform .5s;}
+
+.comments-save{
+    align-self:stretch;
+    background:linear-gradient(135deg, rgba(30,60,114,0.95) 0%, rgba(84,142,194,0.90) 50%, rgba(30,60,114,0.95) 100%);
+    border:1px solid rgba(196,218,250,0.40);
+    color:#fff;border-radius:12px;
+    padding:13px 18px;
+    font-family:'Cinzel',serif;
+    font-size:.7rem;letter-spacing:3px;
+    cursor:pointer;
+    transition:var(--transition);
+    position:relative;overflow:hidden;
+}
+.comments-save::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+    transform:translateX(-100%);
+    transition:transform .5s;
+}
 .comments-save:hover::before{transform:translateX(100%);}
 .comments-save:hover{box-shadow:0 0 22px rgba(132,182,244,0.45);border-color:var(--azul-claro);}
     </style>
 </head>
 <body>
 <canvas id="bg"></canvas>
+
+<!-- FONDO ANIMADO — igual que la invitación -->
 <div class="stars-layer"></div>
 <div class="stars-layer s1"></div>
 <div class="stars-layer s2"></div>
 <div class="shooting-star f1"></div>
 <div class="shooting-star f2"></div>
 <div class="bokeh-container">
-    <div class="bokeh-light b1"></div><div class="bokeh-light b2"></div>
-    <div class="bokeh-light b3"></div><div class="bokeh-light b4"></div>
+    <div class="bokeh-light b1"></div>
+    <div class="bokeh-light b2"></div>
+    <div class="bokeh-light b3"></div>
+    <div class="bokeh-light b4"></div>
     <div class="bokeh-light b5"></div>
 </div>
 
 <!-- ══ MODAL NUEVA GALERÍA ══ -->
 <div class="modal-overlay" id="modalNewGallery" onclick="closeModal()">
     <div class="modal-box" onclick="event.stopPropagation()">
+        <div class="modal-stars"></div>
         <p class="modal-title">✦ Tu Galería Personal ✦</p>
-        <p class="modal-hint">Guarda tus momentos especiales de esta noche</p>
-        <label class="modal-label" for="galleryNameInput">Nombre de la galería</label>
-        <input class="modal-input" id="galleryNameInput" type="text" placeholder="Ej: Familia García, Mesa 5…" maxlength="40">
+        <p class="modal-hint" id="modalHint">Guarda tus momentos especiales de esta noche</p>
+
+        <label class="modal-label" for="galleryNameInput">Tu nombre</label>
+        <input class="modal-input" id="galleryNameInput" type="text"
+               placeholder="¿Cómo te llamas?" maxlength="40">
         <div id="galleryNameHint" style="display:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:rgba(196,218,250,0.75);margin:-12px 0 14px;text-align:center;line-height:1.5;"></div>
+
         <label class="modal-label">Elige un ícono para tu galería</label>
         <div class="modal-emoji-picker" id="emojiPicker">
             <div class="emoji-opt selected" data-emoji="📸">📸</div>
@@ -289,7 +521,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
         </div>
         <div class="modal-actions">
             <button class="btn-modal-cancel" onclick="closeModal()">Cancelar</button>
-            <button class="btn-modal-confirm" id="btnConfirmGallery" onclick="createGallery()">✦ Crear Mi Galería</button>
+            <button class="btn-modal-confirm" onclick="createGallery()">✦ Crear Mi Galería</button>
         </div>
     </div>
 </div>
@@ -317,7 +549,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
         </div>
         <div class="comments-list" id="commentsList"></div>
         <div class="comments-form">
-            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre (obligatorio)" style="display:none">
+            <input class="comments-input" id="commentAuthorInput" type="text" maxlength="60" placeholder="Tu nombre (obligatorio)">
             <textarea class="comments-textarea" id="commentTextInput" maxlength="220" placeholder="Escribe una nota..."></textarea>
             <button class="comments-save" onclick="sendCommentFromModal()">✦ GUARDAR NOTA</button>
         </div>
@@ -326,6 +558,10 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 
 <!-- ══ HEADER ══ -->
 <header class="album-header">
+    <a href="index.html" id="backBtn" class="header-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Regresar a la Invitación
+    </a>
     <a href="index.html" id="closeBtn" class="header-close-btn">
         <div class="close-circle">XV</div>
         <span class="close-label">← Cerrar</span>
@@ -337,54 +573,83 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 
 <!-- ══ MAIN ══ -->
 <main class="album-main">
+
+    <!-- GALERÍAS COMO PORTARRETRATOS -->
     <div class="galleries-nav">
         <p class="galleries-nav-title">✦ Galerías ✦</p>
+
+        <!-- Botón crear galería — PRIMERO -->
         <div class="btn-new-gallery-wrap">
             <button class="btn-new-gallery" onclick="openModal()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
                 Crear nueva galería
             </button>
         </div>
+
+        <!-- Tab "Todas" -->
         <div style="display:flex;justify-content:center;margin-bottom:14px;">
             <button class="tab-all active" id="tabAll" onclick="switchGallery('all')">
                 🖼️ Todas <span class="tab-count" id="tabAllCount">0</span>
             </button>
         </div>
+
+        <!-- Grid de portarretratos -->
         <div class="galleries-grid" id="galleriesGrid"></div>
     </div>
 
     <!-- SUBIR FOTO -->
     <section class="upload-section">
         <p class="upload-section-title">✦ Comparte tu Foto ✦</p>
+
         <div class="field-wrap">
             <label class="field-label" for="destGallery">Guardar en galería</label>
             <select class="field-select" id="destGallery">
                 <option value="">— Elige una galería —</option>
             </select>
         </div>
-        <input type="hidden" id="authorNameInput" value="">
+
+        <!-- authorName oculto, se llena desde comentarios -->
         <input type="hidden" id="authorName" value="">
+
         <input type="file" id="fileCam" accept="image/*" capture="environment">
         <input type="file" id="fileGal" accept="image/*">
+
         <div class="upload-actions">
             <button class="upload-btn" onclick="document.getElementById('fileCam').click()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                </svg>
                 <span>Tomar Foto</span>
             </button>
             <button class="upload-btn" onclick="document.getElementById('fileGal').click()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
                 <span>De mi Galería</span>
             </button>
         </div>
+
         <div id="previewWrap">
             <img id="previewImg" src="" alt="Vista previa">
             <button class="preview-clear" onclick="clearPreview()">✕</button>
         </div>
+
         <button class="submit-btn" id="submitBtn" onclick="uploadPhoto()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
             <span id="submitText">Subir al Álbum</span>
         </button>
-        <div class="upload-progress" id="uploadProgress"><div class="upload-progress-bar" id="progressBar"></div></div>
+
+        <div class="upload-progress" id="uploadProgress">
+            <div class="upload-progress-bar" id="progressBar"></div>
+        </div>
         <div class="toast" id="uploadToast"></div>
     </section>
 
@@ -398,6 +663,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
     <div class="photo-grid" id="photoGrid">
         <div class="gallery-empty">Las fotos que compartan aparecerán aquí ✦</div>
     </div>
+
 </main>
 
 <!-- ══ FIREBASE SDK ══ -->
@@ -405,11 +671,11 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
     getFirestore, collection, addDoc, onSnapshot,
-    query, orderBy, doc, updateDoc, arrayUnion, getDoc, setDoc, deleteDoc
+    query, orderBy, doc, updateDoc, arrayUnion, getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /* ╔══════════════════════════════════════════╗
-   ║  ⚙️  CONFIGURACIÓN                       ║
+   ║  ⚙️  CONFIGURACIÓN — rellena tus datos   ║
    ╚══════════════════════════════════════════╝ */
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyCsCTyurqfjzY1eAmIVXCkn1qeu7RXBiYc",
@@ -420,19 +686,14 @@ const FIREBASE_CONFIG = {
   appId: "1:477771859217:web:d91706255d18a38a71f8b0"
 };
 
-/* ─────────────────────────────────────────
-   CLOUDINARY — fuente de verdad para fotos
-   Las fotos viven en carpetas:
-     jennifer_xv_album/<nombre_galeria>/
-   ───────────────────────────────────────── */
-const CLOUDINARY_CLOUD  = "dwjzn6n0a";
-const CLOUDINARY_PRESET = "jennifer_xv";
+const CLOUDINARY_CLOUD  = "dwjzn6n0a";     // tu Cloud Name
+const CLOUDINARY_PRESET = "jennifer_xv";  // tu unsigned preset
 /* ══════════════════════════════════════════ */
 
 const app = initializeApp(FIREBASE_CONFIG);
 const db  = getFirestore(app);
 
-// Exponer al scope global
+// Exponer funciones al scope global
 window._db         = db;
 window._collection = collection;
 window._addDoc     = addDoc;
@@ -440,83 +701,39 @@ window._doc        = doc;
 window._updateDoc  = updateDoc;
 window._arrayUnion = arrayUnion;
 window._getDoc     = getDoc;
-window._setDoc     = setDoc;
-window._deleteDoc  = deleteDoc;
 window._CLOUD      = CLOUDINARY_CLOUD;
 window._PRESET     = CLOUDINARY_PRESET;
-window._firebaseReady = false; // se activa tras cargar galerías
+window._firebaseReady = true;
 
-/*
- * ARQUITECTURA NUEVA:
- * ─────────────────────────────────────────────────────
- * CLOUDINARY  → guarda las IMÁGENES en carpetas
- *   Carpeta raíz : jennifer_xv_album
- *   Por galería  : jennifer_xv_album/<folder_id>/
- *   Si se borra la imagen de Cloudinary → desaparece del álbum
- *
- * FIREBASE     → guarda SOLO metadatos ligeros:
- *   Colección "xv_galleries"  → {id, name, emoji, folderId, createdAt}
- *   Colección "xv_comments"   → {publicId, author, text, ts}
- *   Colección "xv_likes"      → {publicId, count}
- *
- * CARGA DE FOTOS:
- *   Se consulta la Cloudinary Search API con el prefix de la carpeta.
- *   Sin localStorage. Sin IndexedDB. Sin Firestore para imágenes.
- * ─────────────────────────────────────────────────────
- */
+// Escucha galerías en tiempo real
+onSnapshot(query(collection(db,'galleries_jennifer_xv'), orderBy('createdAt','asc')), snap => {
+    window._galleries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderGalleryTabs();
+    refreshDestSelect();
+});
 
-// Escuchar galerías en Firestore (solo metadatos: nombre, emoji, carpeta)
-onSnapshot(
-    query(collection(db, 'xv_galleries'), orderBy('createdAt','asc')),
-    snap => {
-        window._galleries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        window._firebaseReady = true;
-        if (typeof renderGalleryTabs === 'function') renderGalleryTabs();
-        if (typeof refreshDestSelect === 'function') refreshDestSelect();
-        // Cargar fotos del tab activo
-        if (typeof loadPhotos === 'function') loadPhotos(window._activeGallery || 'all');
+// Escucha fotos en tiempo real
+onSnapshot(query(collection(db,'photos_jennifer_xv'), orderBy('createdAt','desc')), snap => {
+    window._allPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderPhotoGrid();
+    renderGalleryTabs(); // actualiza contadores
+    if (window._activeCommentsPhotoId && typeof window.renderCommentsModal === 'function') {
+        window.renderCommentsModal();
     }
-);
-
-// Escuchar comentarios en tiempo real
-onSnapshot(
-    query(collection(db, 'xv_comments'), orderBy('ts','asc')),
-    snap => {
-        window._allComments = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        // Actualizar badge de notas en las tarjetas visibles
-        if (typeof updateCommentBadges === 'function') updateCommentBadges();
-        if (window._activeCommentsPhotoId && typeof renderCommentsModal === 'function') {
-            renderCommentsModal();
-        }
-    }
-);
-
-// Escuchar likes en tiempo real
-onSnapshot(
-    collection(db, 'xv_likes'),
-    snap => {
-        window._allLikes = {};
-        snap.docs.forEach(d => { window._allLikes[d.id] = d.data().count || 0; });
-        if (typeof updateLikeBadges === 'function') updateLikeBadges();
-    }
-);
+});
 </script>
 
 <script>
 /* ════════════════════════════════════
-   ESTADO GLOBAL
+   ESTADO
 ════════════════════════════════════ */
-window._galleries            = [];
-window._allComments          = [];
-window._allLikes             = {};
-window._activeGallery        = 'all';
+window._galleries     = [];
+window._allPhotos     = [];
+window._activeGallery = 'all';
 window._activeCommentsPhotoId = null;
-window._loadedPhotos         = []; // fotos cargadas desde Cloudinary en memoria
-let selectedFile  = null;
-let selectedEmoji = '📸';
-
-// Set de likes del usuario en sesión (NO localStorage — solo memoria)
-window._sessionLiked = new Set();
+let selectedFile       = null;
+let selectedEmoji      = '📸';
+const likedPhotos = new Set(JSON.parse(localStorage.getItem('xv_liked') || '[]'));
 
 // Preservar ?n= y &p= en el botón de regreso
 (function() {
@@ -525,232 +742,50 @@ window._sessionLiked = new Set();
     const q = new URLSearchParams();
     if (n) q.set('n', n);
     if (pases) q.set('p', pases);
-    const qs   = q.toString();
-    const href = qs ? `index.html?${qs}` : 'index.html';
+    const back  = document.getElementById('backBtn');
     const close = document.getElementById('closeBtn');
+    const qs = q.toString();
+    const href = qs ? `index.html?${qs}` : 'index.html';
+    if (back)  back.href  = href;
     if (close) close.href = href;
-
-    // Pre-llenar nombre desde URL (campo oculto y comentarios)
-    const inp = document.getElementById('authorNameInput');
-    const commentAuthorInp = document.getElementById('commentAuthorInput');
-    const displayName = n
-        ? n.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase())
-        : 'Invitado';
-    if (inp) inp.value = displayName;
-    if (commentAuthorInp) {
-        commentAuthorInp.value = displayName;
-        // Si viene nombre de la URL, ocultar el campo en el modal de comentarios
-        if (n) commentAuthorInp.style.display = 'none';
-        else   commentAuthorInp.style.display = '';
-    }
 })();
 
 /* ════════════════════════════════════
-   CLOUDINARY SEARCH API
-   Lee las fotos DIRECTAMENTE desde
-   Cloudinary usando el prefix de carpeta.
-   Si borras la imagen en Cloudinary
-   → ya no aparece aquí.
+   TABS
 ════════════════════════════════════ */
-async function fetchPhotosFromCloudinary(folderPrefix) {
-    const cloud = window._CLOUD;
-    // Usamos la Search API de Cloudinary (modo público con unsigned)
-    // El endpoint de búsqueda por carpeta no requiere autenticación si las imágenes son públicas
-    const url = `https://res.cloudinary.com/${cloud}/image/list/${encodeURIComponent(folderPrefix)}.json`;
-    try {
-        const res = await fetch(url, { cache: 'no-store' });
-        if (!res.ok) return [];
-        const data = await res.json();
-        return (data.resources || []).map(r => ({
-            publicId  : r.public_id,
-            url       : `https://res.cloudinary.com/${cloud}/image/upload/f_auto,q_auto/${r.public_id}`,
-            createdAt : r.created_at ? new Date(r.created_at).getTime() : 0,
-            // Extraer autor del nombre del archivo: autor__timestamp
-            author    : extractAuthor(r.public_id),
-            folder    : r.public_id.split('/').slice(0,-1).join('/')
-        }));
-    } catch(e) {
-        console.warn('Cloudinary fetch error:', e);
-        return [];
-    }
-}
-
-function extractAuthor(publicId) {
-    // El publicId es: jennifer_xv_album/galeria/autor__timestamp
-    const filename = publicId.split('/').pop() || '';
-    const parts    = filename.split('__');
-    if (parts.length >= 2) {
-        return parts[0].replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
-    }
-    return 'Invitado';
-}
-
-async function loadPhotos(galleryId) {
-    const countEl = document.getElementById('galleryCount');
-    const grid    = document.getElementById('photoGrid');
-    if (countEl) countEl.textContent = 'Cargando…';
-    if (grid)    grid.innerHTML = '<div class="gallery-empty"><span class="spinner"></span></div>';
-
-    let photos = [];
-
-    if (galleryId === 'all') {
-        // Cargar todas las fotos de la carpeta raíz
-        photos = await fetchPhotosFromCloudinary('jennifer_xv_album');
-    } else {
-        // Cargar fotos de la carpeta de esa galería
-        const gallery = (window._galleries || []).find(g => g.id === galleryId);
-        if (gallery) {
-            const folder = `jennifer_xv_album/${gallery.folderId}`;
-            photos = await fetchPhotosFromCloudinary(folder);
-        }
-    }
-
-    // Ordenar por fecha descendente
-    photos.sort((a,b) => b.createdAt - a.createdAt);
-    window._loadedPhotos = photos;
-    renderPhotoGrid(photos, galleryId);
-}
-window.loadPhotos = loadPhotos;
-
 /* ════════════════════════════════════
-   RENDER FOTOS
-════════════════════════════════════ */
-function renderPhotoGrid(photos, galleryId) {
-    const grid    = document.getElementById('photoGrid');
-    const countEl = document.getElementById('galleryCount');
-
-    // Titulo de la vista
-    const titleEl = document.getElementById('galleryViewTitle');
-    if (titleEl) {
-        if (galleryId === 'all') {
-            titleEl.textContent = 'Todas las Fotos';
-        } else {
-            const g = (window._galleries||[]).find(x => x.id === galleryId);
-            if (g) titleEl.textContent = `${g.emoji} ${g.name}`;
-        }
-    }
-
-    if (!photos || !photos.length) {
-        if (grid)    grid.innerHTML = '<div class="gallery-empty">Aún no hay fotos aquí ✦</div>';
-        if (countEl) countEl.textContent = '';
-        return;
-    }
-
-    if (countEl) countEl.textContent = photos.length === 1 ? '1 foto' : `${photos.length} fotos`;
-
-    grid.innerHTML = photos.map(p => {
-        const safePublicId = p.publicId.replace(/'/g, "\\'");
-        const safeAuthor   = escHtml(p.author);
-        const likes        = window._allLikes[p.publicId] || 0;
-        const isLiked      = window._sessionLiked.has(p.publicId);
-        const comments     = (window._allComments || []).filter(c => c.publicId === p.publicId);
-        const commentsCount = comments.length;
-
-        // Buscar la galería a la que pertenece esta foto
-        const folderParts = p.publicId.split('/');
-        const galleryFolder = folderParts.length > 2 ? folderParts[1] : null;
-        const photoGallery  = galleryFolder
-            ? (window._galleries||[]).find(g => g.folderId === galleryFolder)
-            : null;
-
-        return `
-        <div class="photo-card" id="card-${CSS.escape(p.publicId)}">
-            <img src="${p.url}" alt="" loading="lazy"
-                 onclick="openLightbox('${p.url}','${safeAuthor}','')">
-            <div class="photo-info">
-                ${photoGallery ? `<div class="photo-gallery-badge">${photoGallery.emoji||'📸'} ${escHtml(photoGallery.name)}</div>` : ''}
-                <div class="photo-author">${safeAuthor}</div>
-                <div class="photo-date">${formatDate(p.createdAt)}</div>
-                <div class="photo-actions">
-                    <button class="photo-like ${isLiked?'liked':''}"
-                            id="like-btn-${p.publicId.replace(/\//g,'-')}"
-                            onclick="toggleLike('${safePublicId}')">
-                        <svg viewBox="0 0 24 24"
-                             fill="${isLiked?'#e07070':'none'}"
-                             stroke="currentColor" stroke-width="1.5">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                        </svg>
-                        <span id="likes-${p.publicId.replace(/\//g,'-')}">${likes}</span>
-                    </button>
-                    <button class="photo-notes-btn"
-                            onclick="openCommentsModal('${safePublicId}')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                        </svg>
-                        <span id="notes-btn-${p.publicId.replace(/\//g,'-')}">Notas ${commentsCount > 0 ? `(${commentsCount})` : ''}</span>
-                    </button>
-                </div>
-            </div>
-        </div>`;
-    }).join('');
-}
-window.renderPhotoGrid = renderPhotoGrid;
-
-function updateCommentBadges() {
-    (window._loadedPhotos || []).forEach(p => {
-        const safeId   = p.publicId.replace(/\//g,'-');
-        const el       = document.getElementById(`notes-btn-${safeId}`);
-        if (!el) return;
-        const count = (window._allComments || []).filter(c => c.publicId === p.publicId).length;
-        el.textContent = 'Notas ' + (count > 0 ? `(${count})` : '');
-    });
-}
-window.updateCommentBadges = updateCommentBadges;
-
-function updateLikeBadges() {
-    (window._loadedPhotos || []).forEach(p => {
-        const safeId  = p.publicId.replace(/\//g,'-');
-        const countEl = document.getElementById(`likes-${safeId}`);
-        const btnEl   = document.getElementById(`like-btn-${safeId}`);
-        if (countEl) countEl.textContent = window._allLikes[p.publicId] || 0;
-        if (btnEl) {
-            const isLiked = window._sessionLiked.has(p.publicId);
-            btnEl.classList.toggle('liked', isLiked);
-            const svg = btnEl.querySelector('svg');
-            if (svg) svg.setAttribute('fill', isLiked ? '#e07070' : 'none');
-        }
-    });
-}
-window.updateLikeBadges = updateLikeBadges;
-
-/* ════════════════════════════════════
-   PORTARRETRATOS / TABS
+   PORTARRETRATOS
 ════════════════════════════════════ */
 function renderGalleryTabs() {
     const grid     = document.getElementById('galleriesGrid');
     const tabAll   = document.getElementById('tabAll');
     const countEl  = document.getElementById('tabAllCount');
     const active   = window._activeGallery;
+    const photos   = window._allPhotos || [];
+    const allCount = photos.length;
 
-    // Contar total de fotos cargadas
-    const total = (window._loadedPhotos || []).length;
-    if (countEl) countEl.textContent = total;
+    // Actualizar tab "Todas"
+    if (countEl) countEl.textContent = allCount;
     if (tabAll)  tabAll.className = 'tab-all' + (active === 'all' ? ' active' : '');
 
     if (!grid) return;
 
     grid.innerHTML = (window._galleries || []).map(g => {
-        // Buscar cover: primera foto de esa galería en _loadedPhotos
-        const cover = (window._loadedPhotos || []).find(p => {
-            const parts = p.publicId.split('/');
-            return parts.length > 2 && parts[1] === g.folderId;
-        });
-        const cnt = (window._loadedPhotos || []).filter(p => {
-            const parts = p.publicId.split('/');
-            return parts.length > 2 && parts[1] === g.folderId;
-        }).length;
-        const isActive = active === g.id;
+        const galleryPhotos = photos.filter(p => p.galleryId === g.id);
+        const cover         = galleryPhotos[0]; // primera foto como portada
+        const cnt           = galleryPhotos.length;
+        const isActive      = active === g.id;
 
         return `
-        <div class="gallery-frame ${isActive?'active':''}" onclick="switchGallery('${g.id}')">
+        <div class="gallery-frame ${isActive ? 'active' : ''}" onclick="switchGallery('${g.id}')">
             ${cover
                 ? `<img class="gallery-frame-cover" src="${cover.url}" alt="" loading="lazy">`
-                : `<div class="gallery-frame-placeholder">${g.emoji||'📸'}</div>`}
+                : `<div class="gallery-frame-placeholder">${g.emoji || '📸'}</div>`}
             <div class="gallery-frame-overlay"></div>
             <div class="gallery-frame-info">
-                <span class="gallery-frame-emoji">${g.emoji||'📸'}</span>
+                <span class="gallery-frame-emoji">${g.emoji || '📸'}</span>
                 <span class="gallery-frame-name">${escHtml(g.name)}</span>
-                <span class="gallery-frame-count">${cnt} foto${cnt!==1?'s':''}</span>
+                <span class="gallery-frame-count">${cnt} foto${cnt !== 1 ? 's' : ''}</span>
             </div>
             <div class="gallery-frame-badge">✦</div>
         </div>`;
@@ -760,15 +795,21 @@ window.renderGalleryTabs = renderGalleryTabs;
 
 function switchGallery(id) {
     window._activeGallery = id;
-    renderGalleryTabs();
-    loadPhotos(id);
-    // Preseleccionar galería en el select de subida
-    if (id !== 'all') {
+    const title = document.getElementById('galleryViewTitle');
+    if (id === 'all') {
+        if (title) title.textContent = 'Todas las Fotos';
+    } else {
+        const g = (window._galleries||[]).find(x => x.id === id);
+        if (title) title.textContent = g ? `${g.emoji} ${g.name}` : 'Galería';
+        // Preseleccionar la galería en el select de subida
         const sel = document.getElementById('destGallery');
         if (sel) sel.value = id;
     }
+    renderPhotoGrid();
+    renderGalleryTabs();
+    // Scroll suave al grid de fotos
     const uploadSec = document.querySelector('.upload-section');
-    if (uploadSec) uploadSec.scrollIntoView({ behavior:'smooth', block:'start' });
+    if (uploadSec) uploadSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 window.switchGallery = switchGallery;
 
@@ -784,17 +825,19 @@ function refreshDestSelect() {
         sel.appendChild(opt);
     });
 }
-window.refreshDestSelect = refreshDestSelect;
 
 /* ════════════════════════════════════
-   MODAL NUEVA GALERÍA
+   MODAL
 ════════════════════════════════════ */
 function openModal() {
+    // Pre-cargar el nombre del invitado desde la URL (?n=)
     const urlParams = new URLSearchParams(window.location.search);
-    const nombreUrl = (urlParams.get('n') || '').replace(/_/g,' ');
+    const nombreUrl = (urlParams.get('n') || '').replace(/_/g, ' ');
     const inp = document.getElementById('galleryNameInput');
     inp.value = nombreUrl || '';
-    if (nombreUrl) inp.placeholder = nombreUrl;
+    if (nombreUrl) {
+        inp.placeholder = nombreUrl;
+    }
     selectedEmoji = '📸';
     document.querySelectorAll('.emoji-opt').forEach(x => x.classList.remove('selected'));
     document.querySelector('.emoji-opt[data-emoji="📸"]').classList.add('selected');
@@ -815,97 +858,56 @@ document.getElementById('emojiPicker').addEventListener('click', e => {
     selectedEmoji = opt.dataset.emoji;
 });
 
-async function createGallery() {
-    const inp    = document.getElementById('galleryNameInput');
-    const hint   = document.getElementById('galleryNameHint');
-    const btn    = document.getElementById('btnConfirmGallery');
-    const name   = inp.value.trim();
+function suggestUniqueName(baseName) {
+    const existing = (window._galleries || []).map(g => g.name.toLowerCase().trim());
+    if (!existing.includes(baseName.toLowerCase().trim())) return baseName;
+    // Try appending numbers until unique
+    let suffix = 2;
+    while (existing.includes((baseName + ' ' + suffix).toLowerCase())) suffix++;
+    return baseName + ' ' + suffix;
+}
 
+async function createGallery() {
+    if (!window._firebaseReady) return;
+    const inp  = document.getElementById('galleryNameInput');
+    const hint = document.getElementById('galleryNameHint');
+    let name   = inp.value.trim();
     if (!name) { inp.focus(); return; }
 
-    // Si Firebase aún no está listo, mostrar aviso y esperar hasta 5 segundos
-    if (!window._firebaseReady) {
-        if (hint) {
-            hint.textContent = '⏳ Conectando… intenta de nuevo en un momento.';
-            hint.style.display = 'block';
-        }
-        if (btn) { btn.disabled = true; btn.textContent = 'Conectando…'; }
-
-        // Esperar hasta que Firebase esté listo (máx 5 s)
-        let intentos = 0;
-        await new Promise(resolve => {
-            const intervalo = setInterval(() => {
-                intentos++;
-                if (window._firebaseReady || intentos >= 10) {
-                    clearInterval(intervalo);
-                    resolve();
-                }
-            }, 500);
-        });
-
-        if (hint) hint.style.display = 'none';
-        if (btn)  { btn.disabled = false; btn.textContent = '✦ Crear Mi Galería'; }
-
-        if (!window._firebaseReady) {
-            if (hint) {
-                hint.textContent = '⚠ Sin conexión. Revisa tu internet e intenta de nuevo.';
-                hint.style.display = 'block';
-            }
-            setTimeout(() => { if (hint) hint.style.display = 'none'; }, 4000);
-            return;
-        }
-    }
-
-    // Verificar duplicados
+    // Check duplicates
     const existing = (window._galleries || []).map(g => g.name.toLowerCase().trim());
     if (existing.includes(name.toLowerCase())) {
+        const suggested = suggestUniqueName(name);
+        inp.value = suggested;
         inp.style.borderColor = 'rgba(196,218,250,0.60)';
         if (hint) {
-            hint.textContent = '⚠ Ese nombre ya existe, elige otro.';
+            hint.textContent = '⚠ Ese nombre ya existe — te sugerimos: "' + suggested + '"';
             hint.style.display = 'block';
         }
         inp.focus();
         setTimeout(() => {
             inp.style.borderColor = '';
             if (hint) hint.style.display = 'none';
-        }, 3000);
+        }, 3500);
         return;
     }
 
-    // folderId = slug del nombre, usado como subcarpeta en Cloudinary
-    const folderId = name.toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-        .replace(/[^a-z0-9]+/g,'_')
-        .replace(/^_|_$/g,'');
-
-    if (btn) { btn.disabled = true; btn.textContent = '⏳ Creando…'; }
-
     try {
         const ref = await window._addDoc(
-            window._collection(window._db, 'xv_galleries'),
-            { name, emoji: selectedEmoji, folderId, createdAt: Date.now() }
+            window._collection(window._db, 'galleries_jennifer_xv'),
+            { name, emoji: selectedEmoji, createdAt: Date.now() }
         );
         closeModal();
-        if (btn) { btn.disabled = false; btn.textContent = '✦ Crear Mi Galería'; }
-        // Seleccionar la nueva galería automáticamente
         setTimeout(() => {
             document.getElementById('destGallery').value = ref.id;
             switchGallery(ref.id);
         }, 500);
-    } catch(e) {
-        console.error(e);
-        if (btn) { btn.disabled = false; btn.textContent = '✦ Crear Mi Galería'; }
-        if (hint) {
-            hint.textContent = '⚠ Error al crear la galería. Intenta de nuevo.';
-            hint.style.display = 'block';
-            setTimeout(() => { hint.style.display = 'none'; }, 4000);
-        }
-    }
+    } catch(e) { console.error(e); }
 }
 window.createGallery = createGallery;
 
 /* ════════════════════════════════════
-   ARCHIVO / PREVIEW
+   ARCHIVO
 ════════════════════════════════════ */
 ['fileCam','fileGal'].forEach(id => {
     document.getElementById(id).addEventListener('change', function(e) {
@@ -931,38 +933,16 @@ window.clearPreview = clearPreview;
 
 /* ════════════════════════════════════
    SUBIR FOTO
-   → Sube a Cloudinary en la carpeta
-     jennifer_xv_album/<folderId>/
-   → El nombre del archivo incluye
-     el autor para recuperarlo luego
-   → NO guarda nada en Firestore
-     (excepto si hay comentarios)
 ════════════════════════════════════ */
 async function uploadPhoto() {
-    // Si Firebase no está listo, esperar hasta 5 segundos antes de fallar
-    if (!window._firebaseReady) {
-        showToast('Conectando… espera un momento.', 'error');
-        let intentos = 0;
-        await new Promise(resolve => {
-            const intervalo = setInterval(() => {
-                intentos++;
-                if (window._firebaseReady || intentos >= 10) {
-                    clearInterval(intervalo); resolve();
-                }
-            }, 500);
-        });
-        if (!window._firebaseReady) { showToast('Sin conexión. Revisa tu internet e intenta de nuevo.','error'); return; }
-    }
+    if (!window._firebaseReady) { showToast('Cargando servicios, intenta en un momento…','error'); return; }
 
-    const galleryId   = document.getElementById('destGallery').value;
-    const authorInput = document.getElementById('authorNameInput');
-    const author      = authorInput.value.trim() || 'Invitado';
+    const galleryId = document.getElementById('destGallery').value;
+    const author    = document.getElementById('authorName').value.trim() || 'Invitado';
+    const caption   = '';
 
     if (!selectedFile) { showToast('Selecciona o toma una foto primero.','error'); return; }
     if (!galleryId)    { showToast('Elige en qué galería guardar tu foto.','error'); return; }
-
-    const gallery = (window._galleries||[]).find(g => g.id === galleryId);
-    if (!gallery) { showToast('Galería no encontrada.','error'); return; }
 
     const btn = document.getElementById('submitBtn');
     const txt = document.getElementById('submitText');
@@ -972,40 +952,38 @@ async function uploadPhoto() {
     setProgress(15);
 
     try {
-        // Carpeta: jennifer_xv_album/<folderId>
-        const folder = `jennifer_xv_album/${gallery.folderId}`;
-
-        // Nombre del archivo: autor__timestamp  (los __ permiten recuperar el autor)
-        const safeAuthor = author.replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_áéíóúÁÉÍÓÚñÑ]/g,'');
-        const publicIdName = `${safeAuthor}__${Date.now()}`;
+        const gallery = (window._galleries||[]).find(g => g.id === galleryId);
+        const folder  = `jennifer_xv/${(gallery?.name||'general').replace(/\s+/g,'_')}`;
 
         const fd = new FormData();
         fd.append('file', selectedFile);
         fd.append('upload_preset', window._PRESET);
         fd.append('folder', folder);
-        fd.append('public_id', publicIdName);
 
         setProgress(35);
         const res  = await fetch(`https://api.cloudinary.com/v1_1/${window._CLOUD}/image/upload`, { method:'POST', body:fd });
         const data = await res.json();
-        if (!data.secure_url) throw new Error('Cloudinary error: ' + JSON.stringify(data));
-        setProgress(90);
+        if (!data.secure_url) throw new Error('Cloudinary error');
+        setProgress(72);
 
-        // ✅ NO se guarda nada en Firestore aquí
-        // La foto vive únicamente en Cloudinary
-        // Los comentarios y likes se guardan en Firestore por publicId cuando el usuario los agrega
+        await window._addDoc(
+            window._collection(window._db, 'photos_jennifer_xv'),
+            {
+                url:          data.secure_url,
+                publicId:     data.public_id,
+                galleryId,
+                galleryName:  gallery?.name  || '',
+                galleryEmoji: gallery?.emoji || '📸',
+                author, caption,
+                likes: 0, likedBy: [], comments: [],
+                createdAt: Date.now()
+            }
+        );
 
         setProgress(100);
-        setTimeout(() => {
-            document.getElementById('uploadProgress').style.display = 'none';
-            setProgress(0);
-        }, 600);
-
+        setTimeout(() => { document.getElementById('uploadProgress').style.display='none'; setProgress(0); }, 600);
         clearPreview();
         showToast('¡Tu foto fue guardada en la galería! ✦','success');
-
-        // Recargar fotos de la galería activa
-        await loadPhotos(galleryId);
         switchGallery(galleryId);
 
     } catch(err) {
@@ -1028,38 +1006,76 @@ function showToast(msg, type) {
 }
 
 /* ════════════════════════════════════
-   LIKES
-   Guardados en Firestore: xv_likes/<publicId>
-   Solo en memoria de sesión (sin localStorage)
+   RENDER FOTOS
 ════════════════════════════════════ */
-async function toggleLike(publicId) {
+function renderPhotoGrid() {
+    const filter   = window._activeGallery;
+    const photos   = window._allPhotos || [];
+    const filtered = filter === 'all' ? photos : photos.filter(p => p.galleryId === filter);
+    const grid     = document.getElementById('photoGrid');
+    const count    = document.getElementById('galleryCount');
+
+    if (!filtered.length) {
+        grid.innerHTML = '<div class="gallery-empty">Aún no hay fotos aquí ✦</div>';
+        count.textContent = '';
+        return;
+    }
+
+    count.textContent = filtered.length === 1 ? '1 foto' : `${filtered.length} fotos`;
+
+    grid.innerHTML = filtered.map(p => `
+        <div class="photo-card" id="card-${p.id}">
+            <img src="${p.url}" alt="" loading="lazy"
+                 onclick="openLightbox('${p.url}','${escHtml(p.author)}','${escHtml(p.caption||'')}')">
+            <div class="photo-info">
+                ${(p.galleryEmoji||p.galleryName) ? `
+                <div class="photo-gallery-badge">${p.galleryEmoji||'📸'} ${escHtml(p.galleryName||'')}</div>` : ''}
+                <div class="photo-author">${escHtml(p.author)}</div>
+                ${p.caption ? `<div class="photo-caption">${escHtml(p.caption)}</div>` : ''}
+                <div class="photo-date">${formatDate(p.createdAt)}</div>
+                <div class="photo-actions">
+                    <button class="photo-like ${likedPhotos.has(p.id)?'liked':''}" onclick="toggleLike('${p.id}')">
+                        <svg viewBox="0 0 24 24" fill="${likedPhotos.has(p.id)?'#e07070':'none'}" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        <span id="likes-${p.id}">${p.likes||0}</span>
+                    </button>
+                    <button class="photo-notes-btn" onclick="openCommentsModal('${p.id}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        <span>Notas ${((p.comments||[]).length ? `(${(p.comments||[]).length})` : '')}</span>
+                    </button>
+                </div>
+            </div>
+        </div>`).join('');
+}
+window.renderPhotoGrid = renderPhotoGrid;
+
+/* ════════════════════════════════════
+   LIKE
+════════════════════════════════════ */
+async function toggleLike(photoId) {
     if (!window._firebaseReady) return;
-    if (window._sessionLiked.has(publicId)) return; // ya diste like en esta sesión
-
-    window._sessionLiked.add(publicId);
-
+    if (likedPhotos.has(photoId)) return;
+    const ref = window._doc(window._db, 'photos_jennifer_xv', photoId);
     try {
-        const safeDocId = publicId.replace(/\//g,'__'); // Firestore no acepta / en IDs
-        const ref = window._doc(window._db, 'xv_likes', safeDocId);
         const snap = await window._getDoc(ref);
-        const cur  = snap.exists() ? (snap.data().count || 0) : 0;
-        await window._setDoc(ref, { publicId, count: cur + 1 }, { merge: true });
-        // Actualizar localmente de inmediato
-        window._allLikes[publicId] = cur + 1;
-        updateLikeBadges();
-    } catch(e) { console.error(e); window._sessionLiked.delete(publicId); }
+        const cur  = snap.exists() ? (snap.data().likes||0) : 0;
+        await window._updateDoc(ref, { likes: cur+1 });
+        likedPhotos.add(photoId);
+        localStorage.setItem('xv_liked', JSON.stringify([...likedPhotos]));
+    } catch(e) { console.error(e); }
 }
 window.toggleLike = toggleLike;
 
 /* ════════════════════════════════════
    COMENTARIOS
-   Guardados en Firestore: xv_comments
-   Filtrados por publicId de la foto
 ════════════════════════════════════ */
-function openCommentsModal(publicId) {
-    window._activeCommentsPhotoId = publicId;
-    const authorName   = document.getElementById('authorNameInput').value.trim();
-    const modalAuthor  = document.getElementById('commentAuthorInput');
+function openCommentsModal(photoId) {
+    window._activeCommentsPhotoId = photoId;
+    const authorName = document.getElementById('authorName').value.trim();
+    const modalAuthor = document.getElementById('commentAuthorInput');
     if (authorName && !modalAuthor.value.trim()) modalAuthor.value = authorName;
     renderCommentsModal();
     document.getElementById('commentsModal').classList.add('open');
@@ -1075,16 +1091,16 @@ function closeCommentsModal() {
 window.closeCommentsModal = closeCommentsModal;
 
 function renderCommentsModal() {
-    const list     = document.getElementById('commentsList');
-    const publicId = window._activeCommentsPhotoId;
-    const comments = (window._allComments || []).filter(c => c.publicId === publicId);
-
+    const list = document.getElementById('commentsList');
+    const photo = (window._allPhotos || []).find(p => p.id === window._activeCommentsPhotoId);
+    const comments = (photo && Array.isArray(photo.comments)) ? photo.comments : [];
     if (!comments.length) {
         list.innerHTML = '<div class="comments-empty">Todavía no hay notas. Sé la primera persona en escribir una.</div>';
         return;
     }
     list.innerHTML = comments
-        .slice().sort((a,b) => (a.ts||0) - (b.ts||0))
+        .slice()
+        .sort((a,b)=>(a.ts||0)-(b.ts||0))
         .map(c => `
             <div class="comments-item">
                 <div class="comments-item-author">${escHtml(c.author || 'Invitado')}</div>
@@ -1095,36 +1111,40 @@ function renderCommentsModal() {
 }
 window.renderCommentsModal = renderCommentsModal;
 
+async function sendComment(photoId, authorOverride, textOverride) {
+    if (!window._firebaseReady) return;
+    const text   = (textOverride ?? '').trim();
+    const author = (authorOverride ?? '').trim() || document.getElementById('authorName').value.trim() || 'Invitado';
+    if (!text) return;
+    try {
+        await window._updateDoc(
+            window._doc(window._db,'photos_jennifer_xv',photoId),
+            { comments: window._arrayUnion({ author, text, ts: Date.now() }) }
+        );
+    } catch(e) { console.error(e); }
+}
+window.sendComment = sendComment;
+
 async function sendCommentFromModal() {
     if (!window._activeCommentsPhotoId) return;
     const authorInp = document.getElementById('commentAuthorInput');
-    const textInp   = document.getElementById('commentTextInput');
-    const author    = authorInp.value.trim();
-    const text      = textInp.value.trim();
-
+    const textInp = document.getElementById('commentTextInput');
+    const author = authorInp.value.trim();
+    const text = textInp.value.trim();
     if (!author) {
         authorInp.focus();
         authorInp.style.borderColor = 'var(--gold)';
         setTimeout(() => { authorInp.style.borderColor = ''; }, 1500);
         return;
     }
-    if (!text) { textInp.focus(); return; }
-
-    // Sincronizar nombre con el campo de subida
-    document.getElementById('authorNameInput').value = author;
+    if (!text) {
+        textInp.focus();
+        return;
+    }
+    // Guardar el nombre para usarlo en la próxima subida de foto
+    document.getElementById('authorName').value = author;
     textInp.value = '';
-
-    try {
-        await window._addDoc(
-            window._collection(window._db, 'xv_comments'),
-            {
-                publicId: window._activeCommentsPhotoId,
-                author,
-                text,
-                ts: Date.now()
-            }
-        );
-    } catch(e) { console.error(e); }
+    await sendComment(window._activeCommentsPhotoId, author, text);
 }
 window.sendCommentFromModal = sendCommentFromModal;
 
@@ -1132,7 +1152,7 @@ window.sendCommentFromModal = sendCommentFromModal;
    LIGHTBOX
 ════════════════════════════════════ */
 function openLightbox(url, author, caption) {
-    document.getElementById('lightboxImg').src    = url;
+    document.getElementById('lightboxImg').src = url;
     document.getElementById('lightboxAuthor').textContent  = author  || '';
     document.getElementById('lightboxCaption').textContent = caption || '';
     document.getElementById('lightbox').classList.add('open');
@@ -1156,15 +1176,18 @@ function escHtml(str) {
 function formatDate(ts) {
     if (!ts) return '';
     return new Date(ts).toLocaleDateString('es-MX',
-        { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        { day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit' });
 }
 
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') { closeLightbox(); closeCommentsModal(); }
+    if (e.key === 'Escape') {
+        closeLightbox();
+        closeCommentsModal();
+    }
 });
 
 /* ════════════════════════════════════
-   PARTÍCULAS DE FONDO
+   PARTÍCULAS
 ════════════════════════════════════ */
 (function() {
     const c = document.getElementById('bg');
@@ -1172,9 +1195,10 @@ document.addEventListener('keydown', e => {
     const ctx = c.getContext('2d');
     let W = c.width = innerWidth, H = c.height = innerHeight;
     addEventListener('resize', () => { W = c.width = innerWidth; H = c.height = innerHeight; });
+    /* ← PARTÍCULAS: paleta azul cenicienta igual que la invitación */
     const PAL = ['#84b6f4','#c4dafa','#ffffff','#e0e0e0','#a8a8a8','#2a5298'];
     const n   = Math.min(60, Math.floor(W*H/20000));
-    const pts = Array.from({length:n}, () => ({
+    const pts = Array.from({length:n},()=>({
         x:Math.random()*W, y:Math.random()*H,
         r:Math.random()*1.1+0.3,
         vx:(Math.random()-.5)*.12, vy:-(Math.random()*.25+.04),
@@ -1184,16 +1208,15 @@ document.addEventListener('keydown', e => {
     }));
     (function draw() {
         ctx.clearRect(0,0,W,H);
-        pts.forEach(p => {
-            p.b += p.bs;
+        pts.forEach(p=>{
+            p.b+=p.bs;
             ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-            ctx.fillStyle = p.c; ctx.globalAlpha = p.a*(0.5+0.5*Math.sin(p.b)); ctx.fill();
-            p.x += p.vx; p.y += p.vy;
-            if (p.y < -5) { p.y = H+5; p.x = Math.random()*W; }
-            if (p.x < -5) p.x = W+5;
-            if (p.x > W+5) p.x = -5;
+            ctx.fillStyle=p.c; ctx.globalAlpha=p.a*(0.5+0.5*Math.sin(p.b)); ctx.fill();
+            p.x+=p.vx; p.y+=p.vy;
+            if(p.y<-5){p.y=H+5;p.x=Math.random()*W;}
+            if(p.x<-5)p.x=W+5; if(p.x>W+5)p.x=-5;
         });
-        ctx.globalAlpha = 1;
+        ctx.globalAlpha=1;
         requestAnimationFrame(draw);
     })();
 })();
