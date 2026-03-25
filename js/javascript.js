@@ -44,23 +44,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const musicBtn = document.getElementById('musicToggle');
     const musicIcon = document.getElementById('musicIcon');
 
-    // PRE-UNLOCK: al primer toque en cualquier parte, desbloqueamos el audio
-    // sin reproducirlo todavía — así el navegador ya no lo bloquea después
-    let audioUnlocked = false;
-    function unlockAudio() {
-        if (audioUnlocked || !music) return;
-        music.muted = true;
-        music.play().then(() => {
-            music.pause();
-            music.currentTime = 0;
-            music.muted = false;
-            audioUnlocked = true;
-        }).catch(() => {});
-        document.removeEventListener('touchstart', unlockAudio);
-        document.removeEventListener('click', unlockAudio);
+    // Función auxiliar para mostrar el botón de música con el icono correcto
+    function showMusicBtn(playing) {
+        if (musicBtn) musicBtn.classList.add('visible');
+        if (musicIcon) musicIcon.innerText = playing ? "🔊" : "🔇";
     }
-    document.addEventListener('touchstart', unlockAudio, { passive: true });
-    document.addEventListener('click', unlockAudio);
+
+    // Función para intentar reproducir la música (maneja promesas)
+    function playMusic() {
+        if (!music) return;
+        music.muted = false;
+        music.volume = 1.0;
+        const promise = music.play();
+        if (promise !== undefined) {
+            promise.then(() => {
+                showMusicBtn(true);
+            }).catch(() => {
+                // Autoplay bloqueado — mostramos el botón para que el usuario active
+                showMusicBtn(false);
+            });
+        } else {
+            showMusicBtn(true);
+        }
+    }
 
     // Abrir y reproducir
     if (sealBtn && wrapper) {
@@ -76,18 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 wrapper.classList.add('open');
                 document.body.style.overflow = 'auto';
-
-                if (music) {
-                    music.muted = false;
-                    music.volume = 1.0;
-                    music.play().then(() => {
-                        musicBtn.classList.add('visible');
-                        musicIcon.innerText = "🔊";
-                    }).catch(() => {
-                        musicBtn.classList.add('visible');
-                        musicIcon.innerText = "🔇";
-                    });
-                }
+                // Reproducir música directamente en el mismo flujo del click
+                playMusic();
             }, 300);
         });
     }
@@ -110,14 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Pausa automática al salir del navegador (Para no molestar si el invitado se sale de la página)
+    // Pausa automática al salir del navegador
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) { 
             if (music) music.pause(); 
         } else {
             if (wrapper && wrapper.classList.contains('open') && music) {
-                music.play();
-                musicIcon.innerText = "🔊";
+                playMusic();
             }
         }
     });
@@ -126,11 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (musicBtn && music) {
         musicBtn.addEventListener('click', (e) => { 
             e.stopPropagation();
-            // TRUCO PARA EVITAR MUDO: Forzamos muted = false al dar clic
-            music.muted = false; 
+            music.muted = false;
             if (music.paused) {
-                music.play();
-                musicIcon.innerText = "🔊";
+                music.play().then(() => {
+                    musicIcon.innerText = "🔊";
+                }).catch(() => {
+                    musicIcon.innerText = "🔇";
+                });
             } else {
                 music.pause();
                 musicIcon.innerText = "🔇";

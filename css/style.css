@@ -159,29 +159,9 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     box-sizing: border-box; /* Asegura que los bordes no ensanchen la tarjeta */
 }
 
-/* --- EFECTO: LUZ VIAJERA PLATEADA/AZUL --- */
-.glass-pass::before {
-    content: ''; 
-    position: absolute; 
-    inset: -2px;
-    border-radius: 22px;
-    /* Aro de luz en el borde, sin cubrir el centro */
-    background: conic-gradient(
-        from 0deg,
-        transparent 0deg 300deg,
-        rgba(196, 218, 250, 0.95) 325deg 348deg,
-        rgba(255, 255, 255, 0.9) 349deg 360deg
-    );
-    animation: rotateBorder 6s linear infinite;
-    z-index: 1;
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    padding: 3px;
-    pointer-events: none;
-}
-@keyframes rotateBorder { 100% { transform: rotate(360deg); } }
+/* --- BORDE SIMPLE SIN EFECTO DE LUZ --- */
+.glass-pass::before { display: none; }
+.glass-pass::after  { display: none; }
 
 .pass-inner-border {
     position: relative; z-index: 2; border-radius: 15px; padding: 35px 20px;
@@ -304,8 +284,8 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 
 /* Reloj Cuenta Regresiva Plateado/Azul */
 .countdown-display { margin-top: 15px; color: var(--plata-brillante); }
-.countdown-number { font-weight: 600; font-size: 1.1rem; color: #ffffff; }
-.countdown-label { font-size: 0.7rem; color: var(--azul-cenicienta-claro); margin-right: 5px; }
+.countdown-number { font-weight: 600; font-size: 1.1rem; color: #ffffff; font-style: normal; }
+.countdown-label { font-size: 0.7rem; color: var(--azul-cenicienta-claro); margin-right: 5px; font-style: normal; }
 
 
 /* --- CUADRÍCULA DE DATOS (Fecha, Hora) --- */
@@ -999,70 +979,100 @@ section {
     background: var(--azul-imperial); /* El fondo se pone azul sólido */
 }
 
+/* --- EL RELOJ QUE CUENTA LOS DÍAS (Pase principal) --- */
 /* --- EL RELOJ QUE CUENTA LOS DÍAS --- */
 .countdown-display {
-    display: flex; /* Activa el orden horizontal */
-    justify-content: center; /* Centra el reloj de izquierda a derecha */
-    gap: 15px; /* Espacio entre Días, Horas, Minutos, Segundos */
-    margin-top: 10px; /* Separación de arriba */
-    color: var(--oro-brillante); /* Números dorados claros */
-    font-family: 'Montserrat', sans-serif; /* Letra moderna */
-    font-weight: 300; /* Letra finita */
-    letter-spacing: 1px; /* Letras poco separadas */
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para que se lea mejor */
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+    color: var(--plata-brillante);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* Bloque individual (Número + Palabra) */
+/* Bloque individual */
 .countdown-unit {
-    display: flex; /* Activa el orden */
-    flex-direction: column; /* Número arriba, Palabra abajo */
-    align-items: center; /* Centrados entre sí */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* El número del reloj */
+/* El número */
 .countdown-number {
-    font-size: 1.2rem; /* Tamaño de los números */
-    font-weight: 600; /* Números en negrita */
-    display: block; /* Asegura que el número ocupe su propio renglón */
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-style: normal;
+    display: block;
 }
 
-/* La palabra (Días, Hrs, etc.) */
+/* La palabra */
 .countdown-label {
-    font-size: 0.5rem; /* Letra muy chiquita */
-    text-transform: uppercase; /* Todo en MAYÚSCULAS */
-    opacity: 0.8; /* Un poquito transparente */
+    font-size: 0.5rem;
+    font-style: normal;
+    text-transform: uppercase;
+    opacity: 0.8;
 }
 
-/* --- COUNTDOWN DEL ÁLBUM (dentro del acordeón del pergamino) --- */
+/* --- COUNTDOWN DEL ÁLBUM (pergamino) --- */
 .album-countdown-display {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin: 10px auto 4px;
 }
+
 .album-countdown-display .countdown-unit {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(42, 82, 152, 0.10);
-    border: 1px solid rgba(42, 82, 152, 0.22);
-    border-radius: 8px;
-    padding: 6px 10px;
-    min-width: 46px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 4px 8px;
+    min-width: 40px;
 }
+
 .album-countdown-display .countdown-number {
     font-size: 1.15rem;
     font-weight: 700;
+    font-style: normal;
     color: #1e3c72;
     line-height: 1;
 }
+
 .album-countdown-display .countdown-label {
     font-size: 0.5rem;
+    font-style: normal;
     text-transform: uppercase;
     color: #2a5298;
     letter-spacing: 1px;
     margin-top: 3px;
     opacity: 0.85;
+}
+
+.album-countdown-display .countdown-number {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-style: normal;
+    color: #1e3c72;
+    line-height: 1;
+    display: block;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+    letter-spacing: 0;
+}
+
+.album-countdown-display .countdown-label {
+    font-size: 0.44rem;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #2a5298;
+    margin-top: 3px;
+    opacity: 0.9;
 }
 
 /* --- SECCIÓN BOTÓN DE ÁLBUM --- */
