@@ -37,19 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 2. LÓGICA DE APERTURA, CIERRE Y MÚSICA INTELIGENTE ---
-    // Esta parte controla los botones de entrar, cerrar y el sonido
-    const sealBtn = document.getElementById('entrarBtn'); // Identifica el pase (la tarjeta de inicio)
-    const closeBtn = document.getElementById('closeBtn'); // Identifica el sello de cerrar al final
-    const wrapper = document.getElementById('wrapper'); // Identifica toda la estructura de la invitación
-    const music = document.getElementById('bgMusic'); // Identifica la canción elegida
-    const musicBtn = document.getElementById('musicToggle'); // Identifica el botón circular de la esquina
-    const musicIcon = document.getElementById('musicIcon'); // Identifica el icono de la bocina que cambia
-    
-    
-    // Abrir y reproducir (Lo que pasa al tocar el botón de entrar)
+    const sealBtn = document.getElementById('entrarBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const wrapper = document.getElementById('wrapper');
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicToggle');
+    const musicIcon = document.getElementById('musicIcon');
+
+    // PRE-UNLOCK: al primer toque en cualquier parte, desbloqueamos el audio
+    // sin reproducirlo todavía — así el navegador ya no lo bloquea después
+    let audioUnlocked = false;
+    function unlockAudio() {
+        if (audioUnlocked || !music) return;
+        music.muted = true;
+        music.play().then(() => {
+            music.pause();
+            music.currentTime = 0;
+            music.muted = false;
+            audioUnlocked = true;
+        }).catch(() => {});
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+    }
+    document.addEventListener('touchstart', unlockAudio, { passive: true });
+    document.addEventListener('click', unlockAudio);
+
+    // Abrir y reproducir
     if (sealBtn && wrapper) {
         sealBtn.addEventListener('click', () => {
-            // 1. CONFETI (Azul y Blanco)
             confetti({
                 particleCount: 150,
                 spread: 70,
@@ -58,22 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ticks: 300
             });
 
-            // 2. ABRIR Y ACTIVAR AUDIO
             setTimeout(() => {
                 wrapper.classList.add('open');
-                document.body.style.overflow = 'auto'; 
-                
+                document.body.style.overflow = 'auto';
+
                 if (music) {
-                    music.muted = false; // QUITAMOS EL MUDO POR SI ACASO
-                    music.volume = 1.0;  // VOLUMEN AL MÁXIMO
-                    
-                    // Intentamos reproducir con una promesa para evitar errores
+                    music.muted = false;
+                    music.volume = 1.0;
                     music.play().then(() => {
                         musicBtn.classList.add('visible');
                         musicIcon.innerText = "🔊";
-                    }).catch(err => {
-                        console.log("Audio pausado por el navegador:", err);
-                        // Si falla, el botón de música aparecerá para que el usuario le pique
+                    }).catch(() => {
                         musicBtn.classList.add('visible');
                         musicIcon.innerText = "🔇";
                     });
@@ -208,9 +218,14 @@ function iniciarReloj() {
             <div class="countdown-unit"><span class="countdown-number">${s}</span><span class="countdown-label">Seg</span></div>
         `;
 
-        // --- NUEVO: Actualiza el contador dentro del mensaje de espera ---
+        // Actualiza el contador del álbum con cajitas igual al pase
         if (albumTimer) {
-            albumTimer.innerText = `${d}d ${h}h ${m}m ${s}s`;
+            albumTimer.innerHTML = `
+                <div class="countdown-unit"><span class="countdown-number">${d}</span><span class="countdown-label">Días</span></div>
+                <div class="countdown-unit"><span class="countdown-number">${h}</span><span class="countdown-label">Hrs</span></div>
+                <div class="countdown-unit"><span class="countdown-number">${m}</span><span class="countdown-label">Min</span></div>
+                <div class="countdown-unit"><span class="countdown-number">${s}</span><span class="countdown-label">Seg</span></div>
+            `;
         }
 
     }, 1000);

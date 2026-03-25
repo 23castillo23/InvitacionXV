@@ -1033,6 +1033,38 @@ section {
     opacity: 0.8; /* Un poquito transparente */
 }
 
+/* --- COUNTDOWN DEL ÁLBUM (dentro del acordeón del pergamino) --- */
+.album-countdown-display {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px auto 4px;
+}
+.album-countdown-display .countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(42, 82, 152, 0.10);
+    border: 1px solid rgba(42, 82, 152, 0.22);
+    border-radius: 8px;
+    padding: 6px 10px;
+    min-width: 46px;
+}
+.album-countdown-display .countdown-number {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1e3c72;
+    line-height: 1;
+}
+.album-countdown-display .countdown-label {
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    color: #2a5298;
+    letter-spacing: 1px;
+    margin-top: 3px;
+    opacity: 0.85;
+}
+
 /* --- SECCIÓN BOTÓN DE ÁLBUM --- */
 .album-invite-card {
     margin: 25px 0 30px;
