@@ -1381,7 +1381,7 @@ async function confirmarEliminarFoto(photoId) {
 // 2. Función para eliminar notas
 async function eliminarNota(photoId, timestamp) {
     const pin = prompt("PIN de administrador:");
-    if (pin !== "1234") return alert("PIN incorrecto");
+    if (pin !== "2309") return alert("PIN incorrecto");
 
     const ref = window._doc(window._db, 'photos_jennifer_xv', photoId);
     const snap = await window._getDoc(ref);
