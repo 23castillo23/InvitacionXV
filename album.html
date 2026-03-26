@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Álbum de Recuerdos · Jennifer Arlete</title>
     <!-- ← theme-color: antes azul #060c18. Ahora azul marino profundo igual al index -->
-    <meta name="theme-color" content="#0a0a14">
+    <meta name="theme-color" content="#1e3c72">
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mi Álbum XV">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
@@ -192,6 +198,8 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 .gallery-frame-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.35;}
 .gallery-frame-badge{position:absolute;top:5px;right:5px;background:var(--azul-fuerte);border-radius:50%;width:16px;height:16px;display:none;align-items:center;justify-content:center;font-size:.55rem;color:#fff;}
 .gallery-frame.active .gallery-frame-badge{display:flex;}
+.gallery-delete-btn{position:absolute;top:5px;left:5px;width:20px;height:20px;background:rgba(220,50,50,0.75);border:1px solid rgba(255,100,100,0.6);border-radius:50%;color:#fff;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);z-index:5;padding:0;line-height:1;}
+.gallery-delete-btn:hover{background:rgba(200,30,30,0.95);}
 
 /* Tab "Todas" — píldora azul */
 .tab-all{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:rgba(132,182,244,0.06);border:1px solid rgba(132,182,244,0.35);border-radius:20px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:2px;color:var(--azul-claro);cursor:pointer;transition:var(--transition);margin-bottom:14px;}
@@ -337,18 +345,19 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
     display: flex;
     align-items: center;
     gap: 4px;
-    background: none;
-    border: 1px solid rgba(196,218,250,0.20);
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.55);
     border-radius: 20px;
-    padding: 3px 6px; /* Botones más pequeños */
-    color: var(--text-dim);
+    padding: 3px 8px;
+    color: #4ade80;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.55rem; /* Letra más chiquita */
+    font-size: 0.55rem;
+    font-weight: 600;
     transition: var(--transition);
 }
-.photo-notes-btn:hover{border-color:var(--azul-fuerte);color:var(--magic-white);}
-.photo-notes-btn svg{width:12px;height:12px;}
+.photo-notes-btn:hover { background: rgba(34,197,94,0.28); border-color:#4ade80; color:#fff; }
+.photo-notes-btn svg { width:12px; height:12px; }
 .gallery-empty{text-align:center;padding:50px 20px;color:var(--text-dim);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;border:1px dashed rgba(196,218,250,0.20);border-radius:4px;column-span:all;}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--azul-fuerte);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -488,7 +497,7 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
     overflow-y:auto;
     display:flex;flex-direction:column;gap:10px;
     padding:4px 2px;
-    max-height:38vh;
+    max-height:52vh;
     margin-bottom:14px;
     scrollbar-width:thin;
     scrollbar-color:rgba(132,182,244,0.30) transparent;
@@ -510,13 +519,16 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 }
 
 .comments-item{
-    background: rgba(0, 26, 70, 0.4) !important; /* Fondo oscuro muy suave */
-    border: 1px solid rgba(196, 218, 250, 0.15) !important;
+    background: rgba(0, 10, 40, 0.72) !important;
+    border: 1px solid rgba(196, 218, 250, 0.28) !important;
     border-radius: 10px !important;
-    margin-bottom: 10px !important;
-    padding: 10px !important;    
+    margin-bottom: 0 !important;
+    padding: 12px 12px 10px !important;
     position:relative;
-    overflow:hidden;
+    overflow:visible;
+    height:auto !important;
+    min-height:unset !important;
+    flex-shrink:0;
 }
 .comments-item::before{
     content:'';position:absolute;top:0;left:0;right:0;height:1px;
@@ -909,6 +921,7 @@ function renderGalleryTabs() {
                 <span class="gallery-frame-count">${cnt} foto${cnt !== 1 ? 's' : ''}</span>
             </div>
             <div class="gallery-frame-badge">✦</div>
+            ${cnt === 0 ? `<button class="gallery-delete-btn" onclick="event.stopPropagation();eliminarGaleria('${g.id}','${escHtml(g.name)}')" title="Eliminar galería vacía">✕</button>` : ''}
         </div>`;
     }).join('');
 }
@@ -1132,9 +1145,16 @@ function showToast(msg, type) {
 function renderPhotoGrid() {
     const filter   = window._activeGallery;
     const photos   = window._allPhotos || [];
-    const filtered = filter === 'all' ? photos : photos.filter(p => p.galleryId === filter);
-    const grid     = document.getElementById('photoGrid');
-    const count    = document.getElementById('galleryCount');
+    let filtered = filter === 'all' ? photos : photos.filter(p => p.galleryId === filter);
+
+    // En vista "Todas" mostrar solo las 20 más recientes
+    const totalCount = filtered.length;
+    if (filter === 'all' && filtered.length > 20) {
+        filtered = filtered.slice(0, 20);
+    }
+
+    const grid  = document.getElementById('photoGrid');
+    const count = document.getElementById('galleryCount');
 
     if (!filtered.length) {
         grid.innerHTML = '<div class="gallery-empty">Aún no hay fotos aquí ✦</div>';
@@ -1142,7 +1162,9 @@ function renderPhotoGrid() {
         return;
     }
 
-    count.textContent = filtered.length === 1 ? '1 foto' : `${filtered.length} fotos`;
+    count.textContent = filter === 'all'
+        ? `Mostrando las 20 fotos más recientes de ${totalCount}`
+        : (filtered.length === 1 ? '1 foto' : `${filtered.length} fotos`);
 
     grid.innerHTML = filtered.map(p => `
         <div class="photo-card" id="card-${p.id}">
@@ -1207,6 +1229,9 @@ function openCommentsModal(photoId) {
     renderCommentsModal();
     document.getElementById('commentsModal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    // Scroll instantáneo al último comentario (sin animación)
+    const listEl = document.getElementById('commentsList');
+    if (listEl) listEl.scrollTop = listEl.scrollHeight;
 }
 window.openCommentsModal = openCommentsModal;
 
@@ -1278,6 +1303,9 @@ async function sendCommentFromModal() {
     document.getElementById('authorName').value = author;
     textInp.value = '';
     await sendComment(window._activeCommentsPhotoId, author, text);
+    // Scroll instantáneo al final para ver el nuevo comentario
+    const listAfter = document.getElementById('commentsList');
+    if (listAfter) listAfter.scrollTop = listAfter.scrollHeight;
 }
 window.sendCommentFromModal = sendCommentFromModal;
 
@@ -1358,7 +1386,7 @@ document.addEventListener('keydown', e => {
 async function confirmarEliminarFoto(photoId) {
     const pin = prompt("Ingresa el PIN de administrador para eliminar:");
     
-    if (pin === "1234") { 
+    if (pin === "2309") { 
         try {
             const fotoRef = window._doc(window._db, 'photos_jennifer_xv', photoId);
             const docSnap = await window._getDoc(fotoRef);
@@ -1393,10 +1421,43 @@ async function eliminarNota(photoId, timestamp) {
     }
 }
 
+// Eliminar galería (solo si está vacía)
+async function eliminarGaleria(galleryId, galleryName) {
+    const pin = prompt(`PIN de administrador para eliminar la galería "${galleryName}":`);
+    if (pin !== "1234") {
+        if (pin !== null) alert("PIN incorrecto.");
+        return;
+    }
+    const fotos = (window._allPhotos || []).filter(p => p.galleryId === galleryId);
+    if (fotos.length > 0) {
+        alert("Esta galería tiene fotos. Solo se pueden eliminar galerías vacías.");
+        return;
+    }
+    try {
+        await window._deleteDoc(window._doc(window._db, 'galleries_jennifer_xv', galleryId));
+        if (window._activeGallery === galleryId) switchGallery('all');
+    } catch(e) {
+        alert("Error al eliminar la galería.");
+        console.error(e);
+    }
+}
+window.eliminarGaleria = eliminarGaleria;
+
 // 3. LAS LÍNEAS QUE EXPORTAN (¡DÉJALAS!)
 window.confirmarEliminarFoto = confirmarEliminarFoto; //
 window.eliminarNota = eliminarNota; //
 
+</script>
+
+<script>
+// ── PWA: Registrar Service Worker ──
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('SW registrado:', reg.scope))
+            .catch(err => console.warn('SW error:', err));
+    });
+}
 </script>
 </body>
 </html>

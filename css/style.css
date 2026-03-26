@@ -135,7 +135,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 
 /* --- 1. EL PASE DE CRISTAL ENCANTADO --- */
 .pass-container {
-    width: 100%; padding-top: 50px; cursor: pointer; transition: all 0.5s ease;
+    width: 100%; cursor: pointer; transition: all 0.5s ease;
 }
 
 .invitation-wrapper.open .pass-container {
@@ -199,16 +199,17 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 
 /* El contenedor principal de la tarjeta */
 .pass-container {
-    position: fixed; /* Se queda al centro de la pantalla */
-    top: 50%; /* 50% desde arriba */
-    left: 50%; /* 50% desde la izquierda */
-    transform: translate(-50%, -50%); /* Centrado matemático perfecto */
-    z-index: 100; /* Lo pone encima del fondo */
-    cursor: default; /* Cambia el ratón por una mano al pasar por encima */
-    width: 92%; /* Ancho en celulares */
-    max-width: 500px; /* Ancho máximo en computadoras */
-    height: auto; /* Altura flexible */
-    transition: opacity 0.5s ease 1.7s, transform 0.5s ease 1.7s, visibility 0s linear 1.7s; /* Controla cómo desaparece al abrir la invitación */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    cursor: default;
+    width: 92%;
+    max-width: 500px;
+    max-height: 96vh;
+    overflow-y: auto;
+    transition: opacity 0.5s ease 1.7s, transform 0.5s ease 1.7s, visibility 0s linear 1.7s;
 }
 
 /* --- SECCIÓN DEL NOMBRE DEL INVITADO --- */
