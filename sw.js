@@ -1,13 +1,16 @@
 // Service Worker — Álbum Jennifer Arlete XV
-// Solo habilita la instalación como PWA.
-// Las fotos siempre se cargan en línea desde Cloudinary/Firebase.
-// NO se guarda ninguna foto en el dispositivo.
+// Habilita la instalación de la PWA directo al Álbum, 
+// pero también guarda la invitación para que funcione sin internet.
 
-const CACHE_NAME = 'album-xv-shell-v1';
+// IMPORTANTE: Cambiamos a v2 para forzar la actualización
+const CACHE_NAME = 'album-xv-shell-v2'; 
 
-// Solo cacheamos el "esqueleto" de la app (HTML + fuentes del sistema)
-// Las imágenes/fotos NUNCA se cachean — siempre se ven en línea
+// Lista de archivos que el celular guardará para funcionar sin internet
 const SHELL_FILES = [
+  './',
+  './index.html',
+  './css/style.css',
+  './js/javascript.js',
   './album.html',
   './manifest.json'
 ];
@@ -42,7 +45,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Para el shell (album.html): red primero, caché como respaldo
+  // Para los archivos de la app: red primero, caché como respaldo
   event.respondWith(
     fetch(event.request).catch(() => caches.match(event.request))
   );

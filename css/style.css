@@ -315,7 +315,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     margin-bottom: 2px !important;
     letter-spacing: 1px; /* Letras poco separadas */
     display: block; /* Renglón solo para esto */
-    font-weight: 600; /
+    font-weight: 600; 
 }
 
 /* El dato real (como "19.12.26") */

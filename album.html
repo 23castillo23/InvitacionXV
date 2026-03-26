@@ -650,6 +650,20 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
             <div class="emoji-opt" data-emoji="🎂">🎂</div>
             <div class="emoji-opt" data-emoji="🌙">🌙</div>
             <div class="emoji-opt" data-emoji="🦋">🦋</div>
+            
+            <div class="emoji-opt" data-emoji="💎">💎</div>
+            <div class="emoji-opt" data-emoji="👠">👠</div>
+            <div class="emoji-opt" data-emoji="🏰">🏰</div>
+            <div class="emoji-opt" data-emoji="👗">👗</div>
+            <div class="emoji-opt" data-emoji="🤍">🤍</div>
+            <div class="emoji-opt" data-emoji="🕊️">🕊️</div>
+            <div class="emoji-opt" data-emoji="🕛">🕛</div>
+            
+            <div class="emoji-opt" data-emoji="🪩">🪩</div>
+            <div class="emoji-opt" data-emoji="🎶">🎶</div>
+            <div class="emoji-opt" data-emoji="🎉">🎉</div>
+            <div class="emoji-opt" data-emoji="🎁">🎁</div>
+            <div class="emoji-opt" data-emoji="🌟">🌟</div>
         </div>
         <div class="modal-actions">
             <button class="btn-modal-cancel" onclick="closeModal()">Cancelar</button>
@@ -799,10 +813,11 @@ canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events
 </main>
 
 <!-- ══ FIREBASE SDK ══ -->
-<script type="module">
+ <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-    getFirestore, collection, addDoc, onSnapshot,
+    initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+    collection, addDoc, onSnapshot,
     query, orderBy, doc, updateDoc, arrayUnion, getDoc, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -823,7 +838,11 @@ const CLOUDINARY_PRESET = "jennifer_xv";  // tu unsigned preset
 /* ══════════════════════════════════════════ */
 
 const app = initializeApp(FIREBASE_CONFIG);
-const db  = getFirestore(app);
+
+// INICIALIZAR FIRESTORE CON CACHÉ (Evita gastar lecturas en cada recarga)
+const db = initializeFirestore(app, {
+    localCache: persistentLocalCache({tabManager: persistentMultipleTabManager()})
+});
 
 // Exponer funciones al scope global
 window._db         = db;
@@ -836,7 +855,7 @@ window._getDoc     = getDoc;
 window._CLOUD      = CLOUDINARY_CLOUD;
 window._PRESET     = CLOUDINARY_PRESET;
 window._firebaseReady = true;
-window._deleteDoc  = deleteDoc; // Añade esta línea debajo de las otras
+window._deleteDoc  = deleteDoc;
 
 // Escucha galerías en tiempo real
 onSnapshot(query(collection(db,'galleries_jennifer_xv'), orderBy('createdAt','asc')), snap => {
