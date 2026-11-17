@@ -4,8 +4,8 @@
   "description": "Álbum de recuerdos de los XV años de Jennifer Arlete",
   "start_url": "./album.html",
   "display": "standalone",
-  "background_color": "#1e3c72",
-  "theme_color": "#1e3c72",
+  "background_color": "#E3AA9C",
+  "theme_color": "#DEA193",
   "orientation": "portrait",
   "icons": [
     { "src": "icons/icon-72x72.png",   "sizes": "72x72",   "type": "image/png" },

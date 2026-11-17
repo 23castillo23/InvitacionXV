@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#84b6f4', '#c4dafa', '#ffffff'],
+                colors: ['#DEA193', '#EDE8D0', '#C98B7B', '#ffffff'],
                 ticks: 300
             });
 
@@ -106,14 +106,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Pausa automática al salir del navegador
+    // Pausa automática al salir del navegador (y solo reanuda si estaba sonando)
+    let musicaSonabaAntes = false; // Recuerda si la música estaba sonando antes de salir
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) { 
-            if (music) music.pause(); 
+        if (document.hidden) {
+            if (music) {
+                musicaSonabaAntes = !music.paused; // Si el invitado la había pausado, queda en false
+                music.pause();
+            }
         } else {
-            if (wrapper && wrapper.classList.contains('open') && music) {
+            // Solo vuelve a sonar si estaba sonando y la invitación sigue abierta
+            if (musicaSonabaAntes && wrapper && wrapper.classList.contains('open') && music) {
                 playMusic();
             }
+            musicaSonabaAntes = false;
         }
     });
 

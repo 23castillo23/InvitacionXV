@@ -1,19 +1,25 @@
 /* --- VARIABLES: COLORES QUE USAREMOS EN TODA LA INVITACIÓN --- */
 :root {
-    /* --- NUEVA PALETA DE COLORES CENICIENTA --- */
-    --azul-cenicienta-oscuro: #1e3c72; /* Un azul marino más suave para el fondo */
-    --azul-cenicienta-fondo: #2a5298; /* Azul base para el degradado */
+    /* --- NUEVA PALETA: ORO ROSA Y BEIGE --- */
+    --azul-cenicienta-oscuro: #4D3F3C; /* Un azul marino más suave para el fondo */
+    --azul-cenicienta-fondo: #75605A; /* Azul base para el degradado */
     
-    /* TUS COLORES DE VESTIDO EXACTOS */
-    --azul-cenicienta-fuerte: #84b6f4; 
-    --azul-cenicienta-claro: #c4dafa; 
+    /* COLORES DEL VESTIDO: ORO ROSA #DEA193 y BEIGE #EDE8D0 */
+    --azul-cenicienta-fuerte: #DEA193; 
+    --azul-cenicienta-claro: #EDE8D0; 
     
     /* DETALLES MÁGICOS (REEMPLAZO DE DORADO) */
-    --plata-vieja: #a8a8a8; 
-    --plata-brillante: #e0e0e0; /* Para bordes y destellos */
+    --plata-vieja: #C98B7B; 
+    --plata-brillante: #F0C6B8; /* Para bordes y destellos */
     --magic-white: #ffffff; /* Para confeti y textos */
-    --texto-cenicienta: #1a3a5f; /* Azul elegante para el pergamino */
+    --texto-cenicienta: #5A3430; /* Azul elegante para el pergamino */
     
+    /* VARIABLES QUE ANTES NO ESTABAN DEFINIDAS (ahora en oro rosa) */
+    --oro-rico: #C98B7B;
+    --oro-brillante: #F3D2C5;
+    --azul-imperial: #4D3F3C; /* ahora es café rosado oscuro para textos */
+    --azul-profundo-fondo: #322927;
+
     --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -33,7 +39,7 @@ body {
     font-family: 'Montserrat', sans-serif; /* El tipo de letra principal */
     background-color: var(--azul-profundo-fondo); /* Aplica el azul casi negro al fondo */
     background-image: 
-        radial-gradient(circle at 50% 30%, rgba(132, 182, 244, 0.3) 0%, transparent 60%), 
+        radial-gradient(circle at 50% 30%, rgba(237,232,208,0.10) 0%, transparent 60%), 
         linear-gradient(180deg, var(--azul-cenicienta-oscuro) 0%, var(--azul-cenicienta-fondo) 100%);
     background-attachment: fixed;    
     overflow-x: hidden; /* Evita que la pantalla se mueva hacia los lados */
@@ -55,7 +61,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
         radial-gradient(2px 2px at 50px 100px, var(--azul-cenicienta-claro), rgba(0,0,0,0)),
         radial-gradient(3px 3px at 120px 60px, var(--plata-brillante), rgba(0,0,0,0)),
         radial-gradient(2px 2px at 200px 180px, var(--magic-white), rgba(0,0,0,0)),
-        radial-gradient(4px 4px at 250px 50px, rgba(132, 182, 244, 0.4), rgba(0,0,0,0)),
+        radial-gradient(4px 4px at 250px 50px, rgba(222,161,147,0.4), rgba(0,0,0,0)),
         radial-gradient(2.5px 2.5px at 300px 150px, var(--plata-vieja), rgba(0,0,0,0));    
     background-size: 300px 300px; /* Repite el patrón de estrellas por toda la pantalla */
     opacity: 0.6; /* Hace que las estrellas sean un poco transparentes */
@@ -72,7 +78,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 .bokeh-light {
     position: absolute; border-radius: 50%;
     /* Ahora brillan con el azul clarito */
-    background: radial-gradient(circle, rgba(196, 218, 250, 0.3) 0%, rgba(42, 82, 152, 0) 70%); 
+    background: radial-gradient(circle, rgba(237,232,208,0.3) 0%, rgba(117,96,90,0) 70%); 
     animation: floatBokeh 25s infinite linear; opacity: 0;
 }
 .s-1 { width: 100px; height: 100px; left: 10%; top: 20%; animation-delay: 0s; }
@@ -121,7 +127,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 .bokeh-light {
     position: absolute; /* Permite mover los círculos de luz libremente */
     border-radius: 50%; /* Hace que la luz sea un círculo */
-    background: radial-gradient(circle, rgba(100, 181, 246, 0.3) 0%, rgba(0, 35, 102, 0) 70%); /* Luz azul esfumada */
+    background: radial-gradient(circle, rgba(222,161,147,0.3) 0%, rgba(50,41,39,0) 70%); /* Luz azul esfumada */
     animation: floatBokeh 25s infinite linear; /* Hace que suban lentamente */
     opacity: 0; /* Empieza invisible */
 }
@@ -146,14 +152,14 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 
 /* --- DISEÑO DE LA TARJETA (El Pase) --- */
 .glass-pass {
-    background: rgba(196, 218, 250, 0.15); /* Tinte azulado de Cenicienta */
+    background: rgba(237,232,208,0.15); /* Tinte azulado de Cenicienta */
     backdrop-filter: blur(10px); /* Efecto de vidrio empañado */
     -webkit-backdrop-filter: blur(10px); /* Lo mismo, pero para navegadores de iPhone */
     border-radius: 20px; /* Redondea las esquinas de la tarjeta */
     border: 2px solid var(--azul-cenicienta-claro); /* Borde color vestido */
     padding: 15px; /* Espacio entre el borde de la tarjeta y el contenido */
-    border: 1px solid rgba(252, 226, 163, 0.4); /* La línea delgadita dorada del borde */
-    box-shadow: 0 0 30px rgba(132, 182, 244, 0.3); /* Resplandor azulado */
+    border: 1px solid rgba(240,198,184,0.4); /* La línea delgadita dorada del borde */
+    box-shadow: 0 0 30px rgba(222,161,147,0.3); /* Resplandor azulado */
     position: relative; overflow: hidden; /* Para la luz viajera */
     width: 100%; /* Ocupa todo el ancho de su caja */
     box-sizing: border-box; /* Asegura que los bordes no ensanchen la tarjeta */
@@ -166,13 +172,13 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 .pass-inner-border {
     position: relative; z-index: 2; border-radius: 15px; padding: 35px 20px;
     display: flex; flex-direction: column; align-items: center; gap: 20px;
-    border: 1px solid rgba(191, 149, 63, 0.2);
+    border: 1px solid rgba(201,139,123,0.2);
 }
 
 .pass-inner-border {
     position: relative; z-index: 2; /* Por encima de la luz viajera */
     border: 1px solid rgba(224, 224, 224, 0.3); /* Borde interno plateado sutil */
-    border-radius: 15px; padding: 20px; background: rgba(0, 26, 51, 0.3);
+    border-radius: 15px; padding: 20px; background: rgba(50,41,39,0.3);
 }
 .pass-guest-section { text-align: center; margin-bottom: 25px; }
 
@@ -181,12 +187,12 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 .pass-inner-border {
     position: relative; z-index: 2; /* Por encima de la luz viajera */
     border: 1px solid rgba(224, 224, 224, 0.3); /* Borde interno plateado sutil */
-    border-radius: 15px; padding: 20px; background: rgba(0, 26, 51, 0.3);
+    border-radius: 15px; padding: 20px; background: rgba(50,41,39,0.3);
 }
 
 /* El recuadro interno del pase */
 .pass-inner-border {
-    border: 1px solid rgba(191, 149, 63, 0.25); /* Línea dorada interna */
+    border: 1px solid rgba(201,139,123,0.25); /* Línea dorada interna */
     border-radius: 15px; /* Esquinas redondeadas del marco interno */
     padding: 40px 25px; /* Espacio para que el texto no pegue al marco */
     display: flex; /* Activa el ordenamiento vertical */
@@ -249,7 +255,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     padding: 5px 15px; /* Espacio adentro de la burbuja */
     border-radius: 20px; /* Bordes redondos de la burbuja */
     border: 1px solid var(--plata-vieja); /* Borde plateado */ /* Línea dorada del contorno */
-    background: rgba(132, 182, 244, 0.2); /* Fondo dorado transparente */
+    background: rgba(222,161,147,0.2); /* Fondo dorado transparente */
     color: var(--azul-cenicienta-claro); /* Texto color vestido */
     font-size: 0.8rem; /* Tamaño de letra de los pases */
     margin-top: 5px; /* Espacio extra arriba */
@@ -267,7 +273,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     font-size: 3.5rem; /* Tamaño de letra muy grande */
     color: #ffffff; /* Letra blanca */
     margin: 0; /* Sin espacios extra */
-    text-shadow: 0 0 10px rgba(132, 182, 244, 0.5); /* Brillo azul */
+    text-shadow: 0 0 10px rgba(222,161,147,0.5); /* Brillo azul */
 }
 
 /* El texto "MIS XV AÑOS" */
@@ -295,7 +301,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     display: grid; /* Activa la cuadrícula */
     grid-template-columns: 1fr 1fr; /* Divide en 3 columnas iguales */
     width: 100%; /* Todo el ancho */
-    border-top: 1px solid rgba(191, 149, 63, 0.2); /* Línea divisoria de arriba */
+    border-top: 1px solid rgba(201,139,123,0.2); /* Línea divisoria de arriba */
     padding-top: 25px; /* Espacio después de la línea */
     gap: 15px; /* Espacio entre columnas */
     margin-bottom: 30px;
@@ -303,7 +309,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 
 .pass-data-item { 
     text-align: center; /* Centra cada dato */
-    background: rgba(132, 182, 244, 0.1); 
+    background: rgba(222,161,147,0.1); 
     padding: 10px; 
     border-radius: 8px;
 }
@@ -335,7 +341,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 /* --- EL BOTÓN DORADO --- */
 .pass-action-btn {
     background: linear-gradient(135deg, var(--plata-vieja), var(--plata-brillante)); /* Color dorado tipo metal */
-    color: #1a3a5f; /* Letras azul oscuro */
+    color: #5A3430; /* Letras azul oscuro */
     text-align: center; 
     padding: 15px; /* Tamaño del botón */
     border-radius: 10px; /* Botón con forma de cápsula */
@@ -369,12 +375,12 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     width: 90%; /* Ancho en celulares */
     margin: 40px auto; /* Centra el papel y le da aire arriba y abajo */
     padding: 0 50px; /* Espacio lateral adentro del papel */
-    background-color: #fdfaf2; /* Color crema tipo papel viejo */
+    background-color: #F8F5EA; /* Color crema tipo papel viejo */
     background-image: url("https://www.transparenttextures.com/patterns/linen.png"); /* Textura de tela fina */
     border-radius: 4px; /* Esquinas apenas redondeadas */
     border-left: 12px double var(--azul-imperial); /* Doble línea azul a la izquierda */
     border-right: 12px double var(--azul-imperial); /* Doble línea azul a la derecha */
-    border: 1px solid rgba(191, 149, 63, 0.2); /* Borde sutil exterior */
+    border: 1px solid rgba(201,139,123,0.2); /* Borde sutil exterior */
     max-height: 0; /* Empieza cerrado (sin altura) */
     opacity: 0; /* Empieza invisible */
     overflow: hidden; /* Oculta el texto mientras está cerrado */
@@ -391,7 +397,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
     content: ''; /* Obligatorio para crear el recuadro */
     position: absolute; /* Se acomoda respecto al papel */
     top: 15px; bottom: 15px; left: 15px; right: 15px; /* Separación del borde */
-    border: 2px solid rgba(191, 149, 63, 0.3); /* La línea dorada del marco */
+    border: 2px solid rgba(201,139,123,0.3); /* La línea dorada del marco */
     pointer-events: none; /* Ignora toques para que no estorbe al dar clic */
     z-index: 1; /* Encima del color crema */
 }
@@ -518,7 +524,7 @@ h1, h2 { font-family: 'Cinzel Decorative', cursive; }
 .princess-name {
     font-family: 'Great Vibes', cursive; /* Letra de princesa */
     font-size: clamp(2rem, 8vw, 3.8rem); /* Se encoge en celulares y crece en PC */
-    background: linear-gradient(to right, #b8860b, #fce2a3, #b8860b); /* Color dorado metálico con brillo */
+    background: linear-gradient(to right, #A8604F, #DEA193, #A8604F); /* Color dorado metálico con brillo */
     -webkit-background-clip: text; /* Aplica el dorado solo a las letras */
     background-clip: text; /* Lo mismo para otros navegadores */
     -webkit-text-fill-color: transparent; /* Hace que el relleno sea transparente para ver el dorado */
@@ -575,7 +581,7 @@ h2 {
     border-radius: 50px; /* Redondo en las puntas */
     color: var(--azul-imperial); /* Letra azul oscuro */
     font-weight: 600; /* Letra negrita */
-    box-shadow: 0 8px 15px rgba(0,0,0,0.3), inset 0 0 10px rgba(191, 149, 63, 0.2); /* Sombras externa e interna */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3), inset 0 0 10px rgba(201,139,123,0.2); /* Sombras externa e interna */
     transition: all 0.4s ease; /* Suaviza el cambio al tocarlo */
 }
 
@@ -608,7 +614,7 @@ h2 {
     left: 50%; /* La pone a la mitad del ancho */
     transform: translate(-50%, -50%); /* Centrado exacto */
     color: var(--oro-rico); /* Estrella dorada oscura */
-    background-color: #fdfaf2; /* Recuadro crema para que no cruce la línea la estrella */
+    background-color: #F8F5EA; /* Recuadro crema para que no cruce la línea la estrella */
     padding: 0 15px; /* Espacio a los lados de la estrella */
     font-size: 1.2rem; /* Tamaño de la estrella */
     z-index: 2; /* Encima de la línea */
@@ -616,11 +622,11 @@ h2 {
 
 /* Cuadro del Código de Vestimenta */
 .dress-code-card { 
-    background: rgba(0, 35, 102, 0.03); /* Fondo azul súper clarito */
+    background: rgba(50,41,39,0.03); /* Fondo azul súper clarito */
     padding: 20px; /* Aire adentro del cuadro */
     border-radius: 15px; /* Esquinas redondas */
     margin: 30px 0; /* Separación de otras secciones */
-    border: 1px dashed rgba(191, 149, 63, 0.3); /* Línea punteada dorada */
+    border: 1px dashed rgba(201,139,123,0.3); /* Línea punteada dorada */
 }
 
 /* Aviso para reservar el azul */
@@ -652,8 +658,8 @@ section {
 .wax-seal.final-seal {
     width: 85px; /* Ancho del círculo */
     height: 85px; /* Alto del círculo */
-    border: 3px solid #c4dafa; /* Contorno dorado grueso */
-    background: radial-gradient(circle at 30% 30%, #84b6f4, #001a33); /* Fondo azul con brillo */
+    border: 3px solid #EDE8D0; /* Contorno dorado grueso */
+    background: radial-gradient(circle at 30% 30%, #DEA193, #3F3331); /* Fondo azul con brillo */
     border-radius: 50%; /* Lo hace un círculo perfecto */
     display: flex; /* Activa el orden de adentro */
     flex-direction: column; /* "XV" arriba y "CERRAR" abajo */
@@ -680,7 +686,7 @@ section {
 
 /* La palabra "CERRAR" */
 .wax-seal.final-seal .seal-text {
-    color: #c4dafa; /* Azul clarito para que resalte */
+    color: #EDE8D0; /* Azul clarito para que resalte */
     font-size: 0.65rem; /* Letra chiquita */
     font-weight: bold; /* Letra gruesa */
     letter-spacing: 2px; /* Letras separadas */
@@ -754,7 +760,7 @@ section {
     max-height: 0; /* Altura 0 (escondido) */
     overflow: hidden; /* No permite ver nada */
     opacity: 1;
-    background: rgba(191, 149, 63, 0.03); /* Fondo dorado muy sutil */
+    background: rgba(201,139,123,0.03); /* Fondo dorado muy sutil */
     transition: max-height 0.5s ease-out, padding 0.5s ease; /* Cómo de rápido se desliza al abrir */
     padding: 0 20px; /* Sin espacio arriba/abajo mientras esté cerrado */
 }
@@ -763,7 +769,7 @@ section {
 .accordion-item.active .accordion-content { 
     max-height: 350px; /* Se estira para mostrar el texto */
     padding: 25px 20px; /* Se activa el espacio interno */
-    border-bottom: 1px solid rgba(191, 149, 63, 0.2); /* Línea dorada de base */
+    border-bottom: 1px solid rgba(201,139,123,0.2); /* Línea dorada de base */
 }
 
 /* Gira la flecha hacia arriba al abrir ▲ */
@@ -773,7 +779,7 @@ section {
 
 /* Cambia un poco el fondo al estar abierto */
 .accordion-item.active .accordion-header { 
-    background: rgba(191, 149, 63, 0.1); /* Se vuelve un poquito más dorado */
+    background: rgba(201,139,123,0.1); /* Se vuelve un poquito más dorado */
 }
 
 /* --- AJUSTES PARA CELULAR (iPhone 13 mini) --- */
@@ -799,15 +805,15 @@ section {
 
     /* BOTONES INTERNOS: Plateado/Azul para Ver Ubicación/Mensaje */
     .btn-glass-magic {
-        display: inline-block; background: rgba(132, 182, 244, 0.1);
+        display: inline-block; background: rgba(222,161,147,0.1);
         border: 1px solid var(--azul-cenicienta-fuerte); /* Borde azul fuerte */
         color: var(--texto-cenicienta); padding: 10px 20px; border-radius: 20px;
         font-size: 0.75rem; font-weight: 600; text-decoration: none;
-        box-shadow: 0 2px 10px rgba(132, 182, 244, 0.2);
+        box-shadow: 0 2px 10px rgba(222,161,147,0.2);
     }
     .btn-glass-magic:hover {
         background: var(--azul-cenicienta-fuerte); /* Color lleno al hover */
-        color: #ffffff; box-shadow: 0 4px 15px rgba(132, 182, 244, 0.4);
+        color: #ffffff; box-shadow: 0 4px 15px rgba(222,161,147,0.4);
     }
 
     .final-msg { font-weight: 600; margin-top: 30px; }
@@ -842,7 +848,7 @@ section {
     /* Cada dato de la lista */
     .pass-data-item { 
         padding: 12px 0; /* Espacio arriba y abajo de cada dato */
-        border-bottom: 1px solid rgba(191, 149, 63, 0.15); /* Línea dorada divisoria */
+        border-bottom: 1px solid rgba(201,139,123,0.15); /* Línea dorada divisoria */
     }
     
     .pass-data-item:last-child { 
@@ -935,7 +941,7 @@ section {
     max-height: 0; /* Cerrado */
     overflow: hidden; /* Nada a la vista */
     transition: max-height 0.5s ease-out; /* Velocidad de apertura */
-    background: rgba(191, 149, 63, 0.05); /* Color de fondo sutil */
+    background: rgba(201,139,123,0.05); /* Color de fondo sutil */
     border-radius: 0 0 10px 10px; /* Redondo solo abajo */
 }
 
@@ -954,7 +960,7 @@ section {
     width: 45px; /* Ancho del botón */
     height: 45px; /* Alto del botón */
     border-radius: 50%; /* Lo hace un círculo */
-    background: rgba(0, 35, 102, 0.7); /* Azul oscuro transparente */
+    background: rgba(50,41,39,0.7); /* Azul oscuro transparente */
     border: 2px solid var(--oro-rico); /* Contorno dorado grueso */
     color: var(--oro-brillante); /* Color del icono de música */
     cursor: pointer; /* Mano al tocar */
@@ -1040,7 +1046,7 @@ section {
     font-size: 1.15rem;
     font-weight: 700;
     font-style: normal;
-    color: #1e3c72;
+    color: #4D3F3C;
     line-height: 1;
 }
 
@@ -1048,7 +1054,7 @@ section {
     font-size: 0.5rem;
     font-style: normal;
     text-transform: uppercase;
-    color: #2a5298;
+    color: #75605A;
     letter-spacing: 1px;
     margin-top: 3px;
     opacity: 0.85;
@@ -1058,7 +1064,7 @@ section {
     font-size: 1.2rem;
     font-weight: 700;
     font-style: normal;
-    color: #1e3c72;
+    color: #4D3F3C;
     line-height: 1;
     display: block;
     text-shadow: 0 1px 2px rgba(255,255,255,0.6);
@@ -1071,7 +1077,7 @@ section {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #2a5298;
+    color: #75605A;
     margin-top: 3px;
     opacity: 0.9;
 }
@@ -1080,11 +1086,11 @@ section {
 .album-invite-card {
     margin: 25px 0 30px;
     padding: 28px 20px 24px;
-    border: 1px solid rgba(191, 149, 63, 0.35);
+    border: 1px solid rgba(201,139,123,0.35);
     border-radius: 12px;
-    background: radial-gradient(circle at 50% 0%, rgba(132, 182, 244, 0.12) 0%, rgba(0, 26, 51, 0.35) 75%);
+    background: radial-gradient(circle at 50% 0%, rgba(222,161,147,0.12) 0%, rgba(50,41,39,0.35) 75%);
     text-align: center;
-    box-shadow: 0 0 20px rgba(196, 218, 250, 0.15);
+    box-shadow: 0 0 20px rgba(237,232,208,0.15);
 }
 
 .album-invite-icon {
@@ -1095,10 +1101,10 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(196, 218, 250, 0.6);
+    border: 1px solid rgba(237,232,208,0.6);
     color: var(--azul-cenicienta-claro);
     font-size: 1.7rem;
-    box-shadow: 0 0 16px rgba(196, 218, 250, 0.25);
+    box-shadow: 0 0 16px rgba(237,232,208,0.25);
 }
 
 .album-invite-title {
@@ -1107,7 +1113,7 @@ section {
     line-height: 1.1;
     margin: 6px 0 10px;
     color: #ffffff;
-    text-shadow: 0 2px 10px rgba(132, 182, 244, 0.45);
+    text-shadow: 0 2px 10px rgba(222,161,147,0.45);
     border: none;
 }
 
@@ -1129,17 +1135,17 @@ section {
     font-family: 'Cinzel Decorative', serif;
     font-size: 0.8rem;
     letter-spacing: 2px;
-    border: 1px solid rgba(191, 149, 63, 0.7);
-    background: linear-gradient(135deg, rgba(191, 149, 63, 0.95), rgba(252, 226, 163, 0.95));
-    color: #1a3a5f;
-    box-shadow: 0 6px 18px rgba(191, 149, 63, 0.3);
+    border: 1px solid rgba(201,139,123,0.7);
+    background: linear-gradient(135deg, rgba(201,139,123,0.95), rgba(240,198,184,0.95));
+    color: #5A3430;
+    box-shadow: 0 6px 18px rgba(201,139,123,0.3);
     transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
 .btn-go-album:hover {
     transform: translateY(-2px);
     filter: brightness(1.03);
-    box-shadow: 0 10px 22px rgba(191, 149, 63, 0.42);
+    box-shadow: 0 10px 22px rgba(201,139,123,0.42);
 }
 
 /* Efecto de vibración rápida cuando se presiona el botón */
@@ -1170,3 +1176,34 @@ section {
 }
 .seal-text { font-size: 0.65rem; color: var(--plata-brillante); margin-top: 5px; } /* Texto plateado */
 
+
+
+/* --- MADRINA --- */
+.madrina { margin: 5px 0 30px; font-size: 1rem; }
+.madrina-label {
+    font-size: 0.65rem; letter-spacing: 3px; font-weight: 600;
+    color: var(--oro-rico); margin-bottom: 6px;
+}
+.invitation-wrapper.open .parents.madrina { animation-delay: 1.8s; }
+
+
+/* ===== TEMA CLARO: fondo oro rosa + beige (más suave) ===== */
+body {
+    background-color:#E3AA9C !important;
+    background-image:
+        radial-gradient(circle at 50% 18%, rgba(247,240,224,0.80) 0%, transparent 62%),
+        linear-gradient(180deg, #EBC1B4 0%, #DEA193 100%) !important;
+    background-attachment: fixed !important;
+}
+/* El pase: tarjeta cacao-rosado para que el texto claro se lea bien */
+.glass-pass {
+    background: rgba(88, 56, 51, 0.90);
+    border: 1px solid rgba(237, 232, 208, 0.55);
+    box-shadow: 0 10px 35px rgba(110, 62, 52, 0.35);
+}
+.pass-inner-border {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(222, 161, 147, 0.45);
+}
+.pass-data-item { background: rgba(222, 161, 147, 0.14); }
+.stars-layer { opacity: 0.9; }
