@@ -1195,15 +1195,44 @@ body {
         linear-gradient(180deg, #EBC1B4 0%, #DEA193 100%) !important;
     background-attachment: fixed !important;
 }
-/* El pase: tarjeta cacao-rosado para que el texto claro se lea bien */
+.stars-layer { opacity: 0.9; }
+
+
+/* ===== PASE: TARJETA DE CRISTAL (se ve el degradado) con letras café ===== */
 .glass-pass {
-    background: rgba(88, 56, 51, 0.90);
-    border: 1px solid rgba(237, 232, 208, 0.55);
-    box-shadow: 0 10px 35px rgba(110, 62, 52, 0.35);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.10), rgba(222, 161, 147, 0.16));
+    -webkit-backdrop-filter: blur(10px) saturate(1.2);
+    backdrop-filter: blur(10px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.70);
+    box-shadow: 0 12px 40px rgba(160, 90, 75, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 .pass-inner-border {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(222, 161, 147, 0.45);
+    background: transparent;
+    border: 1px solid rgba(138, 83, 72, 0.35);
 }
-.pass-data-item { background: rgba(222, 161, 147, 0.14); }
-.stars-layer { opacity: 0.9; }
+.pass-label { color: #7A4A40; }
+.guest-name { color: #4A2F2B; text-shadow: none; }
+.guest-count-badge {
+    border: 1px solid rgba(138, 83, 72, 0.55);
+    background: rgba(255, 255, 255, 0.35);
+    color: #5A3430;
+}
+.pass-title { color: #5A3430; text-shadow: 0 2px 10px rgba(255, 255, 255, 0.85); }
+.pass-subtitle { color: #8A5348; text-shadow: none; }
+.countdown-display { color: #5A3430; text-shadow: none; }
+.countdown-number { color: #4A2F2B; }
+.countdown-label { color: #7A4A40; }
+.pass-info-grid { border-top: 1px solid rgba(138, 83, 72, 0.30) !important; }
+.pass-data-item {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+.pass-data-item span { color: #7A4A40; }
+.pass-data-item p { color: #4A2F2B; }
+.finish-msg { color: #8A5348; text-shadow: none; }
+.pass-action-btn {
+    background: linear-gradient(135deg, #BF7F6F, #DDA090);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    color: #2F1814;
+    box-shadow: 0 4px 14px rgba(160, 90, 75, 0.40);
+}

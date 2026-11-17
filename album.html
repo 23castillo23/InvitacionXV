@@ -637,7 +637,21 @@ body{
 .tab-count{color:#5A3430;background:rgba(90,52,48,0.12);}
 .tab-all.active .tab-count{color:#fff;background:rgba(255,255,255,0.25);}
 /* Caja de subir fotos: tarjeta cacao-rosado con texto claro */
-.upload-section{background:rgba(88,56,51,0.92);border-color:rgba(237,232,208,0.45);}
+/* Caja de subir fotos: cristal con letras café (se ve el degradado) */
+.upload-section{background:linear-gradient(160deg,rgba(255,255,255,0.16),rgba(222,161,147,0.16));-webkit-backdrop-filter:blur(14px) saturate(1.1);backdrop-filter:blur(14px) saturate(1.1);border:1px solid rgba(255,255,255,0.65);box-shadow:0 10px 30px rgba(160,90,75,0.18),inset 0 1px 0 rgba(255,255,255,0.55);}
+.upload-section::before{background:linear-gradient(90deg,transparent,#8A5348,transparent);}
+.upload-section-title,.field-label{color:#7A4A40;}
+.field-input,.field-select,.caption-input{background:rgba(255,255,255,0.35);border:1px solid rgba(138,83,72,0.40);color:#4A2F2B;caret-color:#8A5348;}
+.field-input:focus,.field-select:focus,.caption-input:focus{border-color:#8A5348;background:rgba(255,255,255,0.50);}
+.field-input::placeholder,.caption-input::placeholder{color:#8A6A62;}
+.field-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A5348' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.field-select option{background:#F8F5EA;color:#4A2F2B;}
+.upload-btn{border:1px dashed rgba(138,83,72,0.50);background:rgba(255,255,255,0.25);color:#5A3430;}
+.upload-btn:hover{border-color:#8A5348;background:rgba(255,255,255,0.50);color:#3A211F;}
+.submit-btn{background:linear-gradient(135deg,#C98B7B,#DEA193);border:1px solid rgba(255,255,255,0.60);color:#3F2420;box-shadow:0 4px 14px rgba(160,90,75,0.30);}
+.submit-btn:hover{box-shadow:0 6px 18px rgba(160,90,75,0.45);border-color:#fff;}
+.toast.success{color:#5A3430;background:rgba(255,255,255,0.45);border-color:rgba(138,83,72,0.40);}
+.toast.error{color:#B03A3A;}
 .gallery-empty{color:#6B4640;border-color:rgba(90,52,48,0.35);}
 </style>
 </head>
