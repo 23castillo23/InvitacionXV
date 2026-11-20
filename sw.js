@@ -2,8 +2,8 @@
 // Habilita la instalación de la PWA directo al Álbum, 
 // pero también guarda la invitación para que funcione sin internet.
 
-// IMPORTANTE: Cambiamos a v8 para forzar la actualización
-const CACHE_NAME = 'album-xv-shell-v8'; 
+// IMPORTANTE: Cambiamos a v10 para forzar la actualización
+const CACHE_NAME = 'album-xv-shell-v10'; 
 
 // Lista de archivos que el celular guardará para funcionar sin internet
 const SHELL_FILES = [

@@ -653,6 +653,38 @@ body{
 .toast.success{color:#5A3430;background:rgba(255,255,255,0.45);border-color:rgba(138,83,72,0.40);}
 .toast.error{color:#B03A3A;}
 .gallery-empty{color:#6B4640;border-color:rgba(90,52,48,0.35);}
+
+/* ===== FONDO CON DEGRADADO EN MOVIMIENTO (beige + oro rosa) ===== */
+body::before {
+    content: "";
+    position: fixed;
+    inset: -35%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 18% 22%, #F7ECDD 0%, rgba(247,236,221,0) 42%),
+        radial-gradient(circle at 82% 28%, #ECC3B5 0%, rgba(236,195,181,0) 48%),
+        radial-gradient(circle at 28% 82%, #DB9A8B 0%, rgba(219,154,139,0) 52%),
+        radial-gradient(circle at 86% 86%, #EBCDB9 0%, rgba(235,205,185,0) 48%),
+        #E3AA9C;
+    animation: degradadoMovil 26s ease-in-out infinite alternate;
+    will-change: transform;
+}
+@keyframes degradadoMovil {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate(5%, -4%) rotate(9deg) scale(1.08); }
+    100% { transform: translate(-5%, 4%) rotate(-7deg) scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+    body::before { animation: none; }
+}
+
+/* ===== Botones de paginación / actualizar ===== */
+.refresh-row{display:flex;justify-content:center;margin:0 0 14px;}
+.grid-more{grid-column:1/-1;display:flex;justify-content:center;padding:14px 0 4px;}
+.btn-refresh,.btn-more{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:2px;padding:9px 20px;border-radius:20px;background:rgba(255,255,255,0.35);border:1px solid rgba(90,52,48,0.45);color:#5A3430;cursor:pointer;transition:all .3s ease;}
+.btn-refresh:hover,.btn-more:hover{background:rgba(255,255,255,0.60);border-color:#5A3430;color:#3A211F;}
+.btn-refresh:disabled,.btn-more:disabled{opacity:.6;cursor:default;}
 </style>
 </head>
 <body>
@@ -785,7 +817,7 @@ body{
         <span class="close-label">← Cerrar</span>
     </a>
     <h1 class="header-title">Álbum de Recuerdos</h1>
-    <p class="header-sub">Jennifer Arlete · 19 · 12 · 26</p>
+    <p class="header-sub">Arlete · 19 · 12 · 26</p>
     <p class="header-desc">Crea tu galería y comparte tus fotos de esta noche mágica</p>
 </header>
 
@@ -878,6 +910,7 @@ body{
         <div class="gallery-header-line"></div>
     </div>
     <p class="gallery-count-txt" id="galleryCount">Cargando…</p>
+    <div class="refresh-row"><button class="btn-refresh" id="btnNuevas" onclick="cargarNuevasUI()">↻ Ver fotos nuevas</button></div>
     <div class="photo-grid" id="photoGrid">
         <div class="gallery-empty">Las fotos que compartan aparecerán aquí ✦</div>
     </div>
@@ -889,8 +922,9 @@ body{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
     initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-    collection, addDoc, onSnapshot,
-    query, orderBy, doc, updateDoc, arrayUnion, getDoc, deleteDoc
+    collection, addDoc, getDocs,
+    query, orderBy, limit, startAfter, where,
+    doc, updateDoc, increment, arrayUnion, getDoc, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 /* ╔══════════════════════════════════════════╗
@@ -928,23 +962,16 @@ window._CLOUD      = CLOUDINARY_CLOUD;
 window._PRESET     = CLOUDINARY_PRESET;
 window._firebaseReady = true;
 window._deleteDoc  = deleteDoc;
+window._getDocs    = getDocs;
+window._query      = query;
+window._orderBy    = orderBy;
+window._limit      = limit;
+window._startAfter = startAfter;
+window._where      = where;
+window._increment  = increment;
 
-// Escucha galerías en tiempo real
-onSnapshot(query(collection(db,'galleries_jennifer_xv'), orderBy('createdAt','asc')), snap => {
-    window._galleries = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderGalleryTabs();
-    refreshDestSelect();
-});
-
-// Escucha fotos en tiempo real
-onSnapshot(query(collection(db,'photos_jennifer_xv'), orderBy('createdAt','desc')), snap => {
-    window._allPhotos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderPhotoGrid();
-    renderGalleryTabs(); // actualiza contadores
-    if (window._activeCommentsPhotoId && typeof window.renderCommentsModal === 'function') {
-        window.renderCommentsModal();
-    }
-});
+// Carga inicial (lectura única, sin escucha en tiempo real: ahorra lecturas)
+if (window.iniciarCarga) window.iniciarCarga();
 </script>
 
 <script>
@@ -955,6 +982,15 @@ window._galleries     = [];
 window._allPhotos     = [];
 window._activeGallery = 'all';
 window._activeCommentsPhotoId = null;
+// Lectura ligera: solo se cargan las fotos más recientes y luego se pide más
+const PAGE_SIZE = 30;
+window._feedPhotos    = [];   // fotos de la vista "Todas" (más recientes primero)
+window._galleryPhotos = {};   // fotos por galería (se cargan al abrir esa galería)
+window._notes         = {};   // notas por foto (se cargan al abrir las notas)
+window._lastSnap      = null; // última foto cargada (para "Ver más")
+window._feedDone      = false;
+window._lastCheck     = 0;
+window._galTs         = 0;
 let selectedFile       = null;
 let selectedEmoji      = '📸';
 const likedPhotos = new Set(JSON.parse(localStorage.getItem('xv_liked') || '[]'));
@@ -985,34 +1021,41 @@ function renderGalleryTabs() {
     const tabAll   = document.getElementById('tabAll');
     const countEl  = document.getElementById('tabAllCount');
     const active   = window._activeGallery;
-    const photos   = window._allPhotos || [];
-    const allCount = photos.length;
+    const conocidas = fotosConocidas();
+    const galerias  = window._galleries || [];
 
-    // Actualizar tab "Todas"
-    if (countEl) countEl.textContent = allCount;
+    // Cuenta de una galería: usa el contador guardado; si es una galería antigua, las fotos ya cargadas
+    const infoDe = g => {
+        const known    = typeof g.photoCount === 'number';
+        const cargadas = conocidas.filter(p => p.galleryId === g.id);
+        return { known, cargadas, cnt: known ? g.photoCount : cargadas.length };
+    };
+    const total = galerias.reduce((s, g) => s + infoDe(g).cnt, 0);
+
+    if (countEl) countEl.textContent = Math.max(total, window._feedPhotos.length);
     if (tabAll)  tabAll.className = 'tab-all' + (active === 'all' ? ' active' : '');
 
     if (!grid) return;
 
-    grid.innerHTML = (window._galleries || []).map(g => {
-        const galleryPhotos = photos.filter(p => p.galleryId === g.id);
-        const cover         = galleryPhotos[0]; // primera foto como portada
-        const cnt           = galleryPhotos.length;
-        const isActive      = active === g.id;
+    grid.innerHTML = galerias.map(g => {
+        const { known, cargadas, cnt } = infoDe(g);
+        const cover    = g.coverUrl || (cargadas[0] && cargadas[0].url);
+        const isActive = active === g.id;
+        const cntTxt   = (known || cnt > 0) ? `${cnt} foto${cnt !== 1 ? 's' : ''}` : 'Ver fotos';
 
         return `
         <div class="gallery-frame ${isActive ? 'active' : ''}" onclick="switchGallery('${g.id}')">
             ${cover
-                ? `<img class="gallery-frame-cover" src="${cover.url}" alt="" loading="lazy">`
+                ? `<img class="gallery-frame-cover" src="${escHtml(cdnThumb(cover, 300))}" alt="" loading="lazy" decoding="async">`
                 : `<div class="gallery-frame-placeholder">${g.emoji || '📸'}</div>`}
             <div class="gallery-frame-overlay"></div>
             <div class="gallery-frame-info">
                 <span class="gallery-frame-emoji">${g.emoji || '📸'}</span>
                 <span class="gallery-frame-name">${escHtml(g.name)}</span>
-                <span class="gallery-frame-count">${cnt} foto${cnt !== 1 ? 's' : ''}</span>
+                <span class="gallery-frame-count">${cntTxt}</span>
             </div>
             <div class="gallery-frame-badge">✦</div>
-            ${cnt === 0 ? `<button class="gallery-delete-btn" onclick="event.stopPropagation();eliminarGaleria('${g.id}','${escHtml(g.name)}')" title="Eliminar galería vacía">✕</button>` : ''}
+            ${(known && cnt === 0) ? `<button class="gallery-delete-btn" onclick="event.stopPropagation();eliminarGaleria('${g.id}')" title="Eliminar galería vacía">✕</button>` : ''}
         </div>`;
     }).join('');
 }
@@ -1032,6 +1075,8 @@ function switchGallery(id) {
     }
     renderPhotoGrid();
     renderGalleryTabs();
+    // Las fotos de una galería se piden solo al abrirla
+    if (id !== 'all' && window._galleryPhotos[id] === undefined) cargarFotosGaleria(id);
     // Scroll suave al grid de fotos
     const uploadSec = document.querySelector('.upload-section');
     if (uploadSec) uploadSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1120,8 +1165,12 @@ async function createGallery() {
     try {
         const ref = await window._addDoc(
             window._collection(window._db, 'galleries_jennifer_xv'),
-            { name, emoji: selectedEmoji, createdAt: Date.now() }
+            { name, emoji: selectedEmoji, createdAt: Date.now(), updatedAt: Date.now(), photoCount: 0 }
         );
+        // No hay escucha en tiempo real: la agregamos aquí mismo
+        window._galleries.push({ id: ref.id, name, emoji: selectedEmoji, createdAt: Date.now(), photoCount: 0 });
+        renderGalleryTabs();
+        refreshDestSelect();
         closeModal();
         setTimeout(() => {
             document.getElementById('destGallery').value = ref.id;
@@ -1180,30 +1229,59 @@ async function uploadPhoto() {
         const gallery = (window._galleries||[]).find(g => g.id === galleryId);
         const folder  = `jennifer_xv/${(gallery?.name||'general').replace(/\s+/g,'_')}`;
 
+        // 1) Comprimir antes de subir (máx. 1600 px del lado largo)
+        setProgress(25);
+        const archivo = await comprimirImagen(selectedFile);
+
         const fd = new FormData();
-        fd.append('file', selectedFile);
+        fd.append('file', archivo);
         fd.append('upload_preset', window._PRESET);
         fd.append('folder', folder);
 
-        setProgress(35);
+        setProgress(40);
         const res  = await fetch(`https://api.cloudinary.com/v1_1/${window._CLOUD}/image/upload`, { method:'POST', body:fd });
         const data = await res.json();
         if (!data.secure_url) throw new Error('Cloudinary error');
         setProgress(72);
 
-        await window._addDoc(
+        const datosFoto = {
+            url:          data.secure_url,
+            publicId:     data.public_id,
+            galleryId,
+            galleryName:  gallery?.name  || '',
+            galleryEmoji: gallery?.emoji || '📸',
+            author, caption,
+            likes: 0, commentCount: 0,
+            createdAt: Date.now()
+        };
+        const ref = await window._addDoc(
             window._collection(window._db, 'photos_jennifer_xv'),
-            {
-                url:          data.secure_url,
-                publicId:     data.public_id,
-                galleryId,
-                galleryName:  gallery?.name  || '',
-                galleryEmoji: gallery?.emoji || '📸',
-                author, caption,
-                likes: 0, likedBy: [], comments: [],
-                createdAt: Date.now()
-            }
+            datosFoto
         );
+
+        // Mostrar la foto de inmediato (ya no hay escucha en tiempo real)
+        const nueva = { id: ref.id, ...datosFoto };
+        window._feedPhotos = [nueva, ...window._feedPhotos];
+        if (window._galleryPhotos[galleryId]) window._galleryPhotos[galleryId] = [{ ...nueva }, ...window._galleryPhotos[galleryId]];
+
+        // Contador y portada de la galería (para no tener que leer todas las fotos)
+        try {
+            const gref = window._doc(window._db, 'galleries_jennifer_xv', galleryId);
+            const upd  = { updatedAt: Date.now() };
+            if (gallery && typeof gallery.photoCount === 'number') {
+                upd.photoCount = window._increment(1);
+            } else {
+                // Galería antigua sin contador: se cuenta una sola vez
+                const s = await window._getDocs(window._query(window._collection(window._db,'photos_jennifer_xv'), window._where('galleryId','==',galleryId)));
+                upd.photoCount = s.size;
+            }
+            if (gallery && !gallery.coverUrl) upd.coverUrl = data.secure_url;
+            await window._updateDoc(gref, upd);
+            if (gallery) {
+                gallery.photoCount = (typeof gallery.photoCount === 'number') ? gallery.photoCount + 1 : upd.photoCount;
+                if (!gallery.coverUrl) gallery.coverUrl = data.secure_url;
+            }
+        } catch (e) { console.warn('No se pudo actualizar el contador de la galería', e); }
 
         setProgress(100);
         setTimeout(() => { document.getElementById('uploadProgress').style.display='none'; setProgress(0); }, 600);
@@ -1233,34 +1311,18 @@ function showToast(msg, type) {
 /* ════════════════════════════════════
    RENDER FOTOS
 ════════════════════════════════════ */
-function renderPhotoGrid() {
-    const filter   = window._activeGallery;
-    const photos   = window._allPhotos || [];
-    let filtered = filter === 'all' ? photos : photos.filter(p => p.galleryId === filter);
+function contarNotas(p) {
+    return (p.commentCount || 0) + (Array.isArray(p.comments) ? p.comments.length : 0);
+}
 
-    // En vista "Todas" mostrar solo las 20 más recientes
-    const totalCount = filtered.length;
-    if (filter === 'all' && filtered.length > 20) {
-        filtered = filtered.slice(0, 20);
-    }
-
-    const grid  = document.getElementById('photoGrid');
-    const count = document.getElementById('galleryCount');
-
-    if (!filtered.length) {
-        grid.innerHTML = '<div class="gallery-empty">Aún no hay fotos aquí ✦</div>';
-        count.textContent = '';
-        return;
-    }
-
-    count.textContent = filter === 'all'
-        ? `Mostrando las 20 fotos más recientes de ${totalCount}`
-        : (filtered.length === 1 ? '1 foto' : `${filtered.length} fotos`);
-
-    grid.innerHTML = filtered.map(p => `
+function cardHtml(p) {
+    const liked = likedPhotos.has(p.id);
+    const notas = contarNotas(p);
+    return `
         <div class="photo-card" id="card-${p.id}">
-            <img src="${p.url}" alt="" loading="lazy"
-                 onclick="openLightbox('${p.url}','${escHtml(p.author)}','${escHtml(p.caption||'')}')">
+            <img src="${escHtml(cdnThumb(p.url, 500))}" alt="" loading="lazy" decoding="async"
+                 data-url="${escHtml(p.url)}" data-author="${escHtml(p.author)}" data-caption="${escHtml(p.caption||'')}"
+                 onclick="openLightboxFromImg(this)">
             <div class="photo-info">
                 ${(p.galleryEmoji||p.galleryName) ? `
                 <div class="photo-gallery-badge">${p.galleryEmoji||'📸'} ${escHtml(p.galleryName||'')}</div>` : ''}
@@ -1268,8 +1330,8 @@ function renderPhotoGrid() {
                 ${p.caption ? `<div class="photo-caption">${escHtml(p.caption)}</div>` : ''}
                 <div class="photo-date">${formatDate(p.createdAt)}</div>
                 <div class="photo-actions">
-                    <button class="photo-like ${likedPhotos.has(p.id)?'liked':''}" onclick="toggleLike('${p.id}')">
-                        <svg viewBox="0 0 24 24" fill="${likedPhotos.has(p.id)?'#e07070':'none'}" stroke="currentColor" stroke-width="1.5">
+                    <button class="photo-like ${liked?'liked':''}" onclick="toggleLike('${p.id}')">
+                        <svg viewBox="0 0 24 24" fill="${liked?'#e07070':'none'}" stroke="currentColor" stroke-width="1.5">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                         </svg>
                         <span id="likes-${p.id}">${p.likes||0}</span>
@@ -1278,7 +1340,7 @@ function renderPhotoGrid() {
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                         </svg>
-                        <span>Notas ${((p.comments||[]).length ? `(${(p.comments||[]).length})` : '')}</span>
+                        <span id="notes-${p.id}">Notas ${notas ? `(${notas})` : ''}</span>
                     </button>
                     <button class="photo-like" onclick="confirmarEliminarFoto('${p.id}')" style="border-color: #ff4d4d; color: #ff4d4d; margin-left: auto;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
@@ -1288,7 +1350,31 @@ function renderPhotoGrid() {
                     </button>
                 </div>
             </div>
-        </div>`).join('');
+        </div>`;
+}
+
+function renderPhotoGrid() {
+    const filter = window._activeGallery;
+    const grid   = document.getElementById('photoGrid');
+    const count  = document.getElementById('galleryCount');
+    const list   = (filter === 'all') ? window._feedPhotos : window._galleryPhotos[filter];
+
+    // Galería aún cargándose
+    if (list === undefined) { grid.innerHTML = ''; count.textContent = 'Cargando…'; return; }
+
+    if (!list.length) {
+        grid.innerHTML = '<div class="gallery-empty">Aún no hay fotos aquí ✦</div>';
+        count.textContent = '';
+        return;
+    }
+
+    const hayMas = (filter === 'all' && !window._feedDone);
+    count.textContent = filter === 'all'
+        ? (hayMas ? `Mostrando las ${list.length} fotos más recientes` : `${list.length} foto${list.length !== 1 ? 's' : ''}`)
+        : (list.length === 1 ? '1 foto' : `${list.length} fotos`);
+
+    grid.innerHTML = list.map(cardHtml).join('') +
+        (hayMas ? `<div class="grid-more"><button class="btn-more" id="btnMas" onclick="verMasUI()">Ver más fotos</button></div>` : '');
 }
 window.renderPhotoGrid = renderPhotoGrid;
 
@@ -1298,31 +1384,55 @@ window.renderPhotoGrid = renderPhotoGrid;
 async function toggleLike(photoId) {
     if (!window._firebaseReady) return;
     if (likedPhotos.has(photoId)) return;
-    const ref = window._doc(window._db, 'photos_jennifer_xv', photoId);
+
+    // Se refleja al instante en pantalla
+    likedPhotos.add(photoId);
+    localStorage.setItem('xv_liked', JSON.stringify([...likedPhotos]));
+    copiasDeFoto(photoId).forEach(p => { p.likes = (p.likes || 0) + 1; });
+    pintarLike(photoId, true);
+
     try {
-        const snap = await window._getDoc(ref);
-        const cur  = snap.exists() ? (snap.data().likes||0) : 0;
-        await window._updateDoc(ref, { likes: cur+1 });
-        likedPhotos.add(photoId);
+        // increment() suma en el servidor: ya no hace falta leer antes de escribir
+        await window._updateDoc(window._doc(window._db, 'photos_jennifer_xv', photoId), { likes: window._increment(1) });
+    } catch(e) {
+        console.error(e);
+        likedPhotos.delete(photoId);
         localStorage.setItem('xv_liked', JSON.stringify([...likedPhotos]));
-    } catch(e) { console.error(e); }
+        copiasDeFoto(photoId).forEach(p => { p.likes = Math.max(0, (p.likes || 1) - 1); });
+        pintarLike(photoId, false);
+    }
+}
+function pintarLike(photoId, liked) {
+    const sp = document.getElementById('likes-' + photoId);
+    if (!sp) return;
+    const f = buscarFoto(photoId);
+    sp.textContent = f ? (f.likes || 0) : sp.textContent;
+    const btn = sp.closest('.photo-like');
+    if (!btn) return;
+    btn.classList.toggle('liked', liked);
+    const svg = btn.querySelector('svg');
+    if (svg) svg.setAttribute('fill', liked ? '#e07070' : 'none');
 }
 window.toggleLike = toggleLike;
 
 /* ════════════════════════════════════
    COMENTARIOS
 ════════════════════════════════════ */
-function openCommentsModal(photoId) {
+async function openCommentsModal(photoId) {
     window._activeCommentsPhotoId = photoId;
     const authorName = document.getElementById('authorName').value.trim();
     const modalAuthor = document.getElementById('commentAuthorInput');
     if (authorName && !modalAuthor.value.trim()) modalAuthor.value = authorName;
-    renderCommentsModal();
+    document.getElementById('commentsList').innerHTML = '<div class="comments-empty">Cargando notas…</div>';
     document.getElementById('commentsModal').classList.add('open');
     document.body.style.overflow = 'hidden';
-    // Scroll instantáneo al último comentario (sin animación)
-    const listEl = document.getElementById('commentsList');
-    if (listEl) listEl.scrollTop = listEl.scrollHeight;
+    // Las notas se leen solo al abrirlas (ya no viajan con cada foto)
+    try { await cargarNotas(photoId); } catch(e) { console.error(e); }
+    if (window._activeCommentsPhotoId === photoId) {
+        renderCommentsModal();
+        const listEl = document.getElementById('commentsList');
+        if (listEl) listEl.scrollTop = listEl.scrollHeight;
+    }
 }
 window.openCommentsModal = openCommentsModal;
 
@@ -1335,8 +1445,8 @@ window.closeCommentsModal = closeCommentsModal;
 
 function renderCommentsModal() {
     const list = document.getElementById('commentsList');
-    const photo = (window._allPhotos || []).find(p => p.id === window._activeCommentsPhotoId);
-    const comments = (photo && Array.isArray(photo.comments)) ? photo.comments : [];
+    const photoId = window._activeCommentsPhotoId;
+    const comments = (window._notes[photoId] || []);
     if (!comments.length) {
         list.innerHTML = '<div class="comments-empty">Todavía no hay notas. Sé la primera persona en escribir una.</div>';
         return;
@@ -1348,7 +1458,7 @@ function renderCommentsModal() {
             <div class="comments-item">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div class="comments-item-author">${escHtml(c.author || 'Invitado')}</div>
-                    <button onclick="eliminarNota('${photo.id}', ${c.ts})" 
+                    <button onclick="eliminarNota('${photoId}', ${Number(c.ts)||0}, '${c.nid||''}')" 
                             style="background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:16px; padding:0 5px;">
                         ×
                     </button>
@@ -1365,12 +1475,26 @@ async function sendComment(photoId, authorOverride, textOverride) {
     const text   = (textOverride ?? '').trim();
     const author = (authorOverride ?? '').trim() || document.getElementById('authorName').value.trim() || 'Invitado';
     if (!text) return;
+    const nota = { author, text, ts: Date.now() };
+    const photoRef = window._doc(window._db, 'photos_jennifer_xv', photoId);
     try {
-        await window._updateDoc(
-            window._doc(window._db,'photos_jennifer_xv',photoId),
-            { comments: window._arrayUnion({ author, text, ts: Date.now() }) }
-        );
-    } catch(e) { console.error(e); }
+        // Las notas nuevas van en su propia colección, separadas de la foto
+        const ref = await window._addDoc(window._collection(window._db, 'photos_jennifer_xv', photoId, 'notes'), nota);
+        nota.nid = ref.id;
+        try { await window._updateDoc(photoRef, { commentCount: window._increment(1) }); } catch(e) { console.warn(e); }
+        copiasDeFoto(photoId).forEach(p => { p.commentCount = (p.commentCount || 0) + 1; });
+    } catch(e) {
+        // Respaldo: si las reglas de Firebase no permiten la colección nueva, se guarda como antes
+        console.warn('Notas en colección aparte no disponibles, usando respaldo', e);
+        try {
+            await window._updateDoc(photoRef, { comments: window._arrayUnion({ author, text, ts: nota.ts }) });
+            nota.nid = '';
+            copiasDeFoto(photoId).forEach(p => { p.comments = [...(p.comments || []), { author, text, ts: nota.ts }]; });
+        } catch(e2) { console.error(e2); return; }
+    }
+    window._notes[photoId] = [...(window._notes[photoId] || []), nota];
+    actualizarContadorNotas(photoId);
+    if (window._activeCommentsPhotoId === photoId) renderCommentsModal();
 }
 window.sendComment = sendComment;
 
@@ -1404,7 +1528,7 @@ window.sendCommentFromModal = sendCommentFromModal;
    LIGHTBOX
 ════════════════════════════════════ */
 function openLightbox(url, author, caption) {
-    document.getElementById('lightboxImg').src = url;
+    document.getElementById('lightboxImg').src = cdnThumb(url, 1600); // la foto grande solo se pide al tocarla
     document.getElementById('lightboxAuthor').textContent  = author  || '';
     document.getElementById('lightboxCaption').textContent = caption || '';
     document.getElementById('lightbox').classList.add('open');
@@ -1414,6 +1538,8 @@ function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
     document.body.style.overflow = '';
 }
+function openLightboxFromImg(el) { openLightbox(el.dataset.url, el.dataset.author, el.dataset.caption); }
+window.openLightboxFromImg = openLightboxFromImg;
 window.openLightbox  = openLightbox;
 window.closeLightbox = closeLightbox;
 
@@ -1473,7 +1599,7 @@ document.addEventListener('keydown', e => {
     })();
 })();
 
-// 1. Función para eliminar la foto (Versión corregida para Firebase)
+// 1. Función para eliminar la foto
 async function confirmarEliminarFoto(photoId) {
     const pin = prompt("Ingresa el PIN de administrador para eliminar:");
     
@@ -1483,7 +1609,20 @@ async function confirmarEliminarFoto(photoId) {
             const docSnap = await window._getDoc(fotoRef);
             
             if (docSnap.exists()) {
+                const datos = docSnap.data();
                 await window._deleteDoc(fotoRef);
+                // Quitarla de pantalla y ajustar el contador de su galería
+                window._feedPhotos = window._feedPhotos.filter(p => p.id !== photoId);
+                Object.keys(window._galleryPhotos).forEach(k => {
+                    window._galleryPhotos[k] = window._galleryPhotos[k].filter(p => p.id !== photoId);
+                });
+                const g = (window._galleries || []).find(x => x.id === datos.galleryId);
+                if (g && typeof g.photoCount === 'number') {
+                    g.photoCount = Math.max(0, g.photoCount - 1);
+                    try { await window._updateDoc(window._doc(window._db, 'galleries_jennifer_xv', g.id), { photoCount: window._increment(-1), updatedAt: Date.now() }); } catch(e) { console.warn(e); }
+                }
+                renderPhotoGrid();
+                renderGalleryTabs();
                 alert("¡Foto eliminada con éxito! ✦");
             } else {
                 alert("Esta foto ya no existe en la base de datos.");
@@ -1498,34 +1637,55 @@ async function confirmarEliminarFoto(photoId) {
 }
 
 // 2. Función para eliminar notas
-async function eliminarNota(photoId, timestamp) {
+async function eliminarNota(photoId, timestamp, nid) {
     const pin = prompt("PIN de administrador:");
     if (pin !== "2309") return alert("PIN incorrecto");
 
     const ref = window._doc(window._db, 'photos_jennifer_xv', photoId);
-    const snap = await window._getDoc(ref);
-    
-    if (snap.exists()) {
-        const data = snap.data();
-        const nuevosComentarios = data.comments.filter(c => c.ts !== timestamp);
-        await window._updateDoc(ref, { comments: nuevosComentarios });
+    try {
+        if (nid) {
+            await window._deleteDoc(window._doc(window._db, 'photos_jennifer_xv', photoId, 'notes', nid));
+            try { await window._updateDoc(ref, { commentCount: window._increment(-1) }); } catch(e) { console.warn(e); }
+            copiasDeFoto(photoId).forEach(p => { p.commentCount = Math.max(0, (p.commentCount || 1) - 1); });
+        } else {
+            const snap = await window._getDoc(ref);
+            if (snap.exists()) {
+                const nuevos = (snap.data().comments || []).filter(c => c.ts !== timestamp);
+                await window._updateDoc(ref, { comments: nuevos });
+                copiasDeFoto(photoId).forEach(p => { p.comments = (p.comments || []).filter(c => c.ts !== timestamp); });
+            }
+        }
+        window._notes[photoId] = (window._notes[photoId] || []).filter(c => nid ? c.nid !== nid : (c.nid || c.ts !== timestamp));
+        actualizarContadorNotas(photoId);
+        if (window._activeCommentsPhotoId === photoId) renderCommentsModal();
+    } catch(e) {
+        console.error(e);
+        alert("No se pudo eliminar la nota.");
     }
 }
 
 // Eliminar galería (solo si está vacía)
-async function eliminarGaleria(galleryId, galleryName) {
+async function eliminarGaleria(galleryId) {
+    const g = (window._galleries || []).find(x => x.id === galleryId);
+    const galleryName = g ? g.name : '';
     const pin = prompt(`PIN de administrador para eliminar la galería "${galleryName}":`);
     if (pin !== "2309") {
         if (pin !== null) alert("PIN incorrecto.");
         return;
     }
-    const fotos = (window._allPhotos || []).filter(p => p.galleryId === galleryId);
-    if (fotos.length > 0) {
-        alert("Esta galería tiene fotos. Solo se pueden eliminar galerías vacías.");
-        return;
-    }
     try {
+        // Se confirma en el servidor (1 lectura) que de verdad no tiene fotos
+        const s = await window._getDocs(window._query(
+            window._collection(window._db, 'photos_jennifer_xv'),
+            window._where('galleryId', '==', galleryId), window._limit(1)));
+        if (!s.empty) {
+            alert("Esta galería tiene fotos. Solo se pueden eliminar galerías vacías.");
+            return;
+        }
         await window._deleteDoc(window._doc(window._db, 'galleries_jennifer_xv', galleryId));
+        window._galleries = (window._galleries || []).filter(x => x.id !== galleryId);
+        renderGalleryTabs();
+        refreshDestSelect();
         if (window._activeGallery === galleryId) switchGallery('all');
     } catch(e) {
         alert("Error al eliminar la galería.");
@@ -1533,6 +1693,220 @@ async function eliminarGaleria(galleryId, galleryName) {
     }
 }
 window.eliminarGaleria = eliminarGaleria;
+
+/* ════════════════════════════════════
+   CARGA LIGERA DE DATOS (pocas lecturas)
+════════════════════════════════════ */
+function colFS(nombre) { return window._collection(window._db, nombre); }
+function mapDocs(snap) { return snap.docs.map(d => ({ id: d.id, ...d.data() })); }
+
+function mensajeError(e) {
+    if (e && e.code === 'resource-exhausted') return 'El álbum está muy concurrido ahora mismo. Intenta de nuevo en unos minutos.';
+    return 'No se pudo cargar. Revisa tu conexión e intenta de nuevo.';
+}
+
+// Todas las copias en memoria de una foto (puede estar en "Todas" y en su galería)
+function copiasDeFoto(id) {
+    const out = [];
+    window._feedPhotos.forEach(p => { if (p.id === id) out.push(p); });
+    Object.values(window._galleryPhotos).forEach(l => l.forEach(p => { if (p.id === id) out.push(p); }));
+    return out;
+}
+function buscarFoto(id) { return copiasDeFoto(id)[0]; }
+function fotosConocidas() {
+    const m = new Map();
+    window._feedPhotos.forEach(p => m.set(p.id, p));
+    Object.values(window._galleryPhotos).forEach(l => l.forEach(p => { if (!m.has(p.id)) m.set(p.id, p); }));
+    return [...m.values()];
+}
+function actualizarContadorNotas(photoId) {
+    const p = buscarFoto(photoId);
+    const el = document.getElementById('notes-' + photoId);
+    if (p && el) { const n = contarNotas(p); el.textContent = 'Notas ' + (n ? `(${n})` : ''); }
+}
+
+async function cargarGalerias() {
+    const snap = await window._getDocs(window._query(colFS('galleries_jennifer_xv'), window._orderBy('createdAt','asc')));
+    window._galleries = mapDocs(snap);
+    window._galTs = Date.now();
+    renderGalleryTabs();
+    refreshDestSelect();
+}
+
+async function cargarFotosRecientes() {
+    const snap = await window._getDocs(window._query(colFS('photos_jennifer_xv'),
+        window._orderBy('createdAt','desc'), window._limit(PAGE_SIZE)));
+    window._feedPhotos = mapDocs(snap);
+    window._lastSnap   = snap.docs[snap.docs.length - 1] || null;
+    window._feedDone   = snap.docs.length < PAGE_SIZE;
+    window._lastCheck  = Date.now();
+    renderPhotoGrid();
+    renderGalleryTabs();
+}
+
+async function verMas() {
+    if (!window._lastSnap || window._feedDone) return;
+    const snap = await window._getDocs(window._query(colFS('photos_jennifer_xv'),
+        window._orderBy('createdAt','desc'), window._startAfter(window._lastSnap), window._limit(PAGE_SIZE)));
+    const ya = new Set(window._feedPhotos.map(p => p.id));
+    window._feedPhotos = [...window._feedPhotos, ...mapDocs(snap).filter(p => !ya.has(p.id))];
+    if (snap.docs.length) window._lastSnap = snap.docs[snap.docs.length - 1];
+    window._feedDone = snap.docs.length < PAGE_SIZE;
+}
+async function verMasUI() {
+    const b = document.getElementById('btnMas');
+    if (b) { b.disabled = true; b.textContent = 'Cargando…'; }
+    try { await verMas(); } catch(e) { console.error(e); showToast(mensajeError(e), 'error'); }
+    renderPhotoGrid();
+    renderGalleryTabs();
+}
+window.verMasUI = verMasUI;
+
+// Solo pide las fotos MÁS NUEVAS que la primera que ya tenemos
+async function cargarNuevas() {
+    window._lastCheck = Date.now();
+    const feed = window._feedPhotos;
+    if (!feed.length) { await cargarFotosRecientes(); return window._feedPhotos.length; }
+    const newest = Math.max(...feed.map(p => p.createdAt || 0));
+    const LIM = PAGE_SIZE + 10;
+    const snap = await window._getDocs(window._query(colFS('photos_jennifer_xv'),
+        window._where('createdAt','>',newest), window._orderBy('createdAt','desc'), window._limit(LIM)));
+    if (snap.docs.length >= LIM) { await cargarFotosRecientes(); return snap.docs.length; } // pasó mucho tiempo: se reinicia la lista
+    const ya = new Set(feed.map(p => p.id));
+    const nuevas = mapDocs(snap).filter(p => !ya.has(p.id));
+    if (nuevas.length) window._feedPhotos = [...nuevas, ...feed];
+    return nuevas.length;
+}
+
+async function cargarFotosGaleria(id) {
+    try {
+        const snap = await window._getDocs(window._query(colFS('photos_jennifer_xv'), window._where('galleryId','==',id)));
+        window._galleryPhotos[id] = mapDocs(snap).sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+        if (window._activeGallery === id) renderPhotoGrid();
+        renderGalleryTabs();
+    } catch(e) {
+        console.error(e);
+        if (window._activeGallery === id) document.getElementById('galleryCount').textContent = mensajeError(e);
+    }
+}
+
+async function cargarNuevasUI() {
+    const b = document.getElementById('btnNuevas');
+    const count = document.getElementById('galleryCount');
+    if (b) { b.disabled = true; b.textContent = 'Buscando…'; }
+    try {
+        if (Date.now() - window._galTs > 5 * 60 * 1000) await cargarGalerias();
+        let msg = '';
+        if (window._activeGallery === 'all') {
+            const n = await cargarNuevas();
+            msg = n === 0 ? 'No hay fotos nuevas por ahora ✦' : '';
+        } else {
+            await cargarFotosGaleria(window._activeGallery);
+        }
+        renderPhotoGrid();
+        renderGalleryTabs();
+        if (msg) count.textContent = msg;
+    } catch(e) {
+        console.error(e);
+        count.textContent = mensajeError(e);
+    }
+    if (b) { b.disabled = false; b.textContent = '↻ Ver fotos nuevas'; }
+}
+window.cargarNuevasUI = cargarNuevasUI;
+
+async function cargarNotas(photoId) {
+    const p = buscarFoto(photoId);
+    const antiguas = (p && Array.isArray(p.comments)) ? p.comments.map(c => ({ ...c, nid: '' })) : [];
+    let nuevas = [];
+    try {
+        const snap = await window._getDocs(window._collection(window._db, 'photos_jennifer_xv', photoId, 'notes'));
+        nuevas = snap.docs.map(d => ({ ...d.data(), nid: d.id }));
+    } catch(e) { console.warn('No se pudieron leer las notas nuevas', e); }
+    window._notes[photoId] = [...antiguas, ...nuevas];
+}
+
+async function iniciarCarga() {
+    const count = document.getElementById('galleryCount');
+    count.textContent = 'Cargando…';
+    try {
+        await Promise.all([cargarGalerias(), cargarFotosRecientes()]);
+    } catch(e) {
+        console.error(e);
+        count.innerHTML = escHtml(mensajeError(e)) + ' <a href="#" onclick="iniciarCarga();return false;" style="text-decoration:underline">Reintentar</a>';
+    }
+}
+window.iniciarCarga = iniciarCarga;
+
+// Al volver a la pestaña después de un rato, se buscan fotos nuevas (barato: solo pide las más nuevas)
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && window._firebaseReady && window._activeGallery === 'all'
+        && window._lastCheck && Date.now() - window._lastCheck > 120000) {
+        cargarNuevas().then(n => { if (n) { renderPhotoGrid(); renderGalleryTabs(); } }).catch(() => {});
+    }
+});
+
+/* ════════════════════════════════════
+   MINIATURAS (Cloudinary) Y COMPRESIÓN
+════════════════════════════════════ */
+// Cambia la URL de Cloudinary para pedir una versión más ligera de la misma foto
+function cdnThumb(url, w) {
+    if (!url || url.indexOf('res.cloudinary.com') === -1 || url.indexOf('/upload/') === -1) return url;
+    return url.replace('/upload/', `/upload/c_limit,w_${w},q_auto,f_auto/`);
+}
+
+// Reduce la foto a máx. 1600 px (lado largo) y la guarda como JPEG antes de subirla
+async function comprimirImagen(file, maxLado = 1600, calidad = 0.82) {
+    try {
+        if (!file || !file.type || file.type.indexOf('image/') !== 0) return file;
+        const url = URL.createObjectURL(file);
+        const img = await new Promise((res, rej) => {
+            const i = new Image();
+            i.onload = () => res(i);
+            i.onerror = rej;
+            i.src = url;
+        });
+        URL.revokeObjectURL(url);
+        const escala = Math.min(1, maxLado / Math.max(img.naturalWidth, img.naturalHeight));
+        const w = Math.round(img.naturalWidth * escala), h = Math.round(img.naturalHeight * escala);
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', calidad));
+        if (!blob) return file;
+        if (escala === 1 && blob.size >= file.size) return file; // ya era ligera
+        return new File([blob], 'foto.jpg', { type: 'image/jpeg' });
+    } catch (e) {
+        console.warn('No se pudo comprimir, se sube la original', e);
+        return file;
+    }
+}
+
+// Herramienta de administrador: calcula contadores y portadas de galerías antiguas (se usa una sola vez)
+async function recalcularGalerias() {
+    const pin = prompt("PIN de administrador:");
+    if (pin !== "2309") { if (pin !== null) alert("PIN incorrecto."); return; }
+    const snap = await window._getDocs(colFS('photos_jennifer_xv'));
+    const por = {};
+    snap.docs.forEach(d => {
+        const p = d.data(); if (!p.galleryId) return;
+        const r = por[p.galleryId] || (por[p.galleryId] = { n: 0, cover: null, ts: -1 });
+        r.n++;
+        if ((p.createdAt || 0) > r.ts) { r.ts = p.createdAt || 0; r.cover = p.url; }
+    });
+    const lista = window._galleries || [];
+    for (const g of lista) {
+        const r = por[g.id] || { n: 0, cover: null };
+        const upd = { photoCount: r.n, updatedAt: Date.now() };
+        if (r.cover) upd.coverUrl = r.cover;
+        await window._updateDoc(window._doc(window._db, 'galleries_jennifer_xv', g.id), upd);
+    }
+    await cargarGalerias();
+    alert(`Listo: ${lista.length} galerías actualizadas.`);
+}
+window.recalcularGalerias = recalcularGalerias;
 
 // 3. LAS LÍNEAS QUE EXPORTAN (¡DÉJALAS!)
 window.confirmarEliminarFoto = confirmarEliminarFoto; //
