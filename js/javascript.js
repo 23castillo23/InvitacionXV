@@ -153,14 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- MODO ADMINISTRADOR (3 Clics en el nombre del pergamino) ---
+    // --- MODO ADMINISTRADOR (5 Clics en el nombre del pergamino) ---
     const nombrePergamino = document.querySelector('.princess-name');
     let clicsAdmin = 0;
 
     if (nombrePergamino) {
         nombrePergamino.addEventListener('click', () => {
             clicsAdmin++;
-            if (clicsAdmin === 3) {
+            if (clicsAdmin === 5) {
                 const albumLink = document.getElementById('albumLink');
                 const albumMsg = document.getElementById('albumStatusMsg');
                 
